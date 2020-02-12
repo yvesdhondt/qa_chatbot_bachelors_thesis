@@ -3,9 +3,15 @@
 ## Set-up
 ###### Set up the Virtual Environment using PyCharm
 1. Install Anaconda, if you haven't done that already.
-2. Open PyCharm.
-3. Create a conda virtual environment following the [PyCharm instructions](https://www.jetbrains.com/help/pycharm/conda-support-creating-conda-virtual-environment.html).
-4. If this doesn't work, make sure the path to the conda interpreter is valid.
+2. Make sure to have cloned this repository to your computer.
+3. Create a new *empty* directory in the repository, e.g. `venv`.
+4. Open PyCharm.
+5. Create a conda virtual environment following the [PyCharm instructions](https://www.jetbrains.com/help/pycharm/conda-support-creating-conda-virtual-environment.html). **Select the newly created directory as the environment location.** For example
+```
+D:\Documents\P-O-Entrepreneurship-Team-A-code\venv
+```
+
+6. If this doesn't work, make sure the path to the conda interpreter is valid.
 
 :ok: When opening the Terminal in PyCharm, you should see the path to your virtual environment between brackets in front of the current path:
 ```
@@ -40,3 +46,4 @@ usage: pdoc-script.py [-h] [--version] [-c OPTION=VALUE] [--filter STRING]
                       MODULE [MODULE ...]
 pdoc-script.py: error: the following arguments are required: MODULE
 ```
+ 
