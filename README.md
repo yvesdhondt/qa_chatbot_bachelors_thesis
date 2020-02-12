@@ -16,10 +16,11 @@
 1. Open PyCharm
 2. Install package/library following the [instructions from the PyCharm documentation](https://www.jetbrains.com/help/pycharm/installing-uninstalling-and-upgrading-packages.html).
 
-:warning: Make sure the "Use Conda Package Manager" toggle is enabled
+:warning: Make sure the "Use Conda Package Manager" toggle is enabled.
+
 4. Add a line to the `requirements.txt` file in the root of the repo: `[package-name]==[installed-version]`, e.g. `pdoc3==0.7.2`
 
-:warning: Make sure to commit and push this change
+:warning: Make sure to commit and push this change.
 
 ###### When someone else has added libraries to the `requirements.txt` file that you haven't installed yet
 1. PyCharm will show a bar "Package requirement	... not satisfied".
