@@ -11,7 +11,7 @@
 D:\Documents\P-O-Entrepreneurship-Team-A-code\venv
 ```
 
-6. If this doesn't work, make sure the path to the conda interpreter is valid. Also, in case any other conda environments exist, PyCharm might create a normal virtual environment instead of a conda environment without notifying you. **Make sure the icon of the interpreter is the Anaconda icon.**
+6. If this doesn't work, make sure the path to the conda interpreter is valid. Also, in case any other conda environments exist, PyCharm might create a normal virtual environment instead of a conda environment without notifying you. **Make sure the icon of the interpreter is the Anaconda icon or if it is not, check whether there is an Anaconda toggle button available to use the Conda Package Manager.**
 
 :ok: When opening the Terminal in PyCharm, you should see the path to your virtual environment between brackets in front of the current path:
 ```
