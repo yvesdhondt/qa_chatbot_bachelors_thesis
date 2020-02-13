@@ -55,6 +55,9 @@ pdoc-script.py: error: the following arguments are required: MODULE
 ###### Settings for documentation, testing and `requirements.txt`
 - For writing documentation, the easiest way is to use `pdoc`, which supports several docstring formats. To make PyCharm use the [Google docstring format](http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings), go to Settings > Tools > Python integrated tools and select *Google* in the dropdown menu next to *Docstring format*.
 - In the same window select *pytest* as the *Default test runner*, so PyCharm uses this test suite for testing.
+
+     :warning: PyCharm may show the message *No Pytest runner found in selected interpreter* in the bottom of this window. Click *Fix* to install `pytest`, because for some reason PyCharm hasn't installed it, even though it is in the `requirements.txt` file.
+
 - In case PyCharm might not find the `requirements.txt` file, you can explicitly show it by entering *requirements.txt* in the field *Package requirements file*.
 
 See screenshot:
