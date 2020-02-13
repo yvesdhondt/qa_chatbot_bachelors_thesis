@@ -4,18 +4,18 @@
 ###### Set up the Virtual Environment using PyCharm
 1. Install Anaconda and PyCharm, if you haven't done that already.
 2. Make sure to have cloned this repository to your computer.
-3. Create a new *empty* directory in or outside the repository, e.g. `venv` or leave the environment location just the way it is (this might work better in case of problems).
+3. Create a new *empty* directory outside the repository, e.g. `venv` or leave the environment location just the way it is (this might work better in case of problems). Avoid creating the directory in the repository, because it will contain system specific files that should not be synchronised by Git.
 4. Open PyCharm.
 5. Create a conda virtual environment following the [PyCharm instructions](https://www.jetbrains.com/help/pycharm/conda-support-creating-conda-virtual-environment.html). **Select the newly created directory as the environment location.** For example
 ```
-D:\Documents\P-O-Entrepreneurship-Team-A-code\venv
+D:\Documents\venv
 ```
 
 6. If this doesn't work, make sure the path to the conda interpreter is valid. Also, in case any other conda environments exist, PyCharm might create a normal virtual environment instead of a conda environment without notifying you. **Make sure the icon of the interpreter is the Anaconda icon or if it is not, check whether there is an Anaconda toggle button available to use the Conda Package Manager.**
 
 :ok: When opening the Terminal in PyCharm, you should see the path to your virtual environment between brackets in front of the current path:
 ```
-(D:\Documents\P-O-Entrepreneurship-Team-A-code\venv) D:\Documents\P-O-Entrepreneurship-Team-A-code>
+(D:\Documents\venv) D:\Documents\P-O-Entrepreneurship-Team-A-code>
 ```
 
 ###### When you need a library that hasn't been installed yet
