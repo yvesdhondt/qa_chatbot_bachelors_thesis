@@ -25,12 +25,16 @@ D:\Documents\P-O-Entrepreneurship-Team-A-code\venv
 :warning: Make sure the "Use Conda Package Manager" toggle is enabled.
 
 4. Add a line to the `requirements.txt` file in the root of the repo: `[package-name]==[installed-version]`, e.g. `pdoc3==0.7.2`
+5. In case the freshly installed package required other packages, add those packages to `requirements.txt` too with the correct version number.
 
 :warning: Make sure to commit and push this change.
 
 ###### When someone else has added libraries to the `requirements.txt` file that you haven't installed yet
 1. PyCharm will show a bar "Package requirement	... not satisfied".
 2. Click the install link to install missing packages.
+
+:warning: Even after installing the package `vs2015_runtime==14.16.27012` PyCharm may tell you it hasn't been installed. Ensure it is installed by looking at the package list (in Settings) and click *Ignore requirement*. 
+:warning: In case PyCharm might not find the `requirements.txt` file, go to the [section on settings](#settings-for-documentation-testing-and-requirementstxt).
 
 ###### Testing whether set-up is working
 - For now, I don't know what's the best way to test this, but I'd recommend to follow above steps and afterwards open the Terminal (*not the Python Console*) in PyCharm.
@@ -46,4 +50,9 @@ usage: pdoc-script.py [-h] [--version] [-c OPTION=VALUE] [--filter STRING]
                       MODULE [MODULE ...]
 pdoc-script.py: error: the following arguments are required: MODULE
 ```
+
+###### Settings for documentation, testing and `requirements.txt`
+- For writing documentation, the easiest way is to use `pdoc`, which supports several docstring formats. To make PyCharm use the [Google docstring format](http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings), go to Settings > Tools > Python integrated tools and select *Google* in the dropdown menu next to *Docstring format*.
+- In the same window select *pytest* as the *Default test runner*, so PyCharm uses this test suite for testing.
+- Extra:  
  
