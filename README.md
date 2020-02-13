@@ -33,7 +33,8 @@ D:\Documents\venv
 1. PyCharm will show a bar "Package requirement	... not satisfied".
 2. Click the install link to install missing packages.
 
-:warning: Even after installing the package `vs2015_runtime==14.16.27012` PyCharm may tell you it hasn't been installed. Ensure it is installed by looking at the package list (in Settings) and click *Ignore requirement*. 
+:warning: Even after installing the package `vs2015_runtime==14.16.27012` PyCharm may tell you it hasn't been installed. Ensure it is installed by looking at the package list (in Settings) and click *Ignore requirement*.
+ 
 :warning: In case PyCharm might not find the `requirements.txt` file, go to the [section on settings](#settings-for-documentation-testing-and-requirementstxt).
 
 ###### Testing whether set-up is working
