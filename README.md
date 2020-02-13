@@ -52,6 +52,10 @@ usage: pdoc-script.py [-h] [--version] [-c OPTION=VALUE] [--filter STRING]
 pdoc-script.py: error: the following arguments are required: MODULE
 ```
 
+- Also check whether you can **open** the **Python Console** in PyCharm **without errors**. 
+
+:warning: In some cases errors occur so you can't start the console. The only working solution I've found until now is by removing the conda environment and creating a new one, preferably based in a location outside the repository. 
+
 ###### Settings for documentation, testing and `requirements.txt`
 - For writing documentation, the easiest way is to use `pdoc`, which supports several docstring formats. To make PyCharm use the [Google docstring format](http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings), go to Settings > Tools > Python integrated tools and select *Google* in the dropdown menu next to *Docstring format*.
 - In the same window select *pytest* as the *Default test runner*, so PyCharm uses this test suite for testing.
