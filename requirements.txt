@@ -1,6 +1,6 @@
 ca-certificates==2020.1.1
 certifi==2019.11.28
-coverage==5.0.3
+coverage==5.0
 mako==1.1.0
 markdown==3.1.1
 markupsafe==1.1.1
