@@ -130,3 +130,6 @@ dmypy.json
 
 # Pycharm folders
 .idea
+
+# Large dataset
+GoogleNews-vectors-negative300.bin.gz
