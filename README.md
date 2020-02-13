@@ -61,3 +61,5 @@ See screenshot:
 
 ![Screenshot of PyCharm settings for documentation, testing and requirements.txt](./pycharm_settings_integrated_tools_screenshot.jpg)
  
+## Expanding this `README`
+For basic styling, check out the [guidelines by GitHub](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax#section-links). 
