@@ -131,3 +131,13 @@ dmypy.json
 pip-selfcheck.json
 
 pyvenv.cfg
+
+# Pycharm folders
+.idea
+
+# Datasets
+GoogleNews-vectors-negative300.bin.gz
+quora_duplicate_questions.tsv
+X.tsv
+y.tsv
+
