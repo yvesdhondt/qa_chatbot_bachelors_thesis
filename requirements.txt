@@ -8,7 +8,6 @@ importlib_metadata==1.5.0
 mako==1.1.0
 markdown==3.1.1
 markupsafe==1.1.1
-numpy==1.18.1
 more-itertools==8.2.0
 openssl==1.1.1d
 packaging==20.1
@@ -28,12 +27,4 @@ vs2015_runtime==14.16.27012
 wcwidth==0.1.8
 wheel==0.34.2
 wincertstore==0.2
-pandas==1.0.1
-fuzzywuzzy==0.17.0
-python-levenshtein==0.12.0
-scikit-learn==0.22.1
-gensim==3.8.0
-pyemd==0.5.1
-nltk==3.4.5
-xgboost==0.90
 zipp==2.2.0
