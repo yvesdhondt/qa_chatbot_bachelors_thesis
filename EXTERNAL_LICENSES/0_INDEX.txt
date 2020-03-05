@@ -2,3 +2,6 @@ In this index you can find which licenses belongs to which files.
 
 LICENSE_question_matching_packt:
 root/nlp_tools/question_matching_model.ipynb
+
+LICENSE_profanity_check:
+root/nlp_tools/profanity_recognition_model.ipynb
