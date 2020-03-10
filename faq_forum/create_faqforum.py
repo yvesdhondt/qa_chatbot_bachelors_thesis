@@ -74,8 +74,10 @@ def get_all_unanswered_questions(connection):
     response = dict()
 
     for row in rows:
-        response = response + {row[1]:None}
-        print(row[1])
+        question = row[1]
+        answer = None
+        response[question] = answer
+    return response
 
 
 def get_all_answered_questions(connection):
@@ -88,9 +90,15 @@ def get_all_answered_questions(connection):
     cursor.execute("SELECT * FROM answered")
 
     rows = cursor.fetchall()
+    response = dict()
 
     for row in rows:
-        print(row)
+        question = row[1]
+        answer = row[2]
+        response[question] = answer
+
+    print(response)
+    return response
 
 
 if __name__ == '__main__':
@@ -122,9 +130,9 @@ if __name__ == '__main__':
     add_unanswered(faq_forum, "What is our monthly paper budget?")
     add_unanswered(faq_forum, "What is Yammer?")
 
-    get_all_answered_questions(faq_forum)
+    print(get_all_answered_questions(faq_forum))
     print()
-    get_all_unanswered_questions(faq_forum)
+    print(get_all_unanswered_questions(faq_forum))
 
     # Close the connection to the db
     faq_forum.close()
