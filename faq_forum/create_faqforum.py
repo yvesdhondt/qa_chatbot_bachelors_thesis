@@ -74,7 +74,7 @@ def get_all_unanswered_questions(connection):
     response = dict()
 
     for row in rows:
-        response = response + {row[1]:None}
+#        response = response + {row[1]:None}
         print(row[1])
 
 
@@ -127,4 +127,5 @@ if __name__ == '__main__':
     get_all_unanswered_questions(faq_forum)
 
     # Close the connection to the db
+    faq_forum.commit()
     faq_forum.close()
