@@ -128,4 +128,5 @@ if __name__ == '__main__':
     print_all_unanswered_questions(faq_forum)
 
     # Close the connection to the db
+    faq_forum.commit()
     faq_forum.close()
