@@ -10,11 +10,10 @@ offensive_cut_off = 0.8
     :param The question to answer. 
 """
 def get_answer(question):
-    #Open Connection 
-    connection = get_connection(r"C:\sqlite\db\faq_forum.db")
-    answered_questions = get_all_answered_questions(connection)
-    print(list(answered_questions.keys()))
-    best_question_id = None
+    connection = get_connection(r"C:\sqlite\db\faq_forum.db")   #Open Connection
+    answered_questions = get_all_answered_questions(connection)  #Get all answered questions
+    # print(list(answered_questions.keys()))
+    best_question_id = None   #search id of most similar question
     for id_to_compare in answered_questions.keys():
         model_path = "C:/Users/Willem Cossey\\Documents\\GitHub\\P-O-Entrepreneurship-Team-A-code\\nlp_tools\\0001.model"
         if match(question, id_to_compare)> best_question_id:
