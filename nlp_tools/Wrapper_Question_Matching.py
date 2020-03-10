@@ -123,3 +123,13 @@ def sent2vec(s, model):
 # this variable should be written to an output file
 outputFeatures = getFeatures(question_1, question_2)
 print(outputFeatures)
+
+def match(question1, question2):
+    probability = None
+    #Load model
+
+    #Process questions into numpy array of features
+
+    #Calculate probability via model
+
+    return probability

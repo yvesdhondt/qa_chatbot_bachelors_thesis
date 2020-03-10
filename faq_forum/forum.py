@@ -14,13 +14,16 @@ def get_answer(question):
     connection = get_connection(r"C:\sqlite\db\faq_forum.db")   #Open Connection
     answered_questions = get_all_answered_questions(connection)  #Get all answered questions
     # print(list(answered_questions.keys()))
-    best_question_id = None   #search id of most similar question
+    best_question_id = None  #search id of most similar question
+    best_probability = 0.0
     for id_to_compare in answered_questions.keys():
         model_path = "C:/Users/Willem Cossey\\Documents\\GitHub\\P-O-Entrepreneurship-Team-A-code\\nlp_tools\\0001.model"
-        if match(question, id_to_compare)> best_question_id:
+        probability = match(question, id_to_compare)
+        if probability > best_probability:
             best_question_id = id_to_compare
+            best_probability = probability
     connection.close()
-    return answered_questions[best_question_id][0]
+    return answered_questions[best_question_id][1],best_probability
 
 
 def post_question(question):
