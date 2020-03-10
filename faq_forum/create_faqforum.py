@@ -46,6 +46,26 @@ def add_answered(connection, question, answer):
     return cursor.lastrowid
 
 
+def get_unanswered(connection, question_id):
+    """
+    Get the unanswered question with the given id
+
+    :param connection: the connection to a faq forum db
+    :param question_id: the id of the question to fetch
+    :return: the question with the given id
+    """
+    fetch = """ SELECT question
+                FROM   unanswered
+                WHERE  id=?"""
+    cursor = connection.cursor()
+
+    # Execute the query
+    cursor.execute(fetch, (question_id,))
+    # Return the unique answer
+    for row in cursor.fetchall():
+        return row[0]
+
+
 def add_unanswered(connection, question):
     """
     Add the given question to the faq forum's unanswered questions
@@ -125,6 +145,8 @@ if __name__ == '__main__':
     get_all_answered_questions(faq_forum)
     print()
     get_all_unanswered_questions(faq_forum)
+    print()
+    print(get_unanswered(faq_forum, 1))
 
     # Close the connection to the db
     faq_forum.commit()

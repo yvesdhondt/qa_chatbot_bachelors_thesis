@@ -12,10 +12,6 @@ def get_answer(question):
     get_connection("C:/sqlite/db")
 
 
-
-def get_all_answered_questions(database_name):
-
-
 def post_question(question):
     """
     Post a question to the forum as long as it is unanswered and not offensive
@@ -44,3 +40,23 @@ def post_question(question):
     faq_forum.commit()
     faq_forum.close()
 
+def post_answer(question_id, answer):
+    """
+    Post an answer to the given question
+
+    :param question_id: the id of the question to answer
+    :param answer: the answer to the question
+    """
+    # Connect to the faq forum
+    faq_forum = get_connection(r"C:\sqlite\db\faq_forum.db")
+
+    # Do not accept offensive answers
+    if is_offensive(answer) >= offensive_cut_off:
+        faq_forum.close()
+        return
+
+    add_answered(faq_forum, question)
+
+    # Commit and close the connection
+    faq_forum.commit()
+    faq_forum.close()
