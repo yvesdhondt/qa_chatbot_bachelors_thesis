@@ -23,7 +23,7 @@ def get_answer(question):
             best_question_id = id_to_compare
             best_probability = probability
     connection.close()
-    return answered_questions[best_question_id][1],best_probability
+    return answered_questions[best_question_id][0],best_probability
 
 
 def post_question(question):

@@ -125,11 +125,12 @@ outputFeatures = getFeatures(question_1, question_2)
 print(outputFeatures)
 
 def match(question1, question2):
-    probability = None
+    nmb_threads = 4
     #Load model
-
+    model = xgb.Booster({"nthread": nmb_threads})
+    model.load_model("C:/Users/Willem Cossey/Documents/GitHub/P-O-Entrepreneurship-Team-A-code/nlp_tools/0001.model")
     #Process questions into numpy array of features
-
+    features = getFeatures(question1,question2)
     #Calculate probability via model
 
     return probability
