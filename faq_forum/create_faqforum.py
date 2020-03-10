@@ -94,8 +94,10 @@ def get_all_unanswered_questions(connection):
     response = dict()
 
     for row in rows:
-#        response = response + {row[1]:None}
-        print(row[1])
+        key = row[0]
+        value = (row[1],None)
+        response[key] = value
+    return response
 
 
 def get_all_answered_questions(connection):
@@ -108,9 +110,15 @@ def get_all_answered_questions(connection):
     cursor.execute("SELECT * FROM answered")
 
     rows = cursor.fetchall()
+    response = dict()
 
     for row in rows:
-        print(row)
+        key = row[0]
+        value = tuple(row[1],row[2])
+        response[key] = value
+
+    print(response)
+    return response
 
 
 if __name__ == '__main__':
@@ -142,7 +150,7 @@ if __name__ == '__main__':
     add_unanswered(faq_forum, "What is our monthly paper budget?")
     add_unanswered(faq_forum, "What is Yammer?")
 
-    get_all_answered_questions(faq_forum)
+    print(get_all_answered_questions(faq_forum))
     print()
     get_all_unanswered_questions(faq_forum)
     print()

@@ -1,5 +1,5 @@
-from .create_faqforum import *
-from .auto_moderator import is_offensive
+from faq_forum.create_faqforum import *
+from faq_forum.auto_moderator import is_offensive
 from nlp_tools.Wrapper_Question_Matching import match
 
 cut_off = 0.8
@@ -7,9 +7,19 @@ offensive_cut_off = 0.8
 
 """
     Give the answer to the most similar question in the database.
-""""
+    :param The question to answer. 
+"""
 def get_answer(question):
-    get_connection("C:/sqlite/db")
+    connection = get_connection(r"C:\sqlite\db\faq_forum.db")   #Open Connection
+    answered_questions = get_all_answered_questions(connection)  #Get all answered questions
+    # print(list(answered_questions.keys()))
+    best_question_id = None   #search id of most similar question
+    for id_to_compare in answered_questions.keys():
+        model_path = "C:/Users/Willem Cossey\\Documents\\GitHub\\P-O-Entrepreneurship-Team-A-code\\nlp_tools\\0001.model"
+        if match(question, id_to_compare)> best_question_id:
+            best_question_id = id_to_compare
+    connection.close()
+    return answered_questions[best_question_id][0]
 
 
 def post_question(question):
