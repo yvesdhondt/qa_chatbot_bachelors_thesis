@@ -29,6 +29,7 @@ def post_question(question):
         faq_forum.close()
         return
 
+    # Check whether the question is already answered
     answered_questions = get_all_answered_questions(faq_forum)
     for ans_question in answered_questions:
         # Ignore questions that already have an answer
@@ -37,5 +38,8 @@ def post_question(question):
             return
 
     add_unanswered(faq_forum, question)
+
+    # Commit and close the connection
+    faq_forum.commit()
     faq_forum.close()
 
