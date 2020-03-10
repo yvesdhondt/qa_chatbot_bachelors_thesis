@@ -5,6 +5,7 @@ from nlp_tools.Wrapper_Question_Matching import match
 cut_off = 0.8
 offensive_cut_off = 0.8
 
+
 """
     Give the answer to the most similar question in the database.
     :param The question to answer. 
@@ -50,6 +51,7 @@ def post_question(question):
     faq_forum.commit()
     faq_forum.close()
 
+
 def post_answer(question_id, answer):
     """
     Post an answer to the given question
@@ -65,7 +67,8 @@ def post_answer(question_id, answer):
         faq_forum.close()
         return
 
-    add_answered(faq_forum, question)
+    question = get_unanswered(faq_forum, question_id)
+    add_answered(faq_forum, question, answer)
 
     # Commit and close the connection
     faq_forum.commit()
