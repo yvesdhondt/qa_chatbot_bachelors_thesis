@@ -60,26 +60,29 @@ def add_unanswered(connection, question):
     return cursor.lastrowid
 
 
-def print_all_unanswered_questions(connection):
+def get_all_unanswered_questions(connection):
     """
-    Print all the unanswered questions
+    Return all the unanswered questions in a
     :param connection: the connection to a faq forum db
-    :return: None
+    :return: All questions whose answers are None
     """
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM unanswered")
 
+
     rows = cursor.fetchall()
+    response = dict()
 
     for row in rows:
-        print(row)
+        response = response + {row[1]:None}
+        print(row[1])
 
 
-def print_all_answered_questions(connection):
+def get_all_answered_questions(connection):
     """
     Print all the answered question-answer pairs
     :param connection: the connection to a faq forum db
-    :return: None
+    :return: All questions whose answers are not None
     """
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM answered")
@@ -119,9 +122,9 @@ if __name__ == '__main__':
     add_unanswered(faq_forum, "What is our monthly paper budget?")
     add_unanswered(faq_forum, "What is Yammer?")
 
-    print_all_answered_questions(faq_forum)
+    get_all_answered_questions(faq_forum)
     print()
-    print_all_unanswered_questions(faq_forum)
+    get_all_unanswered_questions(faq_forum)
 
     # Close the connection to the db
     faq_forum.close()
