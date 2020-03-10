@@ -1,11 +1,9 @@
 from profanity_check import predict_prob
 
-cut_off = 0.8
-
 
 def is_offensive(sentence):
     profane_prob = predict_prob([sentence])
-    return profane_prob[0] > 0.8
+    return profane_prob[0]
 
 
 print(is_offensive("Fuck you"))

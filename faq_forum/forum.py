@@ -3,6 +3,7 @@ from .auto_moderator import is_offensive
 from nlp_tools.Wrapper_Question_Matching import match
 
 cut_off = 0.8
+offensive_cut_off = 0.8
 
 """
     Give the answer to the most similar question in the database.
@@ -25,7 +26,7 @@ def post_question(question):
     faq_forum = get_connection(r"C:\sqlite\db\faq_forum.db")
 
     # Do not accept offensive questions
-    if is_offensive(question):
+    if is_offensive(question) >= offensive_cut_off:
         faq_forum.close()
         return
 
