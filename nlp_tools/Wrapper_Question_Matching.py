@@ -5,6 +5,9 @@ import numpy as np
 #import nltk
 from nltk import word_tokenize
 from nltk.corpus import stopwords
+from scipy.spatial.distance import cosine, cityblock, jaccard, canberra, euclidean, minkowski, braycurtis
+import xgboost as xgb
+
 stop_words = set(stopwords.words("english"))
 from scipy.spatial.distance import cosine, cityblock, jaccard, canberra, euclidean, minkowski, braycurtis
 
@@ -34,6 +37,15 @@ Method getFeatures(question1, question2) returns dictionary of features given tw
 "fuzz_partial_token_sort_ratio"     =   partial token sort ratio
 "fuzz_token_set_ratio"              =   token set ratio
 "fuzz_token_sort_ratio"             =   token sort ratio
+"cosine_distance": cosine(W2V[0], W2V[1]),
+"cityblock_distance": cityblock(W2V[0], W2V[1]),
+"jaccard_distance": jaccard(W2V[0], W2V[1]),
+"canberra_distance": canberra(W2V[0], W2V[1]),
+"euclidean_distance": euclidean(W2V[0], W2V[1]),
+"minkowski_distance": minkowski(W2V[0], W2V[1]),
+"braycurtis_distance": braycurtis(W2V[0], W2V[1]),
+"wmd": W2V[2],
+        "norm_wmd": W2V[3]
 """
 
 
@@ -74,6 +86,16 @@ def getFeatures(question1, question2):
     return outputDict
 
 
+def getListOfFeatures(question1, question2):
+    dict = getFeatures(question1, question2)
+    return [dict["len_q1"], dict["len_q2"], dict["diff_len"], dict["len_char_q1"], dict["len_char_q2"],
+            dict["common_words"], dict["fuzz_Qratio"], dict["fuzz_Wratio"], dict["fuzz_partial_ratio"],
+            dict["fuzz_partial_token_set_ratio"], dict["fuzz_partial_token_sort_ratio"], dict["fuzz_token_set_ratio"],
+            dict["fuzz_token_sort_ratio"], dict["cosine_distance"], dict["cityblock_distance"],
+            dict["jaccard_distance"], dict["canberra_distance"], dict["euclidean_distance"], dict["minkowski_distance"],
+            dict["braycurtis_distance"], dict["wmd"], dict["norm_wmd"]]
+
+
 """
 Method match takes two questions and returns the probability they mean the same thing
 """
@@ -81,7 +103,14 @@ Method match takes two questions and returns the probability they mean the same 
 
 # ToDo
 def match(question1, question2):
-    pass
+    # Load the model
+    bst_loaded = xgb.Booster({"nthread": 4})
+    bst_loaded.load_model("0001.model")
+    features = getListOfFeatures(question1, question2)
+    arrayOfFeatures = np.array(features)
+    print(arrayOfFeatures.ndim)
+    d_valid = xgb.DMatrix(arrayOfFeatures, label=np.array([1]))
+    return bst_loaded.predict(d_valid)
 
 
 def getWmd(question1, question2, model):
@@ -119,18 +148,4 @@ def sent2vec(s, model):
         return model.get_vector('null')
 
 
-
-# this variable should be written to an output file
-outputFeatures = getFeatures(question_1, question_2)
-print(outputFeatures)
-
-def match(question1, question2):
-    nmb_threads = 4
-    #Load model
-    model = xgb.Booster({"nthread": nmb_threads})
-    model.load_model("C:/Users/Willem Cossey/Documents/GitHub/P-O-Entrepreneurship-Team-A-code/nlp_tools/0001.model")
-    #Process questions into numpy array of features
-    features = getFeatures(question1,question2)
-    #Calculate probability via model
-
-    return probability
+print(match(question_1, question_2))
