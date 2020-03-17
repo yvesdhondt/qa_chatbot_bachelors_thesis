@@ -9,10 +9,6 @@ from nltk.corpus import stopwords
 from scipy.spatial.distance import cosine, cityblock, jaccard, canberra, euclidean, minkowski, braycurtis
 import xgboost as xgb
 from sklearn.preprocessing import StandardScaler
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
-from scipy import sparse
-from scipy.stats import skew, kurtosis
 import pickle
 
 stop_words = set(stopwords.words("english"))
@@ -24,7 +20,6 @@ feature_labels =\
      'len_word_q1', 'len_word_q2', 'common_words', 'fuzz_QRatio',
      'fuzz_WRatio', 'fuzz_partial_ratio', 'fuzz_partial_token_set_ratio',
      'fuzz_partial_token_sort_ratio', 'fuzz_token_set_ratio', 'fuzz_token_sort_ratio',
-     'skew_q1vec', 'skew_q2vec', 'kur_q1vec', 'kur_q2vec',
      'cosine_distance', 'cityblock_distance', 'jaccard_distance', 'canberra_distance', 'euclidean_distance',
      'minkowski_distance', 'braycurtis_distance', 'wmd', 'norm_wmd']
 
@@ -61,9 +56,8 @@ Method getFeatures(question1, question2) returns dictionary of features given tw
 """
 
 
-def get_features(question1, question2, tfidf_feats):
+def get_features(question1, question2):
     w2v = word2vec_features(question1, question2, W2VModel)
-
     output_dict = {
         # length based features
         "len_q1": [len(question1)],
@@ -84,10 +78,7 @@ def get_features(question1, question2, tfidf_feats):
         "fuzz_token_set_ratio": [fuzz.token_set_ratio(question1, question2)],
         "fuzz_token_sort_ratio": [fuzz.token_sort_ratio(question1, question2)],
         # tfidf based features
-        'skew_q1vec': tfidf_feats[0],
-        'skew_q2vec': tfidf_feats[1],
-        'kur_q1vec': tfidf_feats[2],
-        'kur_q2vec': tfidf_feats[3],
+        # ToDo
 
         # word2vec based features
         "cosine_distance": [cosine(w2v[0], w2v[1])],
@@ -115,26 +106,6 @@ def get_list_of_features(question1, question2):
             features["minkowski_distance"], features["braycurtis_distance"], features["wmd"], features["norm_wmd"]]
 
 
-def get_match_input(question1, question2):
-    # Get the tfidf features
-    tfidf_feats = get_tfidf_features(question1, question2)
-    # Calculate the features
-    features = get_features(question1, question2, tfidf_feats)
-    # Transform the featuers to a pd DataFrame
-    features = pd.DataFrame(features, columns=feature_labels)
-    # Clean up infinites and NaNs
-    features = features.replace([np.inf, -np.inf], np.nan).fillna(0).values
-    # Load the scaler and scale the data
-    scaler = pickle.load(open("scaler.p", "rb"))
-    features = scaler.transform(features)
-
-    # Stack the svd of the tfidf of the questions on top of the data
-    svd = tfidf_feats[4]
-    features = np.hstack((features, svd))
-
-    return features
-
-
 def match(question1, question2):
     """
     Compute and return the probability that the two given questions are semantically
@@ -147,41 +118,19 @@ def match(question1, question2):
     # Load the model
     bst_loaded = xgb.Booster({"nthread": 4})
     bst_loaded.load_model("0001.model")
-    # Calculate the model input
-    features = get_match_input(question1, question2)
+    # Calculate the features
+    features = get_features(question1, question2)
+    # Transform the featuers to a pd DataFrame
+    features = pd.DataFrame(features, columns=feature_labels)
+    # Clean up infinites and NaNs
+    features = features.replace([np.inf, -np.inf], np.nan).fillna(0).values
+    # Load the scaler and scale the data
+    scaler = pickle.load(open("scaler.p", "rb"))
+    features = scaler.transform(features)
     # Give the features to the model for prediction
     model_input = xgb.DMatrix(features)
     pred = bst_loaded.predict(model_input)
     return pred[0]
-
-
-def get_tfidf_features(question1, question2):
-    # Load the fitted tfidf transformers
-    q1_idf = pickle.load(open("q1_idf.p", "rb"))
-    q2_idf = pickle.load(open("q2_idf.p", "rb"))
-
-    # Calculate the tf-idf matrices for both questions
-    q1_tfidf = q1_idf.transform(np.array([question1]))
-    q2_tfidf = q2_idf.transform(np.array([question2]))
-
-    # Create truncated SVD decompostions = fast but aproximate, with 180 components
-    svd_q1 = TruncatedSVD(n_components=180)
-    svd_q2 = TruncatedSVD(n_components=180)
-
-    # Calculate the SVD features based on the tf-idf matrices
-    question1_vectors = svd_q1.fit_transform(q1_tfidf[0])
-    question2_vectors = svd_q2.fit_transform(q2_tfidf[0])
-
-    # Stack the SVD matrices together
-    svd = np.hstack((question1_vectors, question2_vectors))
-
-    # Calculate the skew and kurtosis of the question vectors
-    skew_q1vec = [skew(x) for x in np.nan_to_num(question1_vectors)]
-    skew_q2vec = [skew(x) for x in np.nan_to_num(question2_vectors)]
-    kur_q1vec = [kurtosis(x) for x in np.nan_to_num(question1_vectors)]
-    kur_q2vec = [kurtosis(x) for x in np.nan_to_num(question2_vectors)]
-
-    return skew_q1vec, skew_q2vec, kur_q1vec, kur_q2vec, svd
 
 
 def get_wmd(question1, question2, model):
