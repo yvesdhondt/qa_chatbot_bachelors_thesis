@@ -1,9 +1,7 @@
-import sys
 from fuzzywuzzy import fuzz
 import gensim
 import numpy as np
 import pandas as pd
-#import nltk
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from scipy.spatial.distance import cosine, cityblock, jaccard, canberra, euclidean, minkowski, braycurtis
@@ -14,6 +12,10 @@ import pickle
 stop_words = set(stopwords.words("english"))
 
 W2VModel = gensim.models.KeyedVectors.load_word2vec_format("GoogleNews-vectors-negative300-SLIM.bin.gz", binary=True)
+
+# Load the question matching model with 4 threads
+bst_loaded = xgb.Booster({"nthread": 4})
+bst_loaded.load_model("0001.model")
 
 feature_labels =\
     ['len_q1', 'len_q2', 'diff_len', 'len_char_q1', 'len_char_q2',
@@ -77,8 +79,6 @@ def get_features(question1, question2):
         "fuzz_partial_token_sort_ratio": [fuzz.partial_token_sort_ratio(question1, question2)],
         "fuzz_token_set_ratio": [fuzz.token_set_ratio(question1, question2)],
         "fuzz_token_sort_ratio": [fuzz.token_sort_ratio(question1, question2)],
-        # tfidf based features
-        # ToDo
 
         # word2vec based features
         "cosine_distance": [cosine(w2v[0], w2v[1])],
@@ -115,9 +115,6 @@ def match(question1, question2):
     :return: The probability that the two given questions are semantically
     the same
     """
-    # Load the model
-    bst_loaded = xgb.Booster({"nthread": 4})
-    bst_loaded.load_model("0001.model")
     # Calculate the features
     features = get_features(question1, question2)
     # Transform the featuers to a pd DataFrame
@@ -168,6 +165,7 @@ def sent2vec(s, model):
         return model.get_vector('null')
 
 
+"""
 prediction = match("Where is the coffee machine?", "Where can I find the coffee machine?")
 print(prediction)
 prediction = match("Where is the coffee machine?", "When did the Titanic sink?")
@@ -178,3 +176,4 @@ prediction = match("How big is the coffee machine?", "How can I use the coffee m
 print(prediction)
 prediction = match("Where is the coffee machine?", "Where is the coffee machine?")
 print(prediction)
+"""

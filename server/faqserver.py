@@ -63,7 +63,7 @@ class FaqServer:
                     "CCC",
                     ...
                     ],
-        "ID":0123456789
+        "ID":"0123456789"
         }
         
         Here the 'Action' is the action to perform,
@@ -74,7 +74,7 @@ class FaqServer:
         {
         "Action":"estimate_offensiveness",
         "Primary":"XXX",
-        "ID":0123456789
+        "ID":"0123456789"
         }
         
         Here the 'Action' is the action to perform,
@@ -83,7 +83,7 @@ class FaqServer:
         3. There is no action to perform:
         {
         "Action":"nothing",
-        "ID":0123456789
+        "ID":"0123456789"
         }
         
         The 'ID' is always used to include in the reply so that the server knows to
@@ -106,7 +106,7 @@ class FaqServer:
         "Primary":"XXX",
         "Match":"FFF",
         "Prob":0.XXX,
-        "ID":0123456789
+        "ID":"0123456789"
         }
         
         Here the 'Primary' is the sentence that was matched against,
@@ -119,7 +119,7 @@ class FaqServer:
         {
         "Primary":"XXX",
         "Prob":0.XXX,
-        "ID":0123456789
+        "ID":"0123456789"
         }
         
         Here the 'Primary' is the sentence that was checked for offensiveness,
