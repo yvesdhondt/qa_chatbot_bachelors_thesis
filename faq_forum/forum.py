@@ -1,4 +1,7 @@
 from server import faqserver
+from nlp_tools import Wrapper_Question_Matching
+from faq_forum import auto_moderator
+
 import json
 
 
@@ -12,7 +15,14 @@ def __get_match(question, question_set):
     'p', that that 'best' match is semantically equal to the given question. (1 = equal, 0 = unequal,
     0 <= p <= 1)
     """
-    return 0.0, None
+    best_match = None
+    best_score = 0
+    for q in question_set:
+        current_score = Wrapper_Question_Matching.match(question,q)
+        if current_score >= best_score
+            best_match = q
+            best_score = current_score
+    return best_score, best_match
 
 
 def __get_offensiveness(sentence):
@@ -23,7 +33,7 @@ def __get_offensiveness(sentence):
     :return: the probability,'p', that that the given question is offensive. (1 = yes, 0 = no,
     0 <= p <= 1)
     """
-    return 0.0
+    return auto_moderator.is_offensive(sentence)
 
 
 def __unwrap_match_request(request):
