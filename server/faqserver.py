@@ -39,7 +39,7 @@ class FaqServer:
         :return: True if and only if there is a request to be processed
         """
         """
-        CONCRETELY: we use this function to actively wait on a request, but if you
+        CONCRETELY: We use this function to actively wait on a request, but if you
         could implement a "wait-and-wake-up" method where the execution of the script
         just waits until there is a request and then wakes up that would be even better
         since active waiting will create unnecessary network traffic :)
@@ -91,12 +91,12 @@ class FaqServer:
         which is decided by the server.
         """
 
-    def reply(self, reply):
+    def reply(self, ans):
         """
         Forward the reply to the last action to the server. (e.g. the reply to the
         action that was described in the 'get_request()' method)
 
-        :param reply: A JSON-object that contains the reply
+        :param ans: A JSON-object that contains the reply
         :return: None
         """
         """
