@@ -13,8 +13,8 @@ class FaqServer:
         """
         During the initialization a connection is made with the server that hosts the
         "FAQs" and also provides the nlp tools with tasks
-        """
-        """
+
+
         CONCRETELY: I honestly have no idea at all how these things work, but I would
         assume that this is something that would be similar to the Java Sockets that
         we looked at in the networking course. So something like creating a connection
@@ -37,8 +37,8 @@ class FaqServer:
         questions" or "estimate offensiveness" ...)
 
         :return: True if and only if there is a request to be processed
-        """
-        """
+
+
         CONCRETELY: We use this function to actively wait on a request, but if you
         could implement a "wait-and-wake-up" method where the execution of the script
         just waits until there is a request and then wakes up that would be even better
@@ -49,9 +49,9 @@ class FaqServer:
         """
         Get the request to be processed as a JSON-object.
 
+
         :return: The request to be processed as a JSON-object.
-        """
-        """
+
         CONCRETELY: We expect three types of requests
         1. You want us to match a question:
         {
@@ -98,8 +98,8 @@ class FaqServer:
 
         :param ans: A JSON-object that contains the reply
         :return: None
-        """
-        """
+
+
         CONCRETELY: One of two types of replies will be given
         1. A reply to a "match_question":
         {
