@@ -1,78 +1,136 @@
-from faq_forum.create_faqforum import *
-from faq_forum.auto_moderator import is_offensive
-from nlp_tools.Wrapper_Question_Matching import match
-
-cut_off = 0.8
-offensive_cut_off = 0.8
+from server import faqserver
+import json
 
 
-"""
-    Give the answer to the most similar question in the database.
-    :param The question to answer. 
-"""
-def get_answer(question):
-    connection = get_connection(r"C:\sqlite\db\faq_forum.db")   #Open Connection
-    answered_questions = get_all_answered_questions(connection)  #Get all answered questions
-    # print(list(answered_questions.keys()))
-    best_question_id = None  #search id of most similar question
-    best_probability = 0.0
-    for id_to_compare in answered_questions.keys():
-        model_path = "C:/Users/Willem Cossey\\Documents\\GitHub\\P-O-Entrepreneurship-Team-A-code\\nlp_tools\\0001.model"
-        probability = match(question, id_to_compare)
-        if probability > best_probability:
-            best_question_id = id_to_compare
-            best_probability = probability
-    connection.close()
-    return answered_questions[best_question_id][1],best_probability
-
-
-def post_question(question):
+def __get_match(question, question_set):
     """
-    Post a question to the forum as long as it is unanswered and not offensive
+    Find the best semantic match to question from the given question_set.
 
-    :param question: the question to post
+    :param question: The question to match
+    :param question_set: The questions to match to
+    :return: A tuple (p,best) consisting of the 'best' match from the given question_set and the probability,
+    'p', that that 'best' match is semantically equal to the given question. (1 = equal, 0 = unequal,
+    0 <= p <= 1)
     """
-    # Connect to the faq forum
-    faq_forum = get_connection(r"C:\sqlite\db\faq_forum.db")
-
-    # Do not accept offensive questions
-    if is_offensive(question) >= offensive_cut_off:
-        faq_forum.close()
-        return
-
-    # Check whether the question is already answered
-    answered_questions = get_all_answered_questions(faq_forum)
-    for ans_question in answered_questions:
-        # Ignore questions that already have an answer
-        if match(question, ans_question) >= cut_off:
-            faq_forum.close()
-            return
-
-    add_unanswered(faq_forum, question)
-
-    # Commit and close the connection
-    faq_forum.commit()
-    faq_forum.close()
+    return 0.0, None
 
 
-def post_answer(question_id, answer):
+def __get_offensiveness(sentence):
     """
-    Post an answer to the given question
+    Estimate the offensiveness of a sentence.
 
-    :param question_id: the id of the question to answer
-    :param answer: the answer to the question
+    :param sentence: The sentence to estimate the offensiveness of
+    :return: the probability,'p', that that the given question is offensive. (1 = yes, 0 = no,
+    0 <= p <= 1)
     """
-    # Connect to the faq forum
-    faq_forum = get_connection(r"C:\sqlite\db\faq_forum.db")
+    return 0.0
 
-    # Do not accept offensive answers
-    if is_offensive(answer) >= offensive_cut_off:
-        faq_forum.close()
-        return
 
-    question = get_unanswered(faq_forum, question_id)
-    add_answered(faq_forum, question, answer)
+def __unwrap_match_request(request):
+    """
+    Unwrap the given "match questions" request into a tuple of Python objects.
 
-    # Commit and close the connection
-    faq_forum.commit()
-    faq_forum.close()
+    :param request: A JSON object describing a "match questions" request
+    :return: A tuple (question,question_set) where question is a string and question_set is an iterable
+    collection of strings.
+    """
+    return None, None
+
+
+def __wrap_match_request(question, best_match, prob, identifier):
+    """
+    Wrap the given result of a "match questions" request in a JSON object
+
+    :param question: The primary question
+    :param best_match: The best match
+    :param prob: The probability that the two previous questions are semantically the same
+    :param identifier: Some integer representing an ID
+    :return: A JSON object containing all the given information (as described in faqserver.py)
+    """
+    ans = {
+        "error": "not implemented"
+    }
+
+    return json.dumps(ans)
+
+
+def __unwrap_offensive_request(request):
+    """
+    Unwrap the given "estimate offensiveness" request into a string.
+
+    :param request: A JSON object describing an "estimate offensiveness" request
+    :return: A string that represents the sentence of which to estimate the offensiveness
+    """
+    return None
+
+
+def __wrap_offensive_request(question, prob, identifier):
+    """
+    Wrap the given result of an "estimate offensiveness" request in a JSON object
+
+    :param question: The primary question
+    :param prob: The probability that the primary is offensive
+    :param identifier: Some integer representing an ID
+    :return: A JSON object containing all the given information (as described in faqserver.py)
+    """
+    ans = {
+        "error": "not implemented"
+    }
+
+    return json.dumps(ans)
+
+
+def process(request):
+    """
+    Process the given request and store the reply in a JSON object.
+
+    :param request: A JSON object describing the request (see faqserver.py for more info)
+    :return: The reply to the given request
+    """
+
+    """
+    Depending on the type of request the correct methods are called to process the request and the reply
+    of those methods is then also correctly packaged into a JSON object.
+    
+    For instance, assume that request is a "match questions" request then
+    1. __unwrap_match_request(request) is called to get the question and set of questions to match from
+    the JSON object
+    2. __get_match(question, question_set) is called to find the best match
+    3. __wrap_match_request(question, best_match, prob, identifier) is called to wrap the Python objects 
+    into a JSON object
+    4. The result of __wrap_match_request(...) is returned
+    """
+
+    ans = {
+        "error": "not implemented"
+    }
+
+    return json.dumps(ans)
+
+
+def main():
+    """
+    Go into a while loop and actively wait for requests from the FAQ server
+
+    :return: None
+    """
+
+    # Connect to the server
+    faq = faqserver.FaqServer()
+
+    # Go to an infinite loop of processing requests of the FAQ forum
+    while True:
+        # Wait for a request
+        while not faq.has_request():
+            pass
+
+        # Get the request
+        request = faq.get_request()
+        # Process the request
+        ans = process(request)
+        # Answer to the request
+        faq.reply(ans)
+
+
+if __name__ == "__main__":
+    main()
