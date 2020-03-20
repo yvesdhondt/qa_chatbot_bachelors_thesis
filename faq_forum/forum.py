@@ -114,19 +114,6 @@ def process(request):
     :param request: A JSON object describing the request (see faqserver.py for more info)
     :return: The reply to the given request
     """
-
-    """
-    Depending on the type of request the correct methods are called to process the request and the reply
-    of those methods is then also correctly packaged into a JSON object.
-    
-    For instance, assume that request is a "match questions" request then
-    1. __unwrap_match_request(request) is called to get the question and set of questions to match from
-    the JSON object
-    2. __get_match(question, question_set) is called to find the best match
-    3. __wrap_match_request(question, best_match, prob, identifier) is called to wrap the Python objects 
-    into a JSON object
-    4. The result of __wrap_match_request(...) is returned
-    """
     error = {
         "error": "request was None"
     }
