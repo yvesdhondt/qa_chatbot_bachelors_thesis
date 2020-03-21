@@ -12,6 +12,8 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using PenoBot.Dialogs;
+using PenoBot.CognitiveModels;
+
 
 namespace PenoBot.Bots
 {
@@ -19,7 +21,7 @@ namespace PenoBot.Bots
     {
         
         protected ILogger Logger;
-        protected readonly IBotServices BotServices;
+        protected readonly IBotServices _botServices;
 
         protected readonly Dialog Dialog;
 
@@ -31,7 +33,7 @@ namespace PenoBot.Bots
             ConversationState conversationState, UserState userState)
         {
             Logger = logger;
-            BotServices = botServices;
+            _botServices = botServices;
 
             Dialog = dialog;
 
@@ -56,8 +58,11 @@ namespace PenoBot.Bots
         //When turn with message 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+
+            /**
             var replyText = $"Echo: {turnContext.Activity.Text}";
             await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+               **/
 
             Logger.LogInformation("Running dialog with Message Activity");
 
