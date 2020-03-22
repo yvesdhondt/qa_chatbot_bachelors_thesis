@@ -108,12 +108,11 @@ def get_list_of_features(question1, question2):
 
 def match(question1, question2):
     """
-    Compute and return the probability that the two given questions are semantically
-    the same
+    Compute and return the probability that the two given questions are semantically the same.
+
     :param question1: The first question
     :param question2: The second question
-    :return: The probability that the two given questions are semantically
-    the same
+    :return: The probability that the two given questions are semantically the same as a float p (1 = equal, 0 = different, 0 <= p <= 1)
     """
     # Calculate the features
     features = get_features(question1, question2)
