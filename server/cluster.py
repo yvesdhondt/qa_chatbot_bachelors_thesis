@@ -7,11 +7,14 @@ class Actions(Enum):
 
 
 class Connector:
-    def get_next_task(self, timeout=None):
+    def __init__(self):
         pass
+
+    def get_next_task(self, timeout=None):
+        return None
 
     def has_task(self):
         return True
 
     def reply(self, response):
-        pass
+        return None
