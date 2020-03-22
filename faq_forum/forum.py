@@ -1,5 +1,4 @@
-import faq_forum.cluster as cluster
-import json
+import server.cluster as cluster
 from faq_forum.question_match import match
 from faq_forum.auto_moderator import offensiveness
 
