@@ -10,7 +10,7 @@ class TestServer(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         global currentServer
-        currentServer = cluster.Connector.__init__()
+        currentServer = cluster.Connector()
 
 
     def test_has_task(self):
