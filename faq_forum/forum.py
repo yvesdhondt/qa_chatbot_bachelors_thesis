@@ -1,4 +1,4 @@
-import server.cluster as cluster
+from cluster import connector as cluster
 from faq_forum.question_match import match
 from faq_forum.auto_moderator import offensiveness
 

@@ -1,5 +1,5 @@
 import unittest
-import server.cluster as cluster
+from cluster import connector as cluster
 import json
 #Class of tests to test faqserver.py public methods that use a connection to the database server.
 
