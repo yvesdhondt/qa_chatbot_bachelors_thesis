@@ -11,6 +11,7 @@ class TestServer(unittest.TestCase):
     def setUpClass(cls):
         global currentServer
         currentServer = cluster.Connector()
+        currentServer._base_request_uri = "https://clusterapidebug.azurewebsites.net/api/NLP"
 
 
     def test_has_task(self):
