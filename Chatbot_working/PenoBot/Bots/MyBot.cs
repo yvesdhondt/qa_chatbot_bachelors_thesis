@@ -81,6 +81,20 @@ namespace PenoBot.Bots
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
+
+                    // Onderstaande code vraagt of user onbeantwoorde vragen wil beantwoorden of niet.
+                    // Er wordt voorlopig nog niets met het antwoord gedaan, want geen idee hoe
+
+                    var reply = MessageFactory.Text("Would you like to answer some unaswered questions?");
+                    reply.SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+                {
+                    new CardAction() { Title = "Yes, I would like to help!", Type = ActionTypes.ImBack, Value = "Yes" },
+                    new CardAction() { Title = "No, I have my own questions.", Type = ActionTypes.ImBack, Value = "No" },
+                },
+                    };
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
                 }
             }
         }

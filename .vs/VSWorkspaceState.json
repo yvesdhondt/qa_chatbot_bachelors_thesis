@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\img",
-    "\\probeersel_martijn",
-    "\\probeersel_martijn\\BasicBot",
-    "\\probeersel_martijn\\BasicBot\\BasicBot"
+    "\\Chatbot_working"
   ],
-  "SelectedNode": "\\probeersel_martijn\\BasicBot\\BasicBot.sln",
+  "SelectedNode": "\\Chatbot_working\\PenoBot.sln",
   "PreviewInSolutionExplorer": false
 }
