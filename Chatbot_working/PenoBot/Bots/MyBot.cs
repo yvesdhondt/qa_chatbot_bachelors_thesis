@@ -59,17 +59,26 @@ namespace PenoBot.Bots
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
 
-            /**
-            var replyText = $"Echo: {turnContext.Activity.Text}";
-            await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
-               **/
-
             Logger.LogInformation("Running dialog with Message Activity");
 
+            var userStateAccessors = UserState.CreateProperty<UserProfile>(nameof(UserProfile));
+            var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
 
-            // Run the last dialog in the stack.
-            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
-                cancellationToken);
+            if (string.IsNullOrEmpty(userProfile.Name))
+            {
+                // Set the name to what the user provided.
+                userProfile.Name = turnContext.Activity.Text?.Trim();
+
+                // Acknowledge that we got their name.
+                await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
+                await turnContext.SendActivityAsync($"What can I do for you?");
+
+            } else
+            {
+                // Run the last dialog in the stack.
+                await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
+                    cancellationToken);
+            }
         }
 
         //When someone starts a new conversation with a bot 
@@ -82,9 +91,20 @@ namespace PenoBot.Bots
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
 
+                    var userStateAccessors = UserState.CreateProperty<UserProfile>(nameof(UserProfile));
+                    var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
+
+                    if (string.IsNullOrEmpty(userProfile.Name))
+                    {
+                        // Prompt the user f or their name.
+                        await turnContext.SendActivityAsync($"What is your name?");
+                    }
+
+
+                    // BEGIN
                     // Onderstaande code vraagt of user onbeantwoorde vragen wil beantwoorden of niet.
                     // Er wordt voorlopig nog niets met het antwoord gedaan, want geen idee hoe
-
+                    /**
                     var reply = MessageFactory.Text("Would you like to answer some unaswered questions?");
                     reply.SuggestedActions = new SuggestedActions()
                     {
@@ -95,6 +115,9 @@ namespace PenoBot.Bots
                 },
                     };
                     await turnContext.SendActivityAsync(reply, cancellationToken);
+
+    */
+                    // EINDE
                 }
             }
         }
