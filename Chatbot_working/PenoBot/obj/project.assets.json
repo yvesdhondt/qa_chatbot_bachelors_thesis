@@ -12615,19 +12615,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\thoma\\.nuget\\packages\\": {}
+    "C:\\Users\\louis\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thoma\\Documents\\Kul\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "projectUniqueName": "C:\\Users\\louis\\Source\\Repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
       "projectName": "PenoBot",
-      "projectPath": "C:\\Users\\thoma\\Documents\\Kul\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
-      "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thoma\\Documents\\Kul\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
+      "projectPath": "C:\\Users\\louis\\Source\\Repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\louis\\Source\\Repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\louis\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12690,7 +12690,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

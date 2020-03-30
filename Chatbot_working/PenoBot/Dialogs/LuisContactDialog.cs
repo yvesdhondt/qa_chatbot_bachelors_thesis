@@ -95,7 +95,7 @@ namespace PenoBot.Dialogs
 			//email = connec.getEmail(dbFirstName, dbLastName);
 
 			var replyText = $"Query op voornaam = {dbFirstName} en achternaam = {dbLastName}";
-			//var replyText = email;
+			//var replyText = $"Query levert: {email}";
 			await stepContext.Context.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
    
 			return await stepContext.EndDialogAsync(this, cancellationToken);
