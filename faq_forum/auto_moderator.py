@@ -1,4 +1,5 @@
 from profanity_check import predict_prob
+from nostril import nonsense
 
 
 def offensiveness(sentence):
@@ -13,7 +14,6 @@ def offensiveness(sentence):
     profane_prob = predict_prob([sentence])
     return profane_prob[0]
 
-
 print(offensiveness("Fuck you"))
 print(offensiveness("Little bitch"))
 print(offensiveness("You can find a coffee machine on the second floor"))
@@ -23,3 +23,12 @@ print(offensiveness("Where can I find a coffee machine?"))
 print(offensiveness("How can I file a complaint?"))
 # Models aren't perfect, this model does not cover all dialects
 print(offensiveness("Ray is a cunt"))
+
+# function nonsense returns true if a string has no meaning
+print(nonsense("This should return false."))
+print(nonsense("ZkIOMJSIOJEKLMZKJMELLKS"))
+# Even when concatenating words or using more complicated codes, the model can usually recognize meaningful strings.
+print(nonsense("ioFlXFndrInfo"))
+# according to the documentation the accuracy is 99%
+# text has to be long enough otherwise a ValueError is raised
+print(nonsense("t2shrt"))
