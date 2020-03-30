@@ -4,9 +4,11 @@ from profanity_check import predict_prob
 def offensiveness(sentence):
     """
     Compute and return the probability that the given sentence is offensive.
+    Args:
+        sentence: The sentence to check
 
-    :param sentence: The sentence to check
-    :return: The probability that the given sentence is offensive as a float p (1 = offensive, 0 = nice, 0 <= p <= 1)
+    Returns: The probability that the given sentence is offensive as a float p (1 = offensive, 0 = nice, 0 <= p <= 1)
+
     """
     profane_prob = predict_prob([sentence])
     return profane_prob[0]
