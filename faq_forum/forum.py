@@ -7,11 +7,14 @@ def __get_match(question, question_set):
     """
     Find the best semantic match to question from the given question_set.
 
-    :param question: The question to match
-    :param question_set: The questions to match to (given as a list of dicts {"question_id":XXX,"question":YYY})
-    :return: A tuple (p,best) consisting of the 'best' match from the given question_set and the probability,
+    Args:
+        question: The question to match
+        question_set: The questions to match to (given as a list of dicts {"question_id":XXX,"question":YYY})
+
+    Returns: A tuple (p,best) consisting of the 'best' match from the given question_set and the probability,
     'p', that that 'best' match is semantically equal to the given question. (1 = equal, 0 = unequal,
     0 <= p <= 1). If the question_set was empty or None, (0.0, None) is returned
+
     """
     prob = 0.0
     best = None
@@ -36,10 +39,12 @@ def __get_match(question, question_set):
 def __get_offensiveness(sentence):
     """
     Estimate the offensiveness of a sentence.
+    Args:
+        sentence: The sentence to estimate the offensiveness of
 
-    :param sentence: The sentence to estimate the offensiveness of
-    :return: the probability,'p', that that the given question is offensive. (1 = yes, 0 = no,
+    Returns: the probability,'p', that that the given question is offensive. (1 = yes, 0 = no,
     0 <= p <= 1). 0.0 is returned if the given sentence was None.
+
     """
     if sentence is None:
         return 0.0
@@ -50,10 +55,12 @@ def __unwrap_match_request(request):
     """
     Unwrap the given "match questions" request into a tuple of Python objects.
 
-    :pre: The given request is not None, it is a JSON-like dict
-    :param request: A JSON object describing a "match questions" request
-    :return: A tuple (question,question_set) where question is a string and question_set is an iterable
+    Args:
+        request: A JSON object describing a "match questions" request
+
+    Returns: A tuple (question,question_set) where question is a string and question_set is an iterable
     collection of questions and their ids (given as dicts {"question_id":XXX,"question":YYY}).
+
     """
     # request = json.loads(request)
     question = request["question"]
@@ -66,11 +73,14 @@ def __wrap_match_request(request, best_matches):
     """
     Wrap the given result of a "match questions" request in a JSON object
 
-    :param request: The request that was processed
-    :param best_matches: A list of best matches and their probabilities, given as a list of
+    Args:
+        request: The request that was processed
+        best_matches: A list of best matches and their probabilities, given as a list of
     {"question_id":XXX,"prob":YYY} dicts
-    :return: A JSON-like dict containing all the given information
+
+    Returns: A JSON-like dict containing all the given information
     (as described on https://clusterdocs.azurewebsites.net/)
+
     """
     ans = \
         {
@@ -86,9 +96,12 @@ def __unwrap_offensive_request(request):
     """
     Unwrap the given "estimate offensiveness" request into a string.
 
-    :param request: A JSON-like dict describing an "estimate offensiveness" request
-    (as described on https://clusterdocs.azurewebsites.net/)
-    :return: A string that represents the sentence of which to estimate the offensiveness
+    Args:
+        request: A JSON-like dict describing an "estimate offensiveness" request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: A string that represents the sentence of which to estimate the offensiveness
+
     """
     # request = json.loads(request)
     question = request["question"]
@@ -100,10 +113,13 @@ def __wrap_offensive_request(request, prob):
     """
     Wrap the given result of an "estimate offensiveness" request in a JSON-like dict
 
-    :param request: The request that was processed
-    :param prob: The probability that the question is offensive, a float
-    :return: A JSON-like dict containing all the given information
+    Args:
+        request: The request that was processed
+        prob: The probability that the question is offensive, a float
+
+    Returns: A JSON-like dict containing all the given information
     (as described on https://clusterdocs.azurewebsites.net/)
+
     """
     ans = \
         {
@@ -118,11 +134,14 @@ def __wrap_offensive_request(request, prob):
 def process(request):
     """
     Process the given request and store the reply in a JSON-like dict.
+    The given request is not None, it is a JSON-like dict
 
-    :pre: The given request is not None, it is a JSON-like dict
-    :param request: A JSON-like dict describing the request
-    (as described on https://clusterdocs.azurewebsites.net/)
-    :return: The reply to the given request
+    Args:
+        request: A JSON-like dict describing the request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: The reply to the given request
+
     """
     error = \
         {
@@ -160,9 +179,9 @@ def main():
     """
     Go into a while loop and wait for requests from Cluster
 
-    :return: None
-    """
+    Returns: None
 
+    """
     while True:
         try:
             # Connect to the server
