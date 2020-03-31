@@ -65,8 +65,8 @@ namespace PenoBot.Dialogs
 		}
 
 
-		//private Connection connec = new Connection();
-		//private String email;
+		private Connection connec = new Connection();
+		private String email;
 
 		private async Task<DialogTurnResult> performQueryAsync(WaterfallStepContext stepContext,
 			CancellationToken cancellationToken)
@@ -92,10 +92,10 @@ namespace PenoBot.Dialogs
 
 			//perform query op naam 
 			
-			//email = connec.getEmail(dbFirstName, dbLastName);
+			email = connec.getEmail(dbFirstName, dbLastName);
 
-			var replyText = $"Query op voornaam = {dbFirstName} en achternaam = {dbLastName}";
-			//var replyText = $"Query levert: {email}";
+			//var replyText = $"Query op voornaam = {dbFirstName} en achternaam = {dbLastName}";
+			var replyText = $"Query levert: {email}";
 			await stepContext.Context.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
    
 			return await stepContext.EndDialogAsync(this, cancellationToken);

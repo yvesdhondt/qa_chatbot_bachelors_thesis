@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace PenoBot.Dialogs
 		private readonly IBotServices _botServices;
 
 
-		public MainDialog(IBotServices botServices /**ContactRecognizer contactRecognizer**/, ILogger<MainDialog> logger) :
+		/**
+		public MainDialog(IBotServices botServices /**ContactRecognizer contactRecognizer, ILogger<MainDialog> logger) :
 			base(nameof(MainDialog))
 		{
 			_botServices = botServices;
@@ -41,6 +43,27 @@ namespace PenoBot.Dialogs
 				FinalStepAsync
 			}));
 
+			InitialDialogIdMain = nameof(WaterfallDialog);
+		}
+*/
+
+		public MainDialog(String id/**ContactRecognizer contactRecognizer**/ /**ILogger<LuisContactDialog> logger*/, IBotServices botServices) :
+base(id)
+		{
+
+			_botServices = botServices; 
+
+			//			Logger = logger;
+
+			AddDialog(new TextPrompt(nameof(TextPrompt)));
+			AddDialog(new LuisContactDialog(nameof(LuisContactDialog)));
+			AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
+			{
+				IntroStepAsync,
+				DispatchStepAsync, 
+				FinalStepAsync
+			}));
+
 			InitialDialogId = nameof(WaterfallDialog);
 
 		}
@@ -50,15 +73,25 @@ namespace PenoBot.Dialogs
 		{
 
 			// Check if message from the final step present. If so, display it as Prompt, else skip to next step.
-			var greeting = stepContext.Options?.ToString();
+
+			//var greeting = stepContext.Options?.ToString();
+			/**
 			if (string.IsNullOrEmpty(greeting))
 			{
 				return await stepContext.NextAsync(null, cancellationToken);
 			}
+			*/
 
-			var promptText = MessageFactory.Text(greeting, greeting, InputHints.ExpectingInput);
-			return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions() { Prompt = promptText },
-				cancellationToken);
+			//var promptText = MessageFactory.Text(greeting, greeting, InputHints.ExpectingInput);
+			//await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions() { Prompt = promptText },
+			//cancellationToken);
+			//return await stepContext.NextAsync(null, cancellationToken);
+
+			var notSure = "Can I do something else for you?";
+			var notSureMessage = MessageFactory.Text(notSure, notSure, InputHints.ExpectingInput);
+			return await stepContext.PromptAsync(nameof(TextPrompt),
+				new PromptOptions() { Prompt = notSureMessage }, cancellationToken);
+			//return await stepContext.NextAsync(null, cancellationToken);
 
 			//var luisResults = await _botServices.LuisService.RecognizeAsync(stepContext.Context, cancellationToken);
 			//var topScoringIntent = luisResults?.GetTopScoringIntent();
@@ -109,8 +142,11 @@ namespace PenoBot.Dialogs
 			*/
 
 			// Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
-			var luisResult = await _botServices.LuisService.RecognizeAsync<LuisContactModel>(stepContext.Context, cancellationToken);
+			Debug.WriteLine(stepContext.Context);
+			Debug.WriteLine(cancellationToken);
 			var qnaResult = await _botServices.QnAMakerService.GetAnswersAsync(stepContext.Context);
+
+			var luisResult = await _botServices.LuisService.RecognizeAsync<LuisContactModel>(stepContext.Context, cancellationToken);
 
 			var thresholdScore = 0.70;
 

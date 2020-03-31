@@ -8,7 +8,7 @@ namespace PenoBot
 {
     public class Connection
     {
-        private string connectionString = "Data Source=clusterbot.database.windows.net";
+        private string connectionString = "Data Source=clusterbot.database.windows.net;Initial Catalog=Cluster;Persist Security Info=True;User ID=Martijn;Password=sY6WRDL2pY7qmsY3";
 
         public String getEmail(String firstName, String lastName)
         {
@@ -16,13 +16,13 @@ namespace PenoBot
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                String query = "Select address from dbo.Persons where FirstName = " + firstName;
+                String query = "Select address from dbo.Persons where FirstName = '" + firstName + "'";
                 using (var command = new SqlCommand(query, connection))
                 {
                     var reader = command.ExecuteReader();
                     while(reader.Read())
                     {
-                        email = reader.GetString(1);
+                        email = reader.GetString(0);
                     }
                     reader.Close();
 

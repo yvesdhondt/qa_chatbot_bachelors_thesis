@@ -66,10 +66,12 @@ namespace PenoBot
             // Register dialogs.
             //services.AddSingleton<LuisWeatherDialog>();
             services.AddSingleton<MainDialog>();
+            services.AddSingleton<QuestionDialog>();
             services.AddSingleton<LuisContactDialog>();
+            services.AddSingleton<RootDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, MyBot<MainDialog>>();
+            services.AddTransient<IBot, MyBot<RootDialog>>();
 
         }
 

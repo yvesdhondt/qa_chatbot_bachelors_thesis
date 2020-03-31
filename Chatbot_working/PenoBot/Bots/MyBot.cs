@@ -13,13 +13,14 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using PenoBot.Dialogs;
 using PenoBot.CognitiveModels;
-
+using System;
 
 namespace PenoBot.Bots
 {
     public class MyBot<T> : ActivityHandler where T: Dialog
     {
-        
+
+
         protected ILogger Logger;
         protected readonly IBotServices _botServices;
 
@@ -71,10 +72,11 @@ namespace PenoBot.Bots
 
                 // Acknowledge that we got their name.
                 await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
-                await turnContext.SendActivityAsync($"What can I do for you?");
+                await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
+            cancellationToken);
 
-            } else
-            {
+            } else { 
+            
                 // Run the last dialog in the stack.
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                     cancellationToken);
@@ -94,10 +96,16 @@ namespace PenoBot.Bots
                     var userStateAccessors = UserState.CreateProperty<UserProfile>(nameof(UserProfile));
                     var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
 
+
+
                     if (string.IsNullOrEmpty(userProfile.Name))
                     {
                         // Prompt the user f or their name.
                         await turnContext.SendActivityAsync($"What is your name?");
+                    }
+                    else
+                    {
+                        await turnContext.SendActivityAsync($"Nice to see you again, {userProfile.Name}"); 
                     }
 
 
