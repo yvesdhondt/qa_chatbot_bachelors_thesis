@@ -1,6 +1,29 @@
 from profanity_check import predict_prob
 from nostril import nonsense
 
+def __wordInBlacklist(word):
+    """
+    Check blacklist from database for word
+    :param word: the word we want to find in the blacklist
+    :return:    True if the word is in the blacklist database
+                False if the word is not in the blacklist database
+    """
+    return false
+
+
+def __sentenceContainsBlacklistedWord(sentence):
+    """
+    Check if a sentence contains a blacklisted word
+    :param sentence: the sentence we want to check for blacklisted words
+    :return:    True if one of the words in the sentence is blacklisted
+                False if not a single word in the sentence is blacklisted
+    """
+    words = sentence.split()
+    for word in words:
+        if __wordInBlacklist(word):
+            return true
+    return false
+
 
 def offensiveness(sentence):
     """
@@ -11,6 +34,8 @@ def offensiveness(sentence):
     Returns: The probability that the given sentence is offensive as a float p (1 = offensive, 0 = nice, 0 <= p <= 1)
 
     """
+    if __sentenceContainsBlacklistedWord(sentence):
+        return 1
     profane_prob = predict_prob([sentence])
     return profane_prob[0]
 

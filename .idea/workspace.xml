@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5cc7e15d-aded-49ea-a1fb-57e83371a178" name="Default Changelist" comment="" />
+    <list default="true" id="5cc7e15d-aded-49ea-a1fb-57e83371a178" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/P-O-Entrepreneurship-Team-A-code.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/faq_forum/auto_moderator.py" beforeDir="false" afterPath="$PROJECT_DIR$/faq_forum/auto_moderator.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,9 +41,9 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="379" y="208" key="com.intellij.ide.util.TipDialog" timestamp="1585643158164">
+    <state x="379" y="208" key="com.intellij.ide.util.TipDialog" timestamp="1585657348423">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="379" y="208" key="com.intellij.ide.util.TipDialog/0.0.1366.768@0.0.1366.768" timestamp="1585643158164" />
+    <state x="379" y="208" key="com.intellij.ide.util.TipDialog/0.0.1366.768@0.0.1366.768" timestamp="1585657348423" />
   </component>
 </project>
