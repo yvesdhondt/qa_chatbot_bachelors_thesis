@@ -123,7 +123,7 @@ namespace PenoBot.Dialogs
 				currentQuestionIndex = (QuestionList.FindIndex(p));
 
 				// Let the user answer that question
-				var ask = $"What is the answer to :\n {QuestionList[currentQuestionIndex]}";
+				string ask = $"What is the answer to :\n {QuestionList[currentQuestionIndex]}";
 				var askMsg = MessageFactory.Text(ask, ask, InputHints.ExpectingInput);
 				return await stepContext.PromptAsync(nameof(TextPrompt),
 						new PromptOptions() { Prompt = askMsg }, cancellationToken);

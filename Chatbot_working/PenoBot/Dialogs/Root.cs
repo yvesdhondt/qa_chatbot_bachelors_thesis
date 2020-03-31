@@ -57,7 +57,7 @@ namespace PenoBot.Dialogs
 			CancellationToken cancellationToken)
 		{
 
-			return await stepContext.BeginDialogAsync(nameof(MainDialog), null, cancellationToken);
+			return await stepContext.BeginDialogAsync(nameof(MainDialog), "firstTime", cancellationToken);
 
 		}
 

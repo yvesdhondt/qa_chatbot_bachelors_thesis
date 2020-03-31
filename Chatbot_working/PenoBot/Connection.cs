@@ -12,24 +12,43 @@ namespace PenoBot
 
         public String getEmail(String firstName, String lastName)
         {
-            var email = "";
+            return performQuery("Address", firstName, lastName);
+        }
+
+        public String getPhoneNumber(String firstName, String lastName)
+        {
+            return performQuery("Number", firstName, lastName);
+        }
+
+        private String performQuery(String column, String firstName, String lastName)
+        {
+            var result = "";
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                String query = "Select address from dbo.Persons where FirstName = '" + firstName + "'";
+                String query = "Select " + column + " from dbo.Persons where FirstName = '" + firstName + "' and LastName = '" + lastName + "'";
                 using (var command = new SqlCommand(query, connection))
                 {
                     var reader = command.ExecuteReader();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
-                        email = reader.GetString(0);
+                        try
+                        {
+                            result = reader.GetString(0);
+                        }
+                        catch 
+                        {
+                            result = null;
+                            break;
+                        }
+                        
                     }
                     reader.Close();
 
                 }
                 connection.Close();
             }
-            return email;
+            return result;
         }
     }
 }

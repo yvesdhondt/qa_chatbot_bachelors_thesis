@@ -71,62 +71,28 @@ base(id)
 		private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext,
 			System.Threading.CancellationToken cancellationToken)
 		{
-
-			// Check if message from the final step present. If so, display it as Prompt, else skip to next step.
-
-			//var greeting = stepContext.Options?.ToString();
-			/**
-			if (string.IsNullOrEmpty(greeting))
+			if ((string)stepContext.Options == "firstTime")
 			{
-				return await stepContext.NextAsync(null, cancellationToken);
+				List<string> randomList = new List<string>(new String[] { "What can I do for you?",
+					"What question do you have for me?", "What can I help you with?",
+					"How may I help you?", "How can I be of service to you?"});
+				Random r = new Random();
+				var question = randomList[r.Next(randomList.Count)];
+				var questionMsg = MessageFactory.Text(question, question, InputHints.ExpectingInput);
+				return await stepContext.PromptAsync(nameof(TextPrompt),
+					new PromptOptions() { Prompt = questionMsg }, cancellationToken);
 			}
-			*/
-
-			//var promptText = MessageFactory.Text(greeting, greeting, InputHints.ExpectingInput);
-			//await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions() { Prompt = promptText },
-			//cancellationToken);
-			//return await stepContext.NextAsync(null, cancellationToken);
-
-			var notSure = "Can I do something else for you?";
-			var notSureMessage = MessageFactory.Text(notSure, notSure, InputHints.ExpectingInput);
-			return await stepContext.PromptAsync(nameof(TextPrompt),
-				new PromptOptions() { Prompt = notSureMessage }, cancellationToken);
-			//return await stepContext.NextAsync(null, cancellationToken);
-
-			//var luisResults = await _botServices.LuisService.RecognizeAsync(stepContext.Context, cancellationToken);
-			//var topScoringIntent = luisResults?.GetTopScoringIntent();
-			//var topIntent = topScoringIntent.Value.intent; 
-
-			//return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text(topIntent) }, cancellationToken);
-
-
-			/**if (!_luisRecognizer.IsConfigured)
+			else
 			{
-				await stepContext.Context.SendActivityAsync(
-					MessageFactory.Text("NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.", inputHint: InputHints.IgnoringInput), cancellationToken);
-
-				return await stepContext.NextAsync(null, cancellationToken);
-			}**/
-
-			// Use the text provided in FinalStepAsync or the default if it is the first time.
-			/**
-			var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"";
-			var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
-			return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
-			**/
-
-			/**
-			// Check if message from the final step present. If so, display it as Prompt, else skip to next step.
-			var greeting = stepContext.Options?.ToString();
-			if (string.IsNullOrEmpty(greeting))
-			{
-				return await stepContext.NextAsync(null, cancellationToken);
+				List<string> randomList = new List<string>(new String[] { "What else can I do for you?",
+					"Is there anything else I can help with?", "Do you have another question?", "What else can I help you with?", 
+					"Can I help you with something else?"});
+				Random r = new Random();
+				var question = randomList[r.Next(randomList.Count)];
+				var questionMsg = MessageFactory.Text(question, question, InputHints.ExpectingInput);
+				return await stepContext.PromptAsync(nameof(TextPrompt),
+					new PromptOptions() { Prompt = questionMsg }, cancellationToken);
 			}
-
-			var promptText = MessageFactory.Text(greeting, greeting, InputHints.ExpectingInput);
-			return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions() { Prompt = promptText },
-				cancellationToken);
-			**/
 		}
 
 		private async Task<DialogTurnResult> DispatchStepAsync(WaterfallStepContext stepContext,
