@@ -55,7 +55,8 @@ namespace PenoBot.Dialogs
 			
 			}
 
-			string notSure = "I'm not sure I've got the full name correctly. Can you give me the full name once more?\nPlease specify this name as 'first name last name'.";
+			await stepContext.Context.SendActivityAsync("I'm not sure I've got the full name correctly. Can you give me the full name once more ?");
+			string notSure = "Please specify this name as 'first name last name'.";
 			var notSureMessage = MessageFactory.Text(notSure, notSure, InputHints.ExpectingInput);
 			return await stepContext.PromptAsync(nameof(TextPrompt),
 				new PromptOptions() { Prompt = notSureMessage }, cancellationToken);
