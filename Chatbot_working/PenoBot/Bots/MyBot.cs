@@ -105,7 +105,10 @@ namespace PenoBot.Bots
                     }
                     else
                     {
-                        await turnContext.SendActivityAsync($"Nice to see you again, {userProfile.Name}"); 
+                        await turnContext.SendActivityAsync($"Nice to see you again, {userProfile.Name}");
+                        // Run the last dialog in the stack.
+                        await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
+                            cancellationToken);
                     }
 
 

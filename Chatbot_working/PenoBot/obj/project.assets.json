@@ -12615,19 +12615,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Martijn\\.nuget\\packages\\": {}
+    "C:\\Users\\louis\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Martijn\\source\\repos\\PENO2020\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "projectUniqueName": "C:\\Users\\louis\\source\\repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
       "projectName": "PenoBot",
-      "projectPath": "C:\\Users\\Martijn\\source\\repos\\PENO2020\\Chatbot_working\\PenoBot\\PenoBot.csproj",
-      "packagesPath": "C:\\Users\\Martijn\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Martijn\\source\\repos\\PENO2020\\Chatbot_working\\PenoBot\\obj\\",
+      "projectPath": "C:\\Users\\louis\\source\\repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\louis\\source\\repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Martijn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\louis\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
