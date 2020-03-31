@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using PenoBot.Dialogs;
 using PenoBot.CognitiveModels;
 using System;
+using System.Collections.Concurrent;
 
 namespace PenoBot.Bots
 {
@@ -83,15 +84,31 @@ namespace PenoBot.Bots
             }
         }
 
-        //When someone starts a new conversation with a bot 
+        // CODE FOR PROACTIVE MESSAGES
+        /**
+        ConcurrentDictionary<string, ConversationReference> _conversationReferences;
+        private void AddConversationReference(Activity activity)
+        {
+            var conversationReference = activity.GetConversationReference();
+            _conversationReferences.AddOrUpdate(conversationReference.User.Id, conversationReference, (key, newValue) => conversationReference);
+        }
+
+        protected override Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            AddConversationReference(turnContext.Activity as Activity);
+
+            return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+        }
+    */
+
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var welcomeText = "Hello and welcome!";
+            //var welcomeText = "Hello and welcome!";
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
+                    //await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
 
                     var userStateAccessors = UserState.CreateProperty<UserProfile>(nameof(UserProfile));
                     var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
@@ -101,34 +118,23 @@ namespace PenoBot.Bots
                     if (string.IsNullOrEmpty(userProfile.Name))
                     {
                         // Prompt the user f or their name.
-                        await turnContext.SendActivityAsync($"What is your name?");
+                        var welcomeText = "Hello and welcome! I'm here to help you with whatever you need.";
+                        await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
+                        await turnContext.SendActivityAsync($"Could I please get your name?");
                     }
                     else
                     {
-                        await turnContext.SendActivityAsync($"Nice to see you again, {userProfile.Name}");
+                        List<string> randomList = new List<string>(new String[] { $"Nice to see you again, {userProfile.Name}.",
+                        $"It's good to have you back, {userProfile.Name}.", $"Hello {userProfile.Name}, glad I can be of service again!",
+                        $"Welcome back {userProfile.Name}.", $"Hello {userProfile.Name}. How can I help you this time?",
+                        $"Hello there {userProfile.Name}. I hope you're having a nice day."});
+                        Random r = new Random();
+                        var question = randomList[r.Next(randomList.Count)];
+                        await turnContext.SendActivityAsync(question);
                         // Run the last dialog in the stack.
                         await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                             cancellationToken);
                     }
-
-
-                    // BEGIN
-                    // Onderstaande code vraagt of user onbeantwoorde vragen wil beantwoorden of niet.
-                    // Er wordt voorlopig nog niets met het antwoord gedaan, want geen idee hoe
-                    /**
-                    var reply = MessageFactory.Text("Would you like to answer some unaswered questions?");
-                    reply.SuggestedActions = new SuggestedActions()
-                    {
-                        Actions = new List<CardAction>()
-                {
-                    new CardAction() { Title = "Yes, I would like to help!", Type = ActionTypes.ImBack, Value = "Yes" },
-                    new CardAction() { Title = "No, I have my own questions.", Type = ActionTypes.ImBack, Value = "No" },
-                },
-                    };
-                    await turnContext.SendActivityAsync(reply, cancellationToken);
-
-    */
-                    // EINDE
                 }
             }
         }
