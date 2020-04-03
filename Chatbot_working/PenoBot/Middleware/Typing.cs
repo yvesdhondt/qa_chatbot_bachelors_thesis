@@ -21,8 +21,5 @@ namespace PenoBot.Middleware
 
             await next(cancellationToken);
         }
-
-
     }
-
 }
