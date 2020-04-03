@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 
@@ -57,6 +58,7 @@ namespace PenoBot.Controllers
         {
             // If you encounter permission-related errors when sending this message, see
             // https://aka.ms/BotTrustServiceUrl
+            MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
             await turnContext.SendActivityAsync("proactive hello");
         }
     }

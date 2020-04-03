@@ -15,6 +15,7 @@ using PenoBot.Dialogs;
 using PenoBot.CognitiveModels;
 using System;
 using System.Collections.Concurrent;
+//using PenoBot.Controllers.NotifyController;
 
 namespace PenoBot.Bots
 {
@@ -31,8 +32,11 @@ namespace PenoBot.Bots
         protected readonly BotState ConversationState;
         protected readonly BotState UserState;
 
+        // Proactive code
+        ConcurrentDictionary<string, ConversationReference> _conversationReferences = new ConcurrentDictionary<string, ConversationReference>();
+
         public MyBot(IBotServices botServices, ILogger<MyBot<T>> logger, T dialog,
-            ConversationState conversationState, UserState userState)
+            ConversationState conversationState, UserState userState, ConcurrentDictionary<string, ConversationReference> conversationReferences)
         {
             Logger = logger;
             _botServices = botServices;
@@ -41,6 +45,10 @@ namespace PenoBot.Bots
 
             ConversationState = conversationState;
             UserState = userState;
+
+            _conversationReferences = conversationReferences;
+
+            //conversationReferences = //TurnContext.getConversationReference(context.activity);
         }
 
         // Method called on each turn. You can either dispatch from the
@@ -85,8 +93,6 @@ namespace PenoBot.Bots
         }
 
         // CODE FOR PROACTIVE MESSAGES
-        /**
-        ConcurrentDictionary<string, ConversationReference> _conversationReferences;
         private void AddConversationReference(Activity activity)
         {
             var conversationReference = activity.GetConversationReference();
@@ -99,7 +105,8 @@ namespace PenoBot.Bots
 
             return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
         }
-    */
+        // END
+
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
