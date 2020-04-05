@@ -1,5 +1,7 @@
 from profanity_check import predict_prob
 from nostril import nonsense
+from cluster import connector as cluster
+
 
 def __wordInBlacklist(word):
     """
@@ -8,7 +10,13 @@ def __wordInBlacklist(word):
     :return:    True if the word is in the blacklist database
                 False if the word is not in the blacklist database
     """
-    return false
+    # blacklist = cluster.getBlacklist()
+    blacklist = []
+    for item in blacklist:
+        if item == word:
+            return True
+
+    return False
 
 
 def __sentenceContainsBlacklistedWord(sentence):
@@ -21,8 +29,8 @@ def __sentenceContainsBlacklistedWord(sentence):
     words = sentence.split()
     for word in words:
         if __wordInBlacklist(word):
-            return true
-    return false
+            return True
+    return False
 
 
 def offensiveness(sentence):

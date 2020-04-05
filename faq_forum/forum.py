@@ -1,6 +1,6 @@
 from cluster import connector as cluster
 from faq_forum.question_match import match
-from faq_forum.auto_moderator import offensiveness
+from faq_forum.auto_moderator import offensiveness, nonsense
 
 
 def __get_match(question, question_set):
@@ -131,6 +131,46 @@ def __wrap_offensive_request(request, prob):
     return ans
 
 
+def __unwrap_nonsense_request(request):
+    """
+    Unwrap the given "estimate nonsense" request into a string.
+
+    Args:
+        request: A JSON-like dict describing an "estimate nonsense" request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: A string that represents the sentence of which to estimate the offensiveness
+
+    """
+    # request = json.loads(request)
+    question = request["question"]
+
+    return question
+
+
+def __wrap_nonsense_request(request, nonsense):
+    """
+    Wrap the given result of an "estimate nonsense" request in a JSON-like dict
+
+    Args:
+        request: The request that was processed
+        nonsense:   True if the question is nonsense
+                    False if the question is not nonsense
+
+    Returns: A JSON-like dict containing all the given information
+    (as described on https://clusterdocs.azurewebsites.net/)
+
+    """
+    ans = \
+        {
+            "question_id": request["question_id"],
+            "nonsense": nonsense,
+            "msg_id": request["msg_id"]
+        }
+
+    return ans
+
+
 def process(request):
     """
     Process the given request and store the reply in a JSON-like dict.
@@ -165,6 +205,10 @@ def process(request):
             out = __get_offensiveness(inp)
             ans = __wrap_offensive_request(request,
                                            out)
+        elif request["action"] == cluster.Actions.IS_NONSENSE:
+            inp = __unwrap_nonsense_request(request)
+            out = nonsense(inp)
+            ans = __wrap_nonsense_request(request, out)
         else:
             ans = \
                 {
