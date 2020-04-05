@@ -31,10 +31,6 @@ namespace PenoBot
 				Host = configuration["QnAEndpointHostName"]
 			});
 
-			/**
-			WeatherStackServices =
-				new WeatherStackServices(configuration["WeatherStackHost"], configuration["WeatherStackApiKey"]);
-			**/	
 	}
 
 	}

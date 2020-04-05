@@ -62,28 +62,7 @@ namespace PenoBot
             services.AddSingleton<QuestionDialog>();
             services.AddSingleton<LuisContactDialog>();
             services.AddSingleton<RootDialog>();
-
-
-            /**
-            var builder = new ConfigurationBuilder()
-               .SetBasePath(ContentRootPath)
-               .AddJsonFile("appsettings.json")
-               .AddEnvironmentVariables();
-            var configuration = builder.Build();
-            services.AddSingleton(configuration);
-
-            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddBot<MyBot<RootDialog>>(options =>
-            {
-                options.CredentialProvider = new ConfigurationCredentialProvider(configuration);
-                options.Middleware.Add(new Typing());
-            });
-            */
-
             services.AddSingleton<Typing>();
-
-
-
             services.AddTransient<IBot, MyBot<RootDialog>>();
 
         }

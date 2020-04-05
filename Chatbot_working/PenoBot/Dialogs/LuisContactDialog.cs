@@ -11,20 +11,16 @@ using Microsoft.Bot.Schema;
 
 namespace PenoBot.Dialogs
 {
+	/**Dialog used in case the user requests something which can be done by LUIS
+	 * Will retrieve the name from the given message and based on the intent make a query to the 
+	 * database for the phonenumber or email belonging to that name.*/
     public class LuisContactDialog : ComponentDialog
 	{
-		//private readonly IBotServices _botServices;
-		//protected readonly ILogger Logger;
-		//private readonly ContactRecognizer _luisRecognizer; 
-		//private readonly IBotServices _botServices;
-		//
-
+		
 		public LuisContactDialog(String id/**ContactRecognizer contactRecognizer**/ /**ILogger<LuisContactDialog> logger*/) :
 			base(id)
 		{
 			
-//			Logger = logger;
-
 			AddDialog(new TextPrompt(nameof(TextPrompt)));
 			AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
 			{
@@ -60,8 +56,6 @@ namespace PenoBot.Dialogs
 			var notSureMessage = MessageFactory.Text(notSure, notSure, InputHints.ExpectingInput);
 			return await stepContext.PromptAsync(nameof(TextPrompt),
 				new PromptOptions() { Prompt = notSureMessage }, cancellationToken);
-			//return await stepContext.NextAsync(null, cancellationToken);
-
 
 		}
 
