@@ -292,6 +292,16 @@ def test():
     ans_2 = process(req_2)
     print(ans_2)
 
+    req_3 = \
+        {
+            "action": cluster.Actions.IS_NONSENSE,
+            "question_id": 200,
+            "question": "xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.",
+            "msg_id": 654
+        }
+    ans_3 = process(req_3)
+    print(ans_3)
+
 
 if __name__ == "__main__":
     # Remove the test() method in deployed scripts, it is purely used for debugging
