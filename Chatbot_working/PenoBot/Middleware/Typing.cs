@@ -17,7 +17,7 @@ namespace PenoBot.Middleware
             var typingMsg = context.Activity.CreateReply();
             typingMsg.Type = ActivityTypes.Typing;
             typingMsg.Text = null;
-            await context.SendActivityAsync(typingMsg);
+            context.SendActivityAsync(typingMsg);
 
             await next(cancellationToken);
         }
