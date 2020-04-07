@@ -207,6 +207,7 @@ def process(request):
                                            out)
         elif request["action"] == cluster.Actions.IS_NONSENSE:
             inp = __unwrap_nonsense_request(request)
+            #Should we try/catch here ?
             out = nonsense(inp)
             ans = __wrap_nonsense_request(request, out)
         else:
