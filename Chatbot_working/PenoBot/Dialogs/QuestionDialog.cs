@@ -9,9 +9,12 @@ using PenoBot.CognitiveModels;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using ClusterClient;
+using ClusterClient.Models;
 
 namespace PenoBot.Dialogs
 {
+	
 	public class QuestionDialog : ComponentDialog
 	{
 		// Some strings to display on the buttons
@@ -24,7 +27,8 @@ namespace PenoBot.Dialogs
 		private List<string> QuestionList = new List<string>(new String[nbQuestions]);
 		private List<long> QuestionIds = new List<long>(new long[nbQuestions]);
 		private int currentQuestionIndex = 0;
-
+		public static Connector conchatbot = new Connector("chatbot");
+		private List<ServerMessage> questinos = conchatbot.GetQuestionsToBeAnswered();
 		public QuestionDialog(String id) :
 			base(id)
 		{
@@ -87,6 +91,7 @@ namespace PenoBot.Dialogs
 						QuestionList[i] = QuestionsFromServer[i];
 						QuestionIds[i] = IdsFromServer[i];
 					}
+
 
 					// Let the user choose a question to answer
 					List<string> choices = new List<string>(QuestionList);

@@ -98,7 +98,6 @@ C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_workin
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\PenoBot.dll
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\PenoBot.pdb
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.csprojAssemblyReference.cache
-C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.csproj.CoreCompileInputs.cache
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.RazorAssemblyInfo.cache
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.RazorAssemblyInfo.cs
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.AssemblyInfoInputs.cache
@@ -107,3 +106,5 @@ C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_workin
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.dll
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.pdb
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.genruntimeconfig.cache
+C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.csproj.CoreCompileInputs.cache
+C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\nuget.config
