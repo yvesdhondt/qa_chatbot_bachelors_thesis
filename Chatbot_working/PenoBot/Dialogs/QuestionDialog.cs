@@ -28,7 +28,8 @@ namespace PenoBot.Dialogs
 		private List<long> QuestionIds = new List<long>(new long[nbQuestions]);
 		private int currentQuestionIndex = 0;
 		public static Connector conchatbot = new Connector("chatbot");
-		private List<ServerMessage> questinos = conchatbot.GetQuestionsToBeAnswered();
+		private List<ServerMessage> questions = conchatbot.GetQuestionsToBeAnswered();
+		
 		public QuestionDialog(String id) :
 			base(id)
 		{
@@ -84,6 +85,11 @@ namespace PenoBot.Dialogs
 					var QuestionsFromServer = new List<string>(new String[] { "Who do I notify when I want to call in sick?",
 												"How do I resign?", "Where do I find the coffee machine?"});
 					var IdsFromServer = new List<long>(new long[] { 5489366, 9874525, 13598705589});
+
+					//var questionsFromServer2 = new List<string>();
+					//foreach (ServerMessage i in questions) {
+					//	questionsFromServer2.Add(i.)
+					//}
 
 					// Store questions and ids locally
 					for (int i = 0; i < nbQuestions && i < QuestionsFromServer.LongCount(); i++)

@@ -9,8 +9,9 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
-using PenoBot.CognitiveModels; 
-
+using PenoBot.CognitiveModels;
+using ClusterClient;
+using ClusterClient.Models;
 
 namespace PenoBot.Dialogs
 {
@@ -18,6 +19,9 @@ namespace PenoBot.Dialogs
 	{
 		protected readonly ILogger Logger;
 		private readonly IBotServices _botServices;
+		public static Connector conchatbot = new Connector("chatbot");
+
+
 
 
 		public MainDialog(String id/**ContactRecognizer contactRecognizer**/ /**ILogger<LuisContactDialog> logger*/, IBotServices botServices) :
@@ -74,9 +78,10 @@ base(id)
 			// Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
 			Debug.WriteLine(stepContext.Context);
 			Debug.WriteLine(cancellationToken);
-			var qnaResult = await _botServices.QnAMakerService.GetAnswersAsync(stepContext.Context);
+			var message = stepContext.Context;
+			var qnaResult = await _botServices.QnAMakerService.GetAnswersAsync(message);
 
-			var luisResult = await _botServices.LuisService.RecognizeAsync<LuisContactModel>(stepContext.Context, cancellationToken);
+			var luisResult = await _botServices.LuisService.RecognizeAsync<LuisContactModel>(message, cancellationToken);
 
 			var thresholdScore = 0.70;
 
@@ -86,6 +91,10 @@ base(id)
 			{
 				var notUnderstood = "Going to send this to the forum";
 				//var notUnderstoodMessage = MessageFactory.Text(notUnderstood, notUnderstood, InputHints.ExpectingInput);
+				
+				//sending to server
+				var userID = 1;
+				await conchatbot.SendQuestion(userID, message.ToString());
 
 				await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 				return await stepContext.NextAsync(null, cancellationToken);
