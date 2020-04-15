@@ -94,7 +94,7 @@ base(id)
 				
 				//sending to server
 				var userID = 1;
-				await conchatbot.SendQuestion(userID, message.ToString());
+				await conchatbot.SendQuestion(userID, message.Activity.Text);
 
 				await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 				return await stepContext.NextAsync(null, cancellationToken);

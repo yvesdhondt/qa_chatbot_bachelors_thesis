@@ -18,6 +18,9 @@ using PenoBot.Dialogs;
 using PenoBot.Middleware;
 using System.Collections.Concurrent;
 
+using ClusterClient;
+using ClusterClient.Models;
+
 namespace PenoBot
 {
     public class Startup
@@ -65,7 +68,9 @@ namespace PenoBot
             services.AddSingleton<Typing>();
             services.AddTransient<IBot, MyBot<RootDialog>>();
 
-        }
+         
+
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
