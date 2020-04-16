@@ -104,9 +104,9 @@ def __unwrap_offensive_request(request):
 
     """
     # request = json.loads(request)
-    question = request["question"]
+    sentence = request["sentence"]
 
-    return question
+    return sentence
 
 
 def __wrap_offensive_request(request, prob):
@@ -123,7 +123,7 @@ def __wrap_offensive_request(request, prob):
     """
     ans = \
         {
-            "question_id": request["question_id"],
+            "sentence_id": request["sentence_id"],
             "prob": prob,
             "msg_id": request["msg_id"]
         }
@@ -143,19 +143,19 @@ def __unwrap_nonsense_request(request):
 
     """
     # request = json.loads(request)
-    question = request["question"]
+    sentence = request["sentence"]
 
-    return question
+    return sentence
 
 
-def __wrap_nonsense_request(request, nonsense):
+def __wrap_nonsense_request(request, is_nonsense):
     """
     Wrap the given result of an "estimate nonsense" request in a JSON-like dict
 
     Args:
         request: The request that was processed
-        nonsense:   True if the question is nonsense
-                    False if the question is not nonsense
+        is_nonsense:    True if the question is nonsense
+                        False if the question is not nonsense
 
     Returns: A JSON-like dict containing all the given information
     (as described on https://clusterdocs.azurewebsites.net/)
@@ -163,8 +163,8 @@ def __wrap_nonsense_request(request, nonsense):
     """
     ans = \
         {
-            "question_id": request["question_id"],
-            "nonsense": nonsense,
+            "sentence_id": request["sentence_id"],
+            "nonsense": is_nonsense,
             "msg_id": request["msg_id"]
         }
 
@@ -207,7 +207,7 @@ def process(request):
                                            out)
         elif request["action"] == cluster.Actions.IS_NONSENSE:
             inp = __unwrap_nonsense_request(request)
-            #Should we try/catch here ?
+            # Should we try/catch here ?
             out = nonsense(inp)
             ans = __wrap_nonsense_request(request, out)
         else:
