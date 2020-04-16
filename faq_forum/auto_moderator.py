@@ -47,6 +47,18 @@ def offensiveness(sentence):
     profane_prob = predict_prob([sentence])
     return profane_prob[0]
 
+def is_nonsense(sentence):
+    """
+    Checks if a sentence is nonsense or not.
+    :param sentence: The string that is to be checked.
+    :return:    True if the string is not nonsense and it contains more than 6 characters
+    """
+    try:
+        return nonsense(sentence)
+    except ValueError:
+        return False
+
+
 print(offensiveness("Fuck you"))
 print(offensiveness("Little bitch"))
 print(offensiveness("You can find a coffee machine on the second floor"))

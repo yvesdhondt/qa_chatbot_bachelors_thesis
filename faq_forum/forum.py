@@ -1,6 +1,6 @@
 from cluster import connector as cluster
 from faq_forum.question_match import match
-from faq_forum.auto_moderator import offensiveness, nonsense
+from faq_forum.auto_moderator import offensiveness, is_nonsense
 
 
 def __get_match(question, question_set):
@@ -208,7 +208,7 @@ def process(request):
         elif request["action"] == cluster.Actions.IS_NONSENSE:
             inp = __unwrap_nonsense_request(request)
             # Should we try/catch here ?
-            out = nonsense(inp)
+            out = is_nonsense(inp)
             ans = __wrap_nonsense_request(request, out)
         else:
             ans = \
