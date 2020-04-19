@@ -19,7 +19,7 @@ namespace PenoBot.Dialogs
 	{
 		protected readonly ILogger Logger;
 		private readonly IBotServices _botServices;
-		public static Connector conchatbot = new Connector("chatbot");
+		public static Connector conchatbot = Globals.connector;
 
 
 
