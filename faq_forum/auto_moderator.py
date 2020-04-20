@@ -3,36 +3,6 @@ from nostril import nonsense
 from cluster import connector as cluster
 
 
-def __wordInBlacklist(word):
-    """
-    Check blacklist from database for word
-    :param word: the word we want to find in the blacklist
-    :return:    True if the word is in the blacklist database
-                False if the word is not in the blacklist database
-    """
-    # blacklist = cluster.getBlacklist()
-    blacklist = []
-    for item in blacklist:
-        if item == word:
-            return True
-
-    return False
-
-
-def __sentenceContainsBlacklistedWord(sentence):
-    """
-    Check if a sentence contains a blacklisted word
-    :param sentence: the sentence we want to check for blacklisted words
-    :return:    True if one of the words in the sentence is blacklisted
-                False if not a single word in the sentence is blacklisted
-    """
-    words = sentence.split()
-    for word in words:
-        if __wordInBlacklist(word):
-            return True
-    return False
-
-
 def offensiveness(sentence):
     """
     Compute and return the probability that the given sentence is offensive.
@@ -42,10 +12,9 @@ def offensiveness(sentence):
     Returns: The probability that the given sentence is offensive as a float p (1 = offensive, 0 = nice, 0 <= p <= 1)
 
     """
-    if __sentenceContainsBlacklistedWord(sentence):
-        return 1
     profane_prob = predict_prob([sentence])
     return profane_prob[0]
+
 
 def is_nonsense(sentence):
     """
@@ -57,6 +26,7 @@ def is_nonsense(sentence):
         return nonsense(sentence)
     except ValueError:
         return False
+
 
 def _test():
     print(offensiveness("Fuck you"))
