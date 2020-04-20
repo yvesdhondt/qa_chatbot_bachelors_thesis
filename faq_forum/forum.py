@@ -306,5 +306,4 @@ def test():
 
 if __name__ == "__main__":
     # Remove the test() method in deployed scripts, it is purely used for debugging
-    test()
-    # main()
+    main()
