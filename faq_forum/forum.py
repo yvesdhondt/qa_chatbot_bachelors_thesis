@@ -1,6 +1,9 @@
 from cluster import connector as cluster
 from faq_forum.question_match import match
 from faq_forum.auto_moderator import offensiveness, is_nonsense
+import logging, sys
+import traceback
+#logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 
 def __get_match(question, question_set):
@@ -86,7 +89,8 @@ def __wrap_match_request(request, best_matches):
         {
             "question_id": request["question_id"],
             "possible_matches": best_matches,
-            "msg_id": request["msg_id"]
+            "msg_id": request["msg_id"],
+            "question": request["question"]
         }
 
     return ans
@@ -125,7 +129,8 @@ def __wrap_offensive_request(request, prob):
         {
             "sentence_id": request["sentence_id"],
             "prob": prob,
-            "msg_id": request["msg_id"]
+            "msg_id": request["msg_id"],
+            "sentence": request["sentence"]
         }
 
     return ans
@@ -165,7 +170,8 @@ def __wrap_nonsense_request(request, is_nonsense):
         {
             "sentence_id": request["sentence_id"],
             "nonsense": is_nonsense,
-            "msg_id": request["msg_id"]
+            "msg_id": request["msg_id"],
+            "sentence": request["sentence"]
         }
 
     return ans
@@ -195,17 +201,17 @@ def process(request):
         # req_dict = json.loads(request)
         if "action" not in request:
             ans = error
-        elif request["action"] == cluster.Actions.MATCH_QUESTIONS:
+        elif request["action"] == cluster.Actions.MATCH_QUESTIONS.value:
             inp = __unwrap_match_request(request)
             out = __get_match(inp[0], inp[1])
             ans = __wrap_match_request(request,
                                        out)
-        elif request["action"] == cluster.Actions.ESTIMATE_OFFENSIVENESS:
+        elif request["action"] == cluster.Actions.ESTIMATE_OFFENSIVENESS.value:
             inp = __unwrap_offensive_request(request)
             out = __get_offensiveness(inp)
             ans = __wrap_offensive_request(request,
                                            out)
-        elif request["action"] == cluster.Actions.IS_NONSENSE:
+        elif request["action"] == cluster.Actions.IS_NONSENSE.value:
             inp = __unwrap_nonsense_request(request)
             # Should we try/catch here ?
             out = is_nonsense(inp)
@@ -227,6 +233,7 @@ def main():
     Returns: None
 
     """
+
     while True:
         try:
             # Connect to the server
@@ -240,17 +247,29 @@ def main():
     while True:
         try:
             # Get the request
+            print("::: waiting for request")
             request = faq.get_next_task(timeout=None)
+            print("::: received request")
 
             # Process the request
+            # HOTFIX, needs to be fixed in the connector
+            request["action"] = str(request["action"]).lower()
+            request["sentence"] = request["question"]
+            request["sentence_id"] = request["question_id"]
             ans = process(request)
 
             while True:
                 try:
                     # Answer to the request
+                    print("::: sending answer")
+                    print(request)
+                    print(ans)
                     faq.reply(ans)
+                    print("::: answer sent")
                     break
                 except Exception:
+                    traceback.print_exc()
+                    print("::: could not send the answer")
                     # Retry sending the reply until it succeeds
                     pass
         except Exception:
@@ -261,7 +280,7 @@ def main():
 def test():
     req_1 = \
         {
-            "action": cluster.Actions.MATCH_QUESTIONS,
+            "action": cluster.Actions.MATCH_QUESTIONS.value,
             "question": "Where is the coffee machine?",
             "question_id": 123,
             "compare_questions": [
@@ -285,7 +304,7 @@ def test():
 
     req_2 = \
         {
-            "action": cluster.Actions.ESTIMATE_OFFENSIVENESS,
+            "action": cluster.Actions.ESTIMATE_OFFENSIVENESS.value,
             "question_id": 100,
             "question": "Charlie is a little bitch, haha, what a little shit :p",
             "msg_id": 345
@@ -295,7 +314,7 @@ def test():
 
     req_3 = \
         {
-            "action": cluster.Actions.IS_NONSENSE,
+            "action": cluster.Actions.IS_NONSENSE.value,
             "question_id": 200,
             "question": "xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.",
             "msg_id": 654
