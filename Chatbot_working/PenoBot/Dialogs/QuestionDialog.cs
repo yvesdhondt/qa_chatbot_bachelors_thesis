@@ -28,7 +28,7 @@ namespace PenoBot.Dialogs
 		private List<string> QuestionList = new List<string>(new String[nbQuestions]);
 		private List<long> QuestionIds = new List<long>(new long[nbQuestions]);
 		private int currentQuestionIndex = 0;
-		public static Connector conchatbot = new Connector("chatbot");
+		public static Connector conchatbot = Globals.connector;
 		private List<ServerMessage> questions = conchatbot.GetQuestionsToBeAnswered();
 		
 		public QuestionDialog(String id) :
