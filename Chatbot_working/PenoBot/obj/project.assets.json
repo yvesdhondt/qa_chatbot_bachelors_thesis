@@ -4692,7 +4692,7 @@
   },
   "libraries": {
     "ClusterClient/0.1.0": {
-      "sha512": "ixR8CUAEn50OXFH4E8y5Cfed2NGbU1ZwU5TTNh6ZX3hyy4irOMppFXO1mFg5v/Jwo3j5dwx71OBzanGV5znOVA==",
+      "sha512": "CgYTWbZ1p8VJ6eHnSn9kt/nl79FHMAcOHr213Btojc1Bx6DTFWG7VQhKO7M3+gtxRlZqkuduXb81Rft9t1M6KQ==",
       "type": "package",
       "path": "clusterclient/0.1.0",
       "files": [
@@ -12745,19 +12745,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joren\\.nuget\\packages\\": {}
+    "C:\\Users\\thoma\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "projectUniqueName": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
       "projectName": "OctocatApp",
-      "projectPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
-      "packagesPath": "C:\\Users\\joren\\.nuget\\packages\\",
-      "outputPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
+      "projectPath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\joren\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12765,8 +12765,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://botbuilder.myget.org/F/experimental/api/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
@@ -12833,7 +12832,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   },

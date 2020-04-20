@@ -21,6 +21,7 @@ namespace PenoBot.Dialogs
 		private const string yes = "Yes, I'm happy to help!";
 		private const string no  = "No, I have my own questions";
 		private const string cancel = "I don't know the answer to these questions";
+		
 
 		// Variables to keep track of the current questions and ids retrieved from the server
 		private const int nbQuestions = 3;

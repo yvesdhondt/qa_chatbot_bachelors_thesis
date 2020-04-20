@@ -15,6 +15,7 @@ using PenoBot.Dialogs;
 using PenoBot.CognitiveModels;
 using System;
 using System.Collections.Concurrent;
+using System.Text;
 //using PenoBot.Controllers.NotifyController;
 
 namespace PenoBot.Bots
@@ -64,6 +65,21 @@ namespace PenoBot.Bots
         }
 
 
+        // Generate a random string with a given size, with the purpose to create a userID  
+        public string RandomString(int size, bool lowerCase)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+            if (lowerCase)
+                return builder.ToString().ToLower();
+            return builder.ToString();
+        }
 
         //When turn with message 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -78,6 +94,7 @@ namespace PenoBot.Bots
             {
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.Text?.Trim();
+                userProfile.userID = RandomString(20, true);
 
                 // Acknowledge that we got their name.
                 await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");

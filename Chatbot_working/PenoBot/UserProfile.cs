@@ -8,5 +8,7 @@ namespace PenoBot
     public class UserProfile
     {
         public string Name { get; set; }
+        public string userID { get; set; }
+        
     }
 }
