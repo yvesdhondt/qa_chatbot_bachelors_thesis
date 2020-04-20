@@ -95,14 +95,15 @@ namespace PenoBot.Bots
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.Text?.Trim();
                 userProfile.userID = RandomString(20, true);
+                Globals.userID = userProfile.userID;
 
                 // Acknowledge that we got their name.
-                await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
+                await turnContext.SendActivityAsync($"Nice to meet you {userProfile.userID}.");
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
             cancellationToken);
 
-            } else { 
-            
+            } else {
+                Globals.userID = userProfile.userID;
                 // Run the last dialog in the stack.
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                     cancellationToken);
