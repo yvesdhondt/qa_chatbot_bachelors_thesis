@@ -14,7 +14,6 @@
         "outputPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\NuGet.Config",
           "C:\\Users\\joren\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -22,7 +21,9 @@
           "netcoreapp2.1"
         ],
         "sources": {
-          "https://nuget.pkg.github.com/heckej/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://botbuilder.myget.org/F/experimental/api/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp2.1": {
@@ -40,7 +41,7 @@
           "dependencies": {
             "ClusterClient": {
               "target": "Package",
-              "version": "[0.2.0, )"
+              "version": "[0.2.1, )"
             },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",

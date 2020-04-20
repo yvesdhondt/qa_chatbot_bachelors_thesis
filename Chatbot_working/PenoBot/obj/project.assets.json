@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "ClusterClient/0.2.0": {
+      "ClusterClient/0.2.1": {
         "type": "package",
         "dependencies": {
           "System.Text.Json": "4.7.1"
@@ -4691,13 +4691,13 @@
     }
   },
   "libraries": {
-    "ClusterClient/0.2.0": {
-      "sha512": "7NA4R+NKW03qJkd+4kxjk0eA8jG3VekOhS1P7cNk1akrhmZepafZfUhu/A1lcM3tF3lwBwGiX8QnXy70N9avQw==",
+    "ClusterClient/0.2.1": {
+      "sha512": "wcGHOt2xwGHiPvaEnD3Eu4BM6BDj8f+IChDpLDvfddkhkYx3GXzQNUjx3P7khCaDmk29g90nPARYTdLG1Wj+RQ==",
       "type": "package",
-      "path": "clusterclient/0.2.0",
+      "path": "clusterclient/0.2.1",
       "files": [
         ".nupkg.metadata",
-        "clusterclient.0.2.0.nupkg.sha512",
+        "clusterclient.0.2.1.nupkg.sha512",
         "clusterclient.nuspec",
         "lib/netstandard2.0/ClusterClient.dll"
       ]
@@ -12733,7 +12733,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "ClusterClient >= 0.2.0",
+      "ClusterClient >= 0.2.1",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.Bot.Builder.AI.Luis >= 4.8.0",
       "Microsoft.Bot.Builder.AI.QnA >= 4.8.0",
@@ -12757,7 +12757,6 @@
       "outputPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\NuGet.Config",
         "C:\\Users\\joren\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -12765,7 +12764,9 @@
         "netcoreapp2.1"
       ],
       "sources": {
-        "https://nuget.pkg.github.com/heckej/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://botbuilder.myget.org/F/experimental/api/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
@@ -12783,7 +12784,7 @@
         "dependencies": {
           "ClusterClient": {
             "target": "Package",
-            "version": "[0.2.0, )"
+            "version": "[0.2.1, )"
           },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
