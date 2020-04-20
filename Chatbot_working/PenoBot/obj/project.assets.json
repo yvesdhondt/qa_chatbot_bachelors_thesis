@@ -12745,27 +12745,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joren\\.nuget\\packages\\": {}
+    "C:\\Users\\thoma\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "projectUniqueName": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
       "projectName": "OctocatApp",
-      "projectPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
-      "packagesPath": "C:\\Users\\joren\\.nuget\\packages\\",
-      "outputPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
+      "projectPath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\NuGet.Config",
-        "C:\\Users\\joren\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
-        "https://nuget.pkg.github.com/heckej/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
@@ -12832,7 +12832,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   },

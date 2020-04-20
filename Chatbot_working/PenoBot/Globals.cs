@@ -9,5 +9,6 @@ namespace PenoBot
     public static class Globals
     {
         public static Connector connector;
+        public static string userID;
     }
 }

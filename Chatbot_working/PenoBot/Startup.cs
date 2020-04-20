@@ -32,7 +32,8 @@ namespace PenoBot
             // Initialize connection with server.
             Globals.connector = new Connector("843iu233d3m4pxb1", "wss://clusterapi20200320113808.azurewebsites.net/api/Chatbot/WS", 10);
         }
-
+        //wss://clusterapi20200320113808.azurewebsites.net/api/Chatbot/WS
+        //wss://clusterapidebug.azurewebsites.net/api/NLP/WS
         public IConfiguration Configuration { get; }
         //public string ContentRootPath { get; private set; }
 

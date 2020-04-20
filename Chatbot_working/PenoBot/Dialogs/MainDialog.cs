@@ -21,6 +21,7 @@ namespace PenoBot.Dialogs
 		private readonly IBotServices _botServices;
 		public static Connector conchatbot = Globals.connector;
 		protected readonly BotState UserState;
+		public static string userid = Globals.userID;
 
 
 
@@ -53,7 +54,8 @@ base(id)
 					"What question do you have for me?", "What can I help you with?",
 					"How may I help you?", "How can I be of service to you?"});
 				Random r = new Random();
-				var question = randomList[r.Next(randomList.Count)];
+				//var question = randomList[r.Next(randomList.Count)];
+				var question = $"{Globals.userID}";
 				var questionMsg = MessageFactory.Text(question, question, InputHints.ExpectingInput);
 				return await stepContext.PromptAsync(nameof(TextPrompt),
 					new PromptOptions() { Prompt = questionMsg }, cancellationToken);
@@ -94,7 +96,13 @@ base(id)
 				
 				//sending to server
 				var userID = 1;
-				conchatbot.SendQuestion(userID, message.Activity.Text);
+				try
+				{
+					await conchatbot.SendQuestionAsync("useridplaceholder", message.Activity.Text);
+				} catch(Exception e) {
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
+					return await stepContext.NextAsync(null, cancellationToken);
+				}
 
 				await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 				return await stepContext.NextAsync(null, cancellationToken);
