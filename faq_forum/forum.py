@@ -251,11 +251,12 @@ def main():
             request = faq.get_next_task(timeout=None)
             print("::: received request")
 
-            # Process the request
             # HOTFIX, needs to be fixed in the connector
-            request["action"] = str(request["action"]).lower()
-            request["sentence"] = request["question"]
-            request["sentence_id"] = request["question_id"]
+            if "question" in request and "question_id" in request:
+                request["sentence"] = request["question"]
+                request["sentence_id"] = request["question_id"]
+
+            # Process the request
             ans = process(request)
 
             while True:
