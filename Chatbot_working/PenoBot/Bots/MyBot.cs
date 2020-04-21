@@ -16,6 +16,7 @@ using PenoBot.CognitiveModels;
 using System;
 using System.Collections.Concurrent;
 using System.Text;
+using ClusterClient.Models;
 //using PenoBot.Controllers.NotifyController;
 
 namespace PenoBot.Bots
@@ -98,7 +99,7 @@ namespace PenoBot.Bots
                 Globals.userID = userProfile.userID;
 
                 // Acknowledge that we got their name.
-                await turnContext.SendActivityAsync($"Nice to meet you {userProfile.userID}.");
+                await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
             cancellationToken);
 
@@ -139,10 +140,9 @@ namespace PenoBot.Bots
                     var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
 
 
-
                     if (string.IsNullOrEmpty(userProfile.Name))
                     {
-                        // Prompt the user f or their name.
+                        // Prompt the user for their name.
                         var welcomeText = "Hello and welcome! I'm here to help you with whatever you need.";
                         await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
                         await turnContext.SendActivityAsync($"Could I please get your name?");
@@ -153,6 +153,23 @@ namespace PenoBot.Bots
                         $"It's good to have you back, {userProfile.Name}.", $"Hello {userProfile.Name}, glad I can be of service again!",
                         $"Welcome back {userProfile.Name}.", $"Hello {userProfile.Name}. How can I help you this time?",
                         $"Hello there {userProfile.Name}. I hope you're having a nice day."});
+                    
+                        
+                    //Checking if there are answers to previous questions and if so sending them to the user
+                    try
+                    {
+                        ISet<ServerAnswer> answers = Globals.connector.GetNewAnswersForUser(Globals.userID);
+                        if (answers.Count > 0)
+                        {
+                            foreach (ServerAnswer answer in answers)
+                            {
+                                    var message = "You recently aksed: " + answer.question + " I have found an answer to this question, " + answer.answer;
+                                await turnContext.SendActivityAsync(MessageFactory.Text(message, message), cancellationToken);
+                            }
+                        }
+                    } catch(Exception e) { }
+                            
+                      
                         Random r = new Random();
                         var question = randomList[r.Next(randomList.Count)];
                         await turnContext.SendActivityAsync(question);
