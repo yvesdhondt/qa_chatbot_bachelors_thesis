@@ -54,8 +54,7 @@ base(id)
 					"What question do you have for me?", "What can I help you with?",
 					"How may I help you?", "How can I be of service to you?"});
 				Random r = new Random();
-				//var question = randomList[r.Next(randomList.Count)];
-				var question = $"{Globals.userID}";
+				var question = randomList[r.Next(randomList.Count)];
 				var questionMsg = MessageFactory.Text(question, question, InputHints.ExpectingInput);
 				return await stepContext.PromptAsync(nameof(TextPrompt),
 					new PromptOptions() { Prompt = questionMsg }, cancellationToken);
@@ -91,19 +90,37 @@ base(id)
 			if ((luisResult.TopIntent().score < thresholdScore || (luisResult.TopIntent().score > thresholdScore && luisResult.TopIntent().intent == LuisContactModel.Intent.None)) &&
 				(qnaResult.FirstOrDefault()?.Score*2 ?? 0) < thresholdScore)
 			{
-				var notUnderstood = "Going to send this to the forum";
+				var notUnderstood = "Going to send this to the forum, you will receive an answer later!";
 				//var notUnderstoodMessage = MessageFactory.Text(notUnderstood, notUnderstood, InputHints.ExpectingInput);
 				
 				//sending to server
-				var userID = 1;
 				try
 				{
-					await conchatbot.SendQuestionAsync("useridplaceholder", message.Activity.Text);
+					
+					ServerAnswer answer = await conchatbot.SendQuestionAsync(Globals.userID, message.Activity.Text);
+					if (answer == null)
+					{
+						var askAgain = "Please ask your question again later, it was not possible to process it right now.";
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
+					}
+					else if (answer.answer_id == null || answer.answer == null)
+					{
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
+					}
+					else
+					{
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
+					}
+
 				} catch(Exception e) {
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
 					return await stepContext.NextAsync(null, cancellationToken);
 				}
 
+				//dit mag ook weg denk ik?
 				await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 				return await stepContext.NextAsync(null, cancellationToken);
 				//return await stepContext.PromptAsync(nameof(TextPrompt),

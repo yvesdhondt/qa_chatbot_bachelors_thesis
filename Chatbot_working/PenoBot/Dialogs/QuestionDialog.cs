@@ -26,10 +26,10 @@ namespace PenoBot.Dialogs
 		// Variables to keep track of the current questions and ids retrieved from the server
 		private const int nbQuestions = 3;
 		private List<string> QuestionList = new List<string>(new String[nbQuestions]);
-		private List<long> QuestionIds = new List<long>(new long[nbQuestions]);
+		private List<int> QuestionIds = new List<int>(new int[nbQuestions]);
 		private int currentQuestionIndex = 0;
 		public static Connector conchatbot = Globals.connector;
-		private List<ServerMessage> questions = conchatbot.GetQuestionsToBeAnswered();
+		
 		
 		public QuestionDialog(String id) :
 			base(id)
@@ -82,23 +82,51 @@ namespace PenoBot.Dialogs
 				case yes:
 					await stepContext.Context.SendActivityAsync("Great! Let's help some coworkers out.");
 
+					//moet nog weg
 					// Get questions and ids from server
 					var QuestionsFromServer = new List<string>(new String[] { "Who do I notify when I want to call in sick?",
 												"How do I resign?", "Where do I find the coffee machine?"});
-					var IdsFromServer = new List<long>(new long[] { 5489366, 9874525, 13598705589});
+					var IdsFromServer = new List<int>(new int[] { 5489366, 9874525, 13598709});
+					//tot hier
 
-					//var questionsFromServer2 = new List<string>();
-					//foreach (ServerMessage i in questions) {
-					//	questionsFromServer2.Add(i.)
-					//}
+					//uitgecommend omdat dit nu niet werkt
+					/*try
+					{
 
+						ISet<ServerQuestion> questions = await Globals.connector.RequestUnansweredQuestionsAsync(Globals.userID);
+						if (questions.Count > 0)
+						{
+							//var QuestionsFromServer = new List<string>(new String[questions.Count]);
+							var count = 0;
+							foreach (ServerQuestion question in questions)
+							{
+								//QuestionsFromServer[count] = question.question;
+								if (count < nbQuestions)
+								{
+									QuestionList[count] = question.question;
+									QuestionIds[count] = question.question_id;
+								}
+								count++;
+							}
+						}
+						
+
+					}
+					catch (Exception e)
+					{
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
+					}
+					*/
+
+					//moet nog weg
 					// Store questions and ids locally
 					for (int i = 0; i < nbQuestions && i < QuestionsFromServer.LongCount(); i++)
 					{
 						QuestionList[i] = QuestionsFromServer[i];
 						QuestionIds[i] = IdsFromServer[i];
 					}
-
+					//tot hier
 
 					// Let the user choose a question to answer
 					List<string> choices = new List<string>(QuestionList);
@@ -149,9 +177,21 @@ namespace PenoBot.Dialogs
 			// If so, send that answer to the server
 			if (!((string)stepContext.Result == "cancel"))
 			{ 
+				//The answer to a question
 				var answer = stepContext.Context.Activity.Text;
+				
+				//sending the answer to the server
+				try
+					{
+						Globals.connector.AnswerQuestion(Globals.userID, QuestionIds[currentQuestionIndex],answer);
+					}
+					catch (Exception e)
+					{
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
+					}
+					
 
-				// sendToServer(QuestionIds[currentQuestionIndex], answer);
 				await stepContext.Context.SendActivityAsync("Thank you for your help!");
 			}
 			

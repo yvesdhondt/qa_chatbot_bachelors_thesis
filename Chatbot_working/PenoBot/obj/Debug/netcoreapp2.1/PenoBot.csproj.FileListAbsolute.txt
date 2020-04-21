@@ -84,13 +84,14 @@ C:\Users\thoma\Documents\Kul\P-O-Entrepreneurship-Team-A-code\Chatbot_working\Pe
 C:\Users\thoma\Documents\Kul\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.dll
 C:\Users\thoma\Documents\Kul\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.pdb
 C:\Users\thoma\Documents\Kul\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.genruntimeconfig.cache
+C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\nuget.config
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\appsettings.Development.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\DeploymentTemplates\new-rg-parameters.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\DeploymentTemplates\preexisting-rg-parameters.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\DeploymentTemplates\template-with-new-rg.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\DeploymentTemplates\template-with-preexisting-rg.json
-C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\package-lock.json
+C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\appsettings.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\PenoBot.deps.json
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\PenoBot.runtimeconfig.json
@@ -98,6 +99,7 @@ C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_workin
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\PenoBot.dll
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\PenoBot.pdb
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.csprojAssemblyReference.cache
+C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.csproj.CoreCompileInputs.cache
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.RazorAssemblyInfo.cache
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.RazorAssemblyInfo.cs
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.AssemblyInfoInputs.cache
@@ -106,5 +108,3 @@ C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_workin
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.dll
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.pdb
 C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.genruntimeconfig.cache
-C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\obj\Debug\netcoreapp2.1\PenoBot.csproj.CoreCompileInputs.cache
-C:\Users\thoma\Documents\kulgoed\P-O-Entrepreneurship-Team-A-code\Chatbot_working\PenoBot\bin\Debug\netcoreapp2.1\nuget.config
