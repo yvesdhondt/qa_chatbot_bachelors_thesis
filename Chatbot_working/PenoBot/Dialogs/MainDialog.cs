@@ -95,7 +95,7 @@ base(id)
 
 				// Responses to nonsense input
 				List<string> responsesToNonsense = new List<string>(new String[] { "Yeah, right.", "Are you sure?", 
-					"I sometimes really don\'t get what you mean.", "You lost me there.", "I guess I\'m not supposed to understand that?" });
+					"I sometimes really don\'t get what you mean.", "You lost me there.", "I guess I\'m not supposed to understand that? Am I?" });
 				Random r = new Random();
 				var responseToNonsense = responsesToNonsense[r.Next(responsesToNonsense.Count)];
 
