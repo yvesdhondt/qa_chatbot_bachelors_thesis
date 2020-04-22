@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>faq_forum.forum API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>faq_forum.forum</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from cluster import connector as cluster
+from faq_forum.question_match import match
+from faq_forum.auto_moderator import offensiveness, is_nonsense
+import logging, sys
+import traceback
+#logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+
+
+def __get_match(question, question_set):
+    &#34;&#34;&#34;
+    Find the best semantic match to question from the given question_set.
+
+    Args:
+        question: The question to match
+        question_set: The questions to match to (given as a list of dicts {&#34;question_id&#34;:XXX,&#34;question&#34;:YYY})
+
+    Returns: A tuple (p,best) consisting of the &#39;best&#39; match from the given question_set and the probability,
+    &#39;p&#39;, that that &#39;best&#39; match is semantically equal to the given question. (1 = equal, 0 = unequal,
+    0 &lt;= p &lt;= 1). If the question_set was empty or None, (0.0, None) is returned
+
+    &#34;&#34;&#34;
+    prob = 0.0
+    best = None
+
+    # Only loop over the questions in question_set if it is not None
+    if question_set is not None:
+        # Find the best match to the given question
+        best = max(question_set, key=lambda x: match(question, x[&#34;question&#34;]))
+        prob = match(question, best[&#34;question&#34;])
+
+    # Right now we only store the best match, but we could respond with the X best
+    # matches as well
+    return \
+        [
+            {
+                &#34;question_id&#34;: best[&#34;question_id&#34;],
+                &#34;prob&#34;: prob
+            }
+        ]
+
+
+def __get_offensiveness(sentence):
+    &#34;&#34;&#34;
+    Estimate the offensiveness of a sentence.
+    Args:
+        sentence: The sentence to estimate the offensiveness of
+
+    Returns: the probability,&#39;p&#39;, that that the given question is offensive. (1 = yes, 0 = no,
+    0 &lt;= p &lt;= 1). 0.0 is returned if the given sentence was None.
+
+    &#34;&#34;&#34;
+    if sentence is None:
+        return 0.0
+    return offensiveness(sentence)
+
+
+def __unwrap_match_request(request):
+    &#34;&#34;&#34;
+    Unwrap the given &#34;match questions&#34; request into a tuple of Python objects.
+
+    Args:
+        request: A JSON object describing a &#34;match questions&#34; request
+
+    Returns: A tuple (question,question_set) where question is a string and question_set is an iterable
+    collection of questions and their ids (given as dicts {&#34;question_id&#34;:XXX,&#34;question&#34;:YYY}).
+
+    &#34;&#34;&#34;
+    # request = json.loads(request)
+    question = request[&#34;question&#34;]
+    question_set = request[&#34;compare_questions&#34;]
+
+    return question, question_set
+
+
+def __wrap_match_request(request, best_matches):
+    &#34;&#34;&#34;
+    Wrap the given result of a &#34;match questions&#34; request in a JSON object
+
+    Args:
+        request: The request that was processed
+        best_matches: A list of best matches and their probabilities, given as a list of
+    {&#34;question_id&#34;:XXX,&#34;prob&#34;:YYY} dicts
+
+    Returns: A JSON-like dict containing all the given information
+    (as described on https://clusterdocs.azurewebsites.net/)
+
+    &#34;&#34;&#34;
+    ans = \
+        {
+            &#34;question_id&#34;: request[&#34;question_id&#34;],
+            &#34;possible_matches&#34;: best_matches,
+            &#34;msg_id&#34;: request[&#34;msg_id&#34;],
+            &#34;question&#34;: request[&#34;question&#34;]
+        }
+
+    return ans
+
+
+def __unwrap_offensive_request(request):
+    &#34;&#34;&#34;
+    Unwrap the given &#34;estimate offensiveness&#34; request into a string.
+
+    Args:
+        request: A JSON-like dict describing an &#34;estimate offensiveness&#34; request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: A string that represents the sentence of which to estimate the offensiveness
+
+    &#34;&#34;&#34;
+    # request = json.loads(request)
+    sentence = request[&#34;sentence&#34;]
+
+    return sentence
+
+
+def __wrap_offensive_request(request, prob):
+    &#34;&#34;&#34;
+    Wrap the given result of an &#34;estimate offensiveness&#34; request in a JSON-like dict
+
+    Args:
+        request: The request that was processed
+        prob: The probability that the question is offensive, a float
+
+    Returns: A JSON-like dict containing all the given information
+    (as described on https://clusterdocs.azurewebsites.net/)
+
+    &#34;&#34;&#34;
+    ans = \
+        {
+            &#34;sentence_id&#34;: request[&#34;sentence_id&#34;],
+            &#34;prob&#34;: prob,
+            &#34;msg_id&#34;: request[&#34;msg_id&#34;],
+            &#34;sentence&#34;: request[&#34;sentence&#34;]
+        }
+
+    return ans
+
+
+def __unwrap_nonsense_request(request):
+    &#34;&#34;&#34;
+    Unwrap the given &#34;estimate nonsense&#34; request into a string.
+
+    Args:
+        request: A JSON-like dict describing an &#34;estimate nonsense&#34; request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: A string that represents the sentence of which to estimate the offensiveness
+
+    &#34;&#34;&#34;
+    # request = json.loads(request)
+    sentence = request[&#34;sentence&#34;]
+
+    return sentence
+
+
+def __wrap_nonsense_request(request, is_nonsense):
+    &#34;&#34;&#34;
+    Wrap the given result of an &#34;estimate nonsense&#34; request in a JSON-like dict
+
+    Args:
+        request: The request that was processed
+        is_nonsense:    True if the question is nonsense
+                        False if the question is not nonsense
+
+    Returns: A JSON-like dict containing all the given information
+    (as described on https://clusterdocs.azurewebsites.net/)
+
+    &#34;&#34;&#34;
+    ans = \
+        {
+            &#34;sentence_id&#34;: request[&#34;sentence_id&#34;],
+            &#34;nonsense&#34;: is_nonsense,
+            &#34;msg_id&#34;: request[&#34;msg_id&#34;],
+            &#34;sentence&#34;: request[&#34;sentence&#34;]
+        }
+
+    return ans
+
+
+def process(request):
+    &#34;&#34;&#34;
+    Process the given request and store the reply in a JSON-like dict.
+    The given request is not None, it is a JSON-like dict
+
+    Args:
+        request: A JSON-like dict describing the request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: The reply to the given request
+
+    &#34;&#34;&#34;
+    error = \
+        {
+            &#34;error&#34;: &#34;request was invalid&#34;
+        }
+
+    # Process the request
+    if request is None:
+        ans = error
+    else:
+        # req_dict = json.loads(request)
+        if &#34;action&#34; not in request:
+            ans = error
+        elif request[&#34;action&#34;] == cluster.Actions.MATCH_QUESTIONS.value:
+            inp = __unwrap_match_request(request)
+            out = __get_match(inp[0], inp[1])
+            ans = __wrap_match_request(request,
+                                       out)
+        elif request[&#34;action&#34;] == cluster.Actions.ESTIMATE_OFFENSIVENESS.value:
+            inp = __unwrap_offensive_request(request)
+            out = __get_offensiveness(inp)
+            ans = __wrap_offensive_request(request,
+                                           out)
+        elif request[&#34;action&#34;] == cluster.Actions.IS_NONSENSE.value:
+            inp = __unwrap_nonsense_request(request)
+            # Should we try/catch here ?
+            out = is_nonsense(inp)
+            ans = __wrap_nonsense_request(request, out)
+        else:
+            ans = \
+                {
+                    &#34;error&#34;: &#34;the given request is not supported&#34;
+                }
+
+    # return json.dumps(ans)
+    return ans
+
+
+def main():
+    &#34;&#34;&#34;
+    Go into a while loop and wait for requests from Cluster
+
+    Returns: None
+
+    &#34;&#34;&#34;
+
+    while True:
+        try:
+            # Connect to the server
+            faq = cluster.Connector()
+            break
+        except Exception:
+            # Retry connecting until it succeeds
+            pass
+
+    # Go to an infinite loop of processing requests of the FAQ forum
+    while True:
+        try:
+            # Get the request
+            print(&#34;::: waiting for request&#34;)
+            request = faq.get_next_task(timeout=None)
+            print(&#34;::: received request&#34;)
+
+            # HOTFIX, needs to be fixed in the connector
+            if &#34;question&#34; in request and &#34;question_id&#34; in request:
+                request[&#34;sentence&#34;] = request[&#34;question&#34;]
+                request[&#34;sentence_id&#34;] = request[&#34;question_id&#34;]
+
+            # Process the request
+            ans = process(request)
+
+            while True:
+                try:
+                    # Answer to the request
+                    print(&#34;::: sending answer&#34;)
+                    print(request)
+                    print(ans)
+                    faq.reply(ans)
+                    print(&#34;::: answer sent&#34;)
+                    break
+                except Exception:
+                    traceback.print_exc()
+                    print(&#34;::: could not send the answer&#34;)
+                    # Retry sending the reply until it succeeds
+                    pass
+        except Exception:
+            # Retry getting a request until it succeeds
+            pass
+
+
+def test():
+    req_1 = \
+        {
+            &#34;action&#34;: cluster.Actions.MATCH_QUESTIONS.value,
+            &#34;question&#34;: &#34;Where is the coffee machine?&#34;,
+            &#34;question_id&#34;: 123,
+            &#34;compare_questions&#34;: [
+                {
+                    &#34;question_id&#34;: 111,
+                    &#34;question&#34;: &#34;Where can I find the coffee machine?&#34;
+                },
+                {
+                    &#34;question_id&#34;: 222,
+                    &#34;question&#34;: &#34;When did the Titanic sink?&#34;
+                },
+                {
+                    &#34;question_id&#34;: 333,
+                    &#34;question&#34;: &#34;How can I use the coffee machine?&#34;
+                }
+            ],
+            &#34;msg_id&#34;: 214
+        }
+    ans_1 = process(req_1)
+    print(ans_1)
+
+    req_2 = \
+        {
+            &#34;action&#34;: cluster.Actions.ESTIMATE_OFFENSIVENESS.value,
+            &#34;question_id&#34;: 100,
+            &#34;question&#34;: &#34;Charlie is a little bitch, haha, what a little shit :p&#34;,
+            &#34;msg_id&#34;: 345
+        }
+    ans_2 = process(req_2)
+    print(ans_2)
+
+    req_3 = \
+        {
+            &#34;action&#34;: cluster.Actions.IS_NONSENSE.value,
+            &#34;question_id&#34;: 200,
+            &#34;question&#34;: &#34;xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.&#34;,
+            &#34;msg_id&#34;: 654
+        }
+    ans_3 = process(req_3)
+    print(ans_3)
+
+
+if __name__ == &#34;__main__&#34;:
+    # Remove the test() method in deployed scripts, it is purely used for debugging
+    main()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="faq_forum.forum.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Go into a while loop and wait for requests from Cluster</p>
+<p>Returns: None</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    &#34;&#34;&#34;
+    Go into a while loop and wait for requests from Cluster
+
+    Returns: None
+
+    &#34;&#34;&#34;
+
+    while True:
+        try:
+            # Connect to the server
+            faq = cluster.Connector()
+            break
+        except Exception:
+            # Retry connecting until it succeeds
+            pass
+
+    # Go to an infinite loop of processing requests of the FAQ forum
+    while True:
+        try:
+            # Get the request
+            print(&#34;::: waiting for request&#34;)
+            request = faq.get_next_task(timeout=None)
+            print(&#34;::: received request&#34;)
+
+            # HOTFIX, needs to be fixed in the connector
+            if &#34;question&#34; in request and &#34;question_id&#34; in request:
+                request[&#34;sentence&#34;] = request[&#34;question&#34;]
+                request[&#34;sentence_id&#34;] = request[&#34;question_id&#34;]
+
+            # Process the request
+            ans = process(request)
+
+            while True:
+                try:
+                    # Answer to the request
+                    print(&#34;::: sending answer&#34;)
+                    print(request)
+                    print(ans)
+                    faq.reply(ans)
+                    print(&#34;::: answer sent&#34;)
+                    break
+                except Exception:
+                    traceback.print_exc()
+                    print(&#34;::: could not send the answer&#34;)
+                    # Retry sending the reply until it succeeds
+                    pass
+        except Exception:
+            # Retry getting a request until it succeeds
+            pass</code></pre>
+</details>
+</dd>
+<dt id="faq_forum.forum.process"><code class="name flex">
+<span>def <span class="ident">process</span></span>(<span>request)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Process the given request and store the reply in a JSON-like dict.
+The given request is not None, it is a JSON-like dict</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>request</code></strong></dt>
+<dd>A JSON-like dict describing the request</dd>
+<dt>(as described on <a href="https://clusterdocs.azurewebsites.net/">https://clusterdocs.azurewebsites.net/</a>)</dt>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>The</code> <code>reply</code> <code>to</code> <code>the</code> <code>given</code> <code>request</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process(request):
+    &#34;&#34;&#34;
+    Process the given request and store the reply in a JSON-like dict.
+    The given request is not None, it is a JSON-like dict
+
+    Args:
+        request: A JSON-like dict describing the request
+        (as described on https://clusterdocs.azurewebsites.net/)
+
+    Returns: The reply to the given request
+
+    &#34;&#34;&#34;
+    error = \
+        {
+            &#34;error&#34;: &#34;request was invalid&#34;
+        }
+
+    # Process the request
+    if request is None:
+        ans = error
+    else:
+        # req_dict = json.loads(request)
+        if &#34;action&#34; not in request:
+            ans = error
+        elif request[&#34;action&#34;] == cluster.Actions.MATCH_QUESTIONS.value:
+            inp = __unwrap_match_request(request)
+            out = __get_match(inp[0], inp[1])
+            ans = __wrap_match_request(request,
+                                       out)
+        elif request[&#34;action&#34;] == cluster.Actions.ESTIMATE_OFFENSIVENESS.value:
+            inp = __unwrap_offensive_request(request)
+            out = __get_offensiveness(inp)
+            ans = __wrap_offensive_request(request,
+                                           out)
+        elif request[&#34;action&#34;] == cluster.Actions.IS_NONSENSE.value:
+            inp = __unwrap_nonsense_request(request)
+            # Should we try/catch here ?
+            out = is_nonsense(inp)
+            ans = __wrap_nonsense_request(request, out)
+        else:
+            ans = \
+                {
+                    &#34;error&#34;: &#34;the given request is not supported&#34;
+                }
+
+    # return json.dumps(ans)
+    return ans</code></pre>
+</details>
+</dd>
+<dt id="faq_forum.forum.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test():
+    req_1 = \
+        {
+            &#34;action&#34;: cluster.Actions.MATCH_QUESTIONS.value,
+            &#34;question&#34;: &#34;Where is the coffee machine?&#34;,
+            &#34;question_id&#34;: 123,
+            &#34;compare_questions&#34;: [
+                {
+                    &#34;question_id&#34;: 111,
+                    &#34;question&#34;: &#34;Where can I find the coffee machine?&#34;
+                },
+                {
+                    &#34;question_id&#34;: 222,
+                    &#34;question&#34;: &#34;When did the Titanic sink?&#34;
+                },
+                {
+                    &#34;question_id&#34;: 333,
+                    &#34;question&#34;: &#34;How can I use the coffee machine?&#34;
+                }
+            ],
+            &#34;msg_id&#34;: 214
+        }
+    ans_1 = process(req_1)
+    print(ans_1)
+
+    req_2 = \
+        {
+            &#34;action&#34;: cluster.Actions.ESTIMATE_OFFENSIVENESS.value,
+            &#34;question_id&#34;: 100,
+            &#34;question&#34;: &#34;Charlie is a little bitch, haha, what a little shit :p&#34;,
+            &#34;msg_id&#34;: 345
+        }
+    ans_2 = process(req_2)
+    print(ans_2)
+
+    req_3 = \
+        {
+            &#34;action&#34;: cluster.Actions.IS_NONSENSE.value,
+            &#34;question_id&#34;: 200,
+            &#34;question&#34;: &#34;xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.&#34;,
+            &#34;msg_id&#34;: 654
+        }
+    ans_3 = process(req_3)
+    print(ans_3)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="faq_forum" href="index.html">faq_forum</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="faq_forum.forum.main" href="#faq_forum.forum.main">main</a></code></li>
+<li><code><a title="faq_forum.forum.process" href="#faq_forum.forum.process">process</a></code></li>
+<li><code><a title="faq_forum.forum.test" href="#faq_forum.forum.test">test</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
