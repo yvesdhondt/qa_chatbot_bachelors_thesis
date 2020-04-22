@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "ClusterClient/0.2.1": {
+      "ClusterClient/0.3.0": {
         "type": "package",
         "dependencies": {
           "System.Text.Json": "4.7.1"
@@ -4691,13 +4691,13 @@
     }
   },
   "libraries": {
-    "ClusterClient/0.2.1": {
-      "sha512": "wcGHOt2xwGHiPvaEnD3Eu4BM6BDj8f+IChDpLDvfddkhkYx3GXzQNUjx3P7khCaDmk29g90nPARYTdLG1Wj+RQ==",
+    "ClusterClient/0.3.0": {
+      "sha512": "6axEGhPgcP3ezCruqKykKAAfgn0pHUEAHPHgfJV1avVMbG7KWAClqhNjYrT6sNa9Rk9X3HuMMUCKli2buGoRsw==",
       "type": "package",
-      "path": "clusterclient/0.2.1",
+      "path": "clusterclient/0.3.0",
       "files": [
         ".nupkg.metadata",
-        "clusterclient.0.2.1.nupkg.sha512",
+        "clusterclient.0.3.0.nupkg.sha512",
         "clusterclient.nuspec",
         "lib/netstandard2.0/ClusterClient.dll"
       ]
@@ -12733,7 +12733,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "ClusterClient >= 0.2.1",
+      "ClusterClient >= 0.3.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.Bot.Builder.AI.Luis >= 4.8.0",
       "Microsoft.Bot.Builder.AI.QnA >= 4.8.0",
@@ -12745,27 +12745,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\thoma\\.nuget\\packages\\": {}
+    "C:\\Users\\joren\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "projectUniqueName": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
       "projectName": "OctocatApp",
-      "projectPath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
-      "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
+      "projectPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
+      "packagesPath": "C:\\Users\\joren\\.nuget\\packages\\",
+      "outputPath": "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "D:\\Documenten\\Leuven\\P&O CW\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\NuGet.Config",
+        "C:\\Users\\joren\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://nuget.pkg.github.com/heckej/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
@@ -12783,7 +12783,7 @@
         "dependencies": {
           "ClusterClient": {
             "target": "Package",
-            "version": "[0.2.1, )"
+            "version": "[0.3.0, )"
           },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
@@ -12832,7 +12832,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   },
