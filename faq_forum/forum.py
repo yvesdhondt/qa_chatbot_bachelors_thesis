@@ -34,7 +34,7 @@ def __get_match(question, question_set):
         [
             {
                 "question_id": best["question_id"],
-                "prob": prob
+                "prob": str(prob)
             }
         ]
 
@@ -85,6 +85,10 @@ def __wrap_match_request(request, best_matches):
     (as described on https://clusterdocs.azurewebsites.net/)
 
     """
+    # Change floats to strings
+    for m in best_matches:
+        m["prob"] = str(m["prob"])
+
     ans = \
         {
             "question_id": request["question_id"],
@@ -128,7 +132,7 @@ def __wrap_offensive_request(request, prob):
     ans = \
         {
             "sentence_id": request["sentence_id"],
-            "prob": prob,
+            "prob": str(prob),
             "msg_id": request["msg_id"],
             "sentence": request["sentence"]
         }
