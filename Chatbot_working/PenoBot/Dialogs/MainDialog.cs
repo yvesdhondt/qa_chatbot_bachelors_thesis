@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -116,12 +116,12 @@ base(id)
 						var askAgain = "Please ask your question again later, it was not possible to process it right now.";
 						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
 					}
-					else if (answer.status_code == 2)
+					else if (answer.status_code == (int) ServerStatusCode.Nonsense)
 					{
 						// nonsense
 						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 					}
-					else if (answer.status_code == 3)
+					else if (answer.status_code == (int) ServerStatusCode.Offensive)
 					{
 						// offensive
 						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
