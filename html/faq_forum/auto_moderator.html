@@ -45,8 +45,12 @@ def offensiveness(sentence):
 def is_nonsense(sentence):
     &#34;&#34;&#34;
     Checks if a sentence is nonsense or not.
-    :param sentence: The string that is to be checked.
-    :return:    True if the string is not nonsense and it contains more than 6 characters
+
+    Args:
+        sentence: The string that is to be checked.
+
+    Returns: True if the string is not nonsense and it contains more than 6 characters
+
     &#34;&#34;&#34;
     try:
         return nonsense(sentence)
@@ -86,10 +90,14 @@ def _test():
 <span>def <span class="ident">is_nonsense</span></span>(<span>sentence)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Checks if a sentence is nonsense or not.
-:param sentence: The string that is to be checked.
-:return:
-True if the string is not nonsense and it contains more than 6 characters</p></section>
+<section class="desc"><p>Checks if a sentence is nonsense or not.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sentence</code></strong></dt>
+<dd>The string that is to be checked.</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>True</code> <code>if</code> <code>the</code> <code>string</code> <code>is</code> <code>not</code> <code>nonsense</code> <code>and</code> <code>it</code> <code>contains</code> <code>more</code> <code>than</code> <code>6</code> <code>characters</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -97,8 +105,12 @@ True if the string is not nonsense and it contains more than 6 characters</p></s
 <pre><code class="python">def is_nonsense(sentence):
     &#34;&#34;&#34;
     Checks if a sentence is nonsense or not.
-    :param sentence: The string that is to be checked.
-    :return:    True if the string is not nonsense and it contains more than 6 characters
+
+    Args:
+        sentence: The string that is to be checked.
+
+    Returns: True if the string is not nonsense and it contains more than 6 characters
+
     &#34;&#34;&#34;
     try:
         return nonsense(sentence)

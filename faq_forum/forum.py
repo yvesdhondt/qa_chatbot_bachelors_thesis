@@ -228,12 +228,11 @@ def process(request):
 
 def main():
     """
-    Go into a while loop and wait for requests from Cluster
+    Go into a while loop and wait for requests from Cluster.
 
     Returns: None
 
     """
-
     while True:
         try:
             # Connect to the server
@@ -278,7 +277,7 @@ def main():
             pass
 
 
-def test():
+def _test():
     req_1 = \
         {
             "action": cluster.Actions.MATCH_QUESTIONS.value,

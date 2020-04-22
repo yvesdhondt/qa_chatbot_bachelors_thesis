@@ -19,8 +19,12 @@ def offensiveness(sentence):
 def is_nonsense(sentence):
     """
     Checks if a sentence is nonsense or not.
-    :param sentence: The string that is to be checked.
-    :return:    True if the string is not nonsense and it contains more than 6 characters
+
+    Args:
+        sentence: The string that is to be checked.
+
+    Returns: True if the string is not nonsense and it contains more than 6 characters
+
     """
     try:
         return nonsense(sentence)

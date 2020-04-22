@@ -254,12 +254,11 @@ def process(request):
 
 def main():
     &#34;&#34;&#34;
-    Go into a while loop and wait for requests from Cluster
+    Go into a while loop and wait for requests from Cluster.
 
     Returns: None
 
     &#34;&#34;&#34;
-
     while True:
         try:
             # Connect to the server
@@ -304,7 +303,7 @@ def main():
             pass
 
 
-def test():
+def _test():
     req_1 = \
         {
             &#34;action&#34;: cluster.Actions.MATCH_QUESTIONS.value,
@@ -366,7 +365,7 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">main</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Go into a while loop and wait for requests from Cluster</p>
+<section class="desc"><p>Go into a while loop and wait for requests from Cluster.</p>
 <p>Returns: None</p></section>
 <details class="source">
 <summary>
@@ -374,12 +373,11 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def main():
     &#34;&#34;&#34;
-    Go into a while loop and wait for requests from Cluster
+    Go into a while loop and wait for requests from Cluster.
 
     Returns: None
 
     &#34;&#34;&#34;
-
     while True:
         try:
             # Connect to the server
@@ -491,61 +489,6 @@ The given request is not None, it is a JSON-like dict</p>
     return ans</code></pre>
 </details>
 </dd>
-<dt id="faq_forum.forum.test"><code class="name flex">
-<span>def <span class="ident">test</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<section class="desc"></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test():
-    req_1 = \
-        {
-            &#34;action&#34;: cluster.Actions.MATCH_QUESTIONS.value,
-            &#34;question&#34;: &#34;Where is the coffee machine?&#34;,
-            &#34;question_id&#34;: 123,
-            &#34;compare_questions&#34;: [
-                {
-                    &#34;question_id&#34;: 111,
-                    &#34;question&#34;: &#34;Where can I find the coffee machine?&#34;
-                },
-                {
-                    &#34;question_id&#34;: 222,
-                    &#34;question&#34;: &#34;When did the Titanic sink?&#34;
-                },
-                {
-                    &#34;question_id&#34;: 333,
-                    &#34;question&#34;: &#34;How can I use the coffee machine?&#34;
-                }
-            ],
-            &#34;msg_id&#34;: 214
-        }
-    ans_1 = process(req_1)
-    print(ans_1)
-
-    req_2 = \
-        {
-            &#34;action&#34;: cluster.Actions.ESTIMATE_OFFENSIVENESS.value,
-            &#34;question_id&#34;: 100,
-            &#34;question&#34;: &#34;Charlie is a little bitch, haha, what a little shit :p&#34;,
-            &#34;msg_id&#34;: 345
-        }
-    ans_2 = process(req_2)
-    print(ans_2)
-
-    req_3 = \
-        {
-            &#34;action&#34;: cluster.Actions.IS_NONSENSE.value,
-            &#34;question_id&#34;: 200,
-            &#34;question&#34;: &#34;xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.&#34;,
-            &#34;msg_id&#34;: 654
-        }
-    ans_3 = process(req_3)
-    print(ans_3)</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -566,7 +509,6 @@ The given request is not None, it is a JSON-like dict</p>
 <ul class="">
 <li><code><a title="faq_forum.forum.main" href="#faq_forum.forum.main">main</a></code></li>
 <li><code><a title="faq_forum.forum.process" href="#faq_forum.forum.process">process</a></code></li>
-<li><code><a title="faq_forum.forum.test" href="#faq_forum.forum.test">test</a></code></li>
 </ul>
 </li>
 </ul>
