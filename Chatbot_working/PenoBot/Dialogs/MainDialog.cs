@@ -104,7 +104,7 @@ base(id)
 						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
 						return await stepContext.NextAsync(null, cancellationToken);
 					}
-					else if (answer.answer_id == null || answer.answer == null)
+					else if (answer.answer_id < 0 || answer.answer == "")
 					{
 						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 						return await stepContext.NextAsync(null, cancellationToken);
