@@ -34,7 +34,8 @@ def __get_match(question, question_set):
         [
             {
                 "question_id": best["question_id"],
-                "prob": str(prob)
+                # Cast the numpy float32 to float
+                "prob": float(prob)
             }
         ]
 
@@ -85,9 +86,10 @@ def __wrap_match_request(request, best_matches):
     (as described on https://clusterdocs.azurewebsites.net/)
 
     """
-    # Change floats to strings
+    # Change float32s to floats
     for m in best_matches:
-        m["prob"] = str(m["prob"])
+        # Cast the numpy float32 to float
+        m["prob"] = float(m["prob"])
 
     ans = \
         {
@@ -132,7 +134,8 @@ def __wrap_offensive_request(request, prob):
     ans = \
         {
             "sentence_id": request["sentence_id"],
-            "prob": str(prob),
+            # Cast the numpy float32 to float
+            "prob": float(prob),
             "msg_id": request["msg_id"],
             "sentence": request["sentence"]
         }
