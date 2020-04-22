@@ -82,6 +82,7 @@ namespace PenoBot.Dialogs
 				case yes:
 					await stepContext.Context.SendActivityAsync("Great! Let's help some coworkers out.");
 
+
 					//moet nog weg
 					// Get questions and ids from server
 					var QuestionsFromServer = new List<string>(new String[] { "Who do I notify when I want to call in sick?",
@@ -90,6 +91,7 @@ namespace PenoBot.Dialogs
 					//tot hier
 
 					//uitgecommend omdat dit nu niet werkt
+
 					/*try
 					{
 
