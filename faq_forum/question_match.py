@@ -59,6 +59,17 @@ Method getFeatures(question1, question2) returns dictionary of features given tw
 
 
 def get_features(question1, question2):
+    """
+    Get all the features to input into the XGBoost model.
+
+    Pre: Both questions cannot be None.
+    Args:
+        question1: The first question to match.
+        question2: The second question to match.
+
+    Returns: A dictionary with all the features for the XGBoost model.
+
+    """
     w2v = word2vec_features(question1, question2, W2VModel)
     output_dict = {
         # length based features
@@ -95,24 +106,16 @@ def get_features(question1, question2):
     return output_dict
 
 
-def get_list_of_features(question1, question2):
-    features = get_features(question1, question2)
-    return [features["len_q1"], features["len_q2"], features["diff_len"], features["len_char_q1"],
-            features["len_char_q2"], features["common_words"], features["fuzz_Qratio"], features["fuzz_Wratio"],
-            features["fuzz_partial_ratio"], features["fuzz_partial_token_set_ratio"],
-            features["fuzz_partial_token_sort_ratio"], features["fuzz_token_set_ratio"],
-            features["fuzz_token_sort_ratio"], features["cosine_distance"], features["cityblock_distance"],
-            features["jaccard_distance"], features["canberra_distance"], features["euclidean_distance"],
-            features["minkowski_distance"], features["braycurtis_distance"], features["wmd"], features["norm_wmd"]]
-
-
 def match(question1, question2):
     """
     Compute and return the probability that the two given questions are semantically the same.
 
-    :param question1: The first question
-    :param question2: The second question
-    :return: The probability that the two given questions are semantically the same as a float p (1 = equal, 0 = different, 0 <= p <= 1)
+    Args:
+        question1: The first question
+        question2: The second question
+
+    Returns: The probability that the two given questions are semantically the same as a float p (1 = equal, 0 = different, 0 <= p <= 1)
+
     """
     # Calculate the features
     features = get_features(question1, question2)
@@ -130,6 +133,18 @@ def match(question1, question2):
 
 
 def get_wmd(question1, question2, model):
+    """
+    Get the word-mover's distance between the two given questions.
+
+    Pre: No parameters may be None.
+    Args:
+        question1: The first question to match.
+        question2: The second question to match.
+        model: A word2vec-model.
+
+    Returns: The word-mover's distance between the two questions.
+
+    """
     s1 = question1.lower().split()
     s2 = question2.lower().split()
     s1 = [w for w in s1 if w not in stop_words]
@@ -138,6 +153,18 @@ def get_wmd(question1, question2, model):
 
 
 def word2vec_features(question1, question2, model):
+    """
+    Get the word2vec features of the two questions.
+
+    Pre: No parameters may be None.
+    Args:
+        question1: The first question to match.
+        question2: The second question to match.
+        model: A word2vec-model.
+
+    Returns: A list with the word2vec features between the two questions.
+
+    """
     # Calculate the sent2vec vectors for every question
     w2v_q1 = np.array(sent2vec(question1, model))
     w2v_q2 = np.array(sent2vec(question2, model))
@@ -150,6 +177,17 @@ def word2vec_features(question1, question2, model):
 # Google's Word2vec model expects words as input, so sentences must be
 # transformed to vectors indirectly
 def sent2vec(s, model):
+    """
+    Transform a sentence to a vector.
+
+    Pre: No parameters may be None.
+    Args:
+        s: The sentence to transform.
+        model: A word2vec model.
+
+    Returns: A vector, representing the given sentence.
+
+    """
     words = word_tokenize(s.lower())
     # Stopwords and numbers must be removed, as well as words that are not
     # part of the model
