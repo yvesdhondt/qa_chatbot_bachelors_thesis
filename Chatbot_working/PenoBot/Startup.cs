@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.6.2
@@ -32,6 +32,8 @@ namespace PenoBot
             // Initialize connection with server.
             Globals.connector = new Connector("843iu233d3m4pxb1", "wss://clusterapi20200320113808.azurewebsites.net/api/Chatbot/WS", 10);
             Globals.connector.EnableWebSocketStateCheck(true);
+            // Only use the following line if you want constant websocket state checking (causes CPU usage increase)
+            //Globals.connector.EnableWebSocketStateCheck(true);
         }
         //wss://clusterapi20200320113808.azurewebsites.net/api/Chatbot/WS
         //wss://clusterapidebug.azurewebsites.net/api/NLP/WS
