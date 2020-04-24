@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "ClusterClient/0.4.0": {
+      "ClusterClient/0.5.0": {
         "type": "package",
         "dependencies": {
           "System.Text.Json": "4.7.1"
@@ -4691,13 +4691,13 @@
     }
   },
   "libraries": {
-    "ClusterClient/0.4.0": {
-      "sha512": "QWmWHzfUiWlMOEtZxWnp1sTloV+8aQyPCSXL2jYGkOaw0YEVerdbGDK5NIN9/YPCcGjk4rtOQ8nwheLEbRBCTA==",
+    "ClusterClient/0.5.0": {
+      "sha512": "iC4Cu8YDcJ8oUCE2nq7wKVE/vKcrwIXTd0fbabxcDulGfwUYYsNQnAGuknSonUZ2Zz2Dsv09+EUepXMIW/ihlw==",
       "type": "package",
-      "path": "clusterclient/0.4.0",
+      "path": "clusterclient/0.5.0",
       "files": [
         ".nupkg.metadata",
-        "clusterclient.0.4.0.nupkg.sha512",
+        "clusterclient.0.5.0.nupkg.sha512",
         "clusterclient.nuspec",
         "lib/netstandard2.0/ClusterClient.dll"
       ]
@@ -12733,7 +12733,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "ClusterClient >= 0.4.0",
+      "ClusterClient >= 0.5.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.Bot.Builder.AI.Luis >= 4.8.0",
       "Microsoft.Bot.Builder.AI.QnA >= 4.8.0",
@@ -12765,7 +12765,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://botbuilder.myget.org/F/experimental/api/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
@@ -12783,7 +12784,7 @@
         "dependencies": {
           "ClusterClient": {
             "target": "Package",
-            "version": "[0.4.0, )"
+            "version": "[0.5.0, )"
           },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
@@ -12832,7 +12833,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   },
