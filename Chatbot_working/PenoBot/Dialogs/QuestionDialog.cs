@@ -24,11 +24,12 @@ namespace PenoBot.Dialogs
 		
 
 		// Variables to keep track of the current questions and ids retrieved from the server
-		private const int nbQuestions = 3;
-		private List<string> QuestionList = new List<string>(new String[nbQuestions]);
-		private List<int> QuestionIds = new List<int>(new int[nbQuestions]);
+		//private const int nbQuestions = 3;
+		private List<string> QuestionList = new List<string>();
+		private List<int> QuestionIds = new List<int>();
 		private int currentQuestionIndex = 0;
 		public static Connector conchatbot = Globals.connector;
+
 		
 		
 		public QuestionDialog(String id) :
@@ -81,34 +82,18 @@ namespace PenoBot.Dialogs
 			{
 				case yes:
 					await stepContext.Context.SendActivityAsync("Great! Let's help some coworkers out.");
-
-
-					//moet nog weg
-					// Get questions and ids from server
-					var QuestionsFromServer = new List<string>(new String[] { "Who do I notify when I want to call in sick?",
-												"How do I resign?", "Where do I find the coffee machine?"});
-					var IdsFromServer = new List<int>(new int[] { 5489366, 9874525, 13598709});
-					//tot hier
-
-					//uitgecommend omdat dit nu niet werkt
-
-					/*try
+					List<string> choices = new List<string>();
+					try
 					{
 
-						ISet<ServerQuestion> questions = await Globals.connector.RequestUnansweredQuestionsAsync(Globals.userID);
+						var questions = await Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID));
 						if (questions.Count > 0)
 						{
-							//var QuestionsFromServer = new List<string>(new String[questions.Count]);
-							var count = 0;
 							foreach (ServerQuestion question in questions)
 							{
-								//QuestionsFromServer[count] = question.question;
-								if (count < nbQuestions)
-								{
-									QuestionList[count] = question.question;
-									QuestionIds[count] = question.question_id;
-								}
-								count++;
+								this.QuestionList.Add(question.question);
+								choices.Add(question.question);
+								this.QuestionIds.Add(question.question_id);
 							}
 						}
 						
@@ -116,22 +101,12 @@ namespace PenoBot.Dialogs
 					}
 					catch (Exception e)
 					{
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
 						return await stepContext.NextAsync(null, cancellationToken);
 					}
-					*/
-
-					//moet nog weg
-					// Store questions and ids locally
-					for (int i = 0; i < nbQuestions && i < QuestionsFromServer.LongCount(); i++)
-					{
-						QuestionList[i] = QuestionsFromServer[i];
-						QuestionIds[i] = IdsFromServer[i];
-					}
-					//tot hier
 
 					// Let the user choose a question to answer
-					List<string> choices = new List<string>(QuestionList);
+					
 					choices.Add(cancel);
 					return await stepContext.PromptAsync(nameof(ChoicePrompt), new PromptOptions
 					{
@@ -162,10 +137,10 @@ namespace PenoBot.Dialogs
 			{
 				// Figure out which question was pressed
 				Predicate<string> p = stepContext.Context.Activity.Text.Equals;
-				currentQuestionIndex = (QuestionList.FindIndex(p));
+				currentQuestionIndex = QuestionList.FindIndex(p);
 
 				// Let the user answer that question
-				string ask = $"What is the answer to :\n {QuestionList[currentQuestionIndex]}";
+				string ask = $"What is the answer to:\n {QuestionList[currentQuestionIndex]}";
 				var askMsg = MessageFactory.Text(ask, ask, InputHints.ExpectingInput);
 				return await stepContext.PromptAsync(nameof(TextPrompt),
 						new PromptOptions() { Prompt = askMsg }, cancellationToken);
@@ -189,7 +164,7 @@ namespace PenoBot.Dialogs
 					}
 					catch (Exception e)
 					{
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
 						return await stepContext.NextAsync(null, cancellationToken);
 					}
 					
