@@ -110,7 +110,7 @@ base(id)
 				try
 				{
 					
-					ServerAnswer answer = await conchatbot.SendQuestionAsync(Globals.userID, message.Activity.Text);
+					ServerAnswer answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
 					if (answer == null)
 					{
 						var askAgain = "Please ask your question again later, it was not possible to process it right now.";
