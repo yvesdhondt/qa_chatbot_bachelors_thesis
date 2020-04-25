@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using PenoBot.CognitiveModels;
 using ClusterClient;
 using ClusterClient.Models;
+using System.Net.WebSockets;
 
 namespace PenoBot.Dialogs
 {
@@ -107,47 +108,61 @@ base(id)
 				var responseToOffensive = responsesToOffensive[r.Next(responsesToOffensive.Count)];
 
 				//sending to server
+				ServerAnswer answer = null;
 				try
 				{
-					
-					var answerTask = Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
-					answerTask.Wait();
-					if (answerTask.Exception.InnerExceptions.Count > 0)
+					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
+				} catch(Exception e) {
+					// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
+					if (e is AggregateException && e.InnerException is WebSocketException)
 					{
-						Exception exception = answerTask.Exception.InnerException;
-						Debug.WriteLine("Exception while requesting questions: " + exception);
-						//if (exception is WebSocketException)
-						throw exception;
-					}
-
-					var answer = answerTask.Result;
-					if (answer == null)
-					{
-						var askAgain = "Please ask your question again later, it was not possible to process it right now.";
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
-					}
-					else if (answer.status_code == (int) ServerStatusCode.Nonsense)
-					{
-						// nonsense
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
-					}
-					else if (answer.status_code == (int) ServerStatusCode.Offensive)
-					{
-						// offensive
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
-					}
-					else if (answer.answer_id < 0 || answer.answer == "")
-					{
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
+						Debug.WriteLine("WebSocketException while sending question:\n" + e);
+						try
+						{
+							answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
+						}
+						catch (Exception e2)
+						{
+							Debug.WriteLine("Exception while sending question for 2nd time:\n" + e2);
+							// If you want to send the exception to the user.
+							//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+							return await stepContext.NextAsync(null, cancellationToken);
+						}
 					}
 					else
 					{
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
+						Debug.WriteLine("Exception while requesting questions:\n" + e);
+						// If you want to send the exception to the user.
+						//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
 					}
-
-				} catch(Exception e) {
-					await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
 				}
+
+				if (answer == null)
+				{
+					var askAgain = "Please ask your question again later, it was not possible to process it right now.";
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
+				}
+				else if (answer.status_code == (int)ServerStatusCode.Nonsense)
+				{
+					// nonsense
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(responseToNonsense), cancellationToken);
+				}
+				else if (answer.status_code == (int)ServerStatusCode.Offensive)
+				{
+					// offensive
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(responseToOffensive), cancellationToken);
+				}
+				else if (answer.answer_id < 0 || answer.answer == "")
+				{
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
+				}
+				else
+				{
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
+				}
+				await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
+				
 
 				return await stepContext.NextAsync(null, cancellationToken);
 

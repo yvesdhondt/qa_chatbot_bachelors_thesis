@@ -88,40 +88,31 @@ namespace PenoBot.Dialogs
 					
 					try
 					{
-						var questionsTask = Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID));
-						questionsTask.Wait();
-						if (questionsTask.Exception.InnerExceptions.Count > 0)
-						{
-							Exception exception = questionsTask.Exception.InnerException;
-							Debug.WriteLine("Exception while requesting questions: " + exception);
-							//if (exception is WebSocketException)
-							throw exception;
-						}
-
-
-						if (questionsTask.Exception.InnerExceptions.Count > 0)
-						{
-							Debug.WriteLine("Exception while requesting questions: " + questionsTask.Exception.InnerException);
-							//if (questionsTask.Exception.InnerException is WebSocketException)
-						}
-
-						var questions = questionsTask.Result;
-						if (questions.Count > 0)
-						{
-							foreach (ServerQuestion question in questions)
-							{
-								this.QuestionList.Add(question.question);
-								choices.Add(question.question);
-								this.QuestionIds.Add(question.question_id);
-							}
-						}
-						
-
+						await RequestQuestionsAndAddToChoices(choices);
 					}
 					catch (Exception e)
 					{
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
-						return await stepContext.NextAsync(null, cancellationToken);
+						// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
+						if (e is AggregateException && e.InnerException is WebSocketException)
+						{
+							Debug.WriteLine("WebSocketException while requesting questions:\n" + e);
+							try
+							{
+								await RequestQuestionsAndAddToChoices(choices);
+							}
+							catch (Exception e2)
+							{
+								Debug.WriteLine("Exception while requesting questions for 2nd time:\n" + e2);
+								// If you want to send the exception to the user.
+								//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+								return await stepContext.NextAsync(null, cancellationToken);
+							}
+						} else {
+							Debug.WriteLine("Exception while requesting questions:\n" + e);
+							// If you want to send the exception to the user.
+							//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+							return await stepContext.NextAsync(null, cancellationToken);
+						}
 					}
 
 					// Let the user choose a question to answer
@@ -140,6 +131,21 @@ namespace PenoBot.Dialogs
 				default:
 					// Can never happen
 					return null;
+			}
+		}
+
+		private async Task RequestQuestionsAndAddToChoices(List <string> choices)
+		{
+			var questions = await Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID));
+
+			if (questions.Count > 0)
+			{
+				foreach (ServerQuestion question in questions)
+				{
+					this.QuestionList.Add(question.question);
+					choices.Add(question.question);
+					this.QuestionIds.Add(question.question_id);
+				}
 			}
 		}
 
