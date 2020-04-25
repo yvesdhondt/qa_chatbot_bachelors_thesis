@@ -110,7 +110,17 @@ base(id)
 				try
 				{
 					
-					ServerAnswer answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
+					var answerTask = Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
+					answerTask.Wait();
+					if (answerTask.Exception.InnerExceptions.Count > 0)
+					{
+						Exception exception = answerTask.Exception.InnerException;
+						Debug.WriteLine("Exception while requesting questions: " + exception);
+						//if (exception is WebSocketException)
+						throw exception;
+					}
+
+					var answer = answerTask.Result;
 					if (answer == null)
 					{
 						var askAgain = "Please ask your question again later, it was not possible to process it right now.";

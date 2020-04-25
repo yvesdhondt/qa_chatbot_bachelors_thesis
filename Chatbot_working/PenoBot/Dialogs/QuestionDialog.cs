@@ -11,6 +11,8 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using ClusterClient;
 using ClusterClient.Models;
+using System.Diagnostics;
+using System.Net.WebSockets;
 
 namespace PenoBot.Dialogs
 {
@@ -83,10 +85,27 @@ namespace PenoBot.Dialogs
 				case yes:
 					await stepContext.Context.SendActivityAsync("Great! Let's help some coworkers out.");
 					List<string> choices = new List<string>();
+					
 					try
 					{
+						var questionsTask = Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID));
+						questionsTask.Wait();
+						if (questionsTask.Exception.InnerExceptions.Count > 0)
+						{
+							Exception exception = questionsTask.Exception.InnerException;
+							Debug.WriteLine("Exception while requesting questions: " + exception);
+							//if (exception is WebSocketException)
+							throw exception;
+						}
 
-						var questions = await Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID));
+
+						if (questionsTask.Exception.InnerExceptions.Count > 0)
+						{
+							Debug.WriteLine("Exception while requesting questions: " + questionsTask.Exception.InnerException);
+							//if (questionsTask.Exception.InnerException is WebSocketException)
+						}
+
+						var questions = questionsTask.Result;
 						if (questions.Count > 0)
 						{
 							foreach (ServerQuestion question in questions)
