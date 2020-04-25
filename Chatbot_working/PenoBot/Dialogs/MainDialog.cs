@@ -160,9 +160,7 @@ base(id)
 				else
 				{
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
-				}
-				await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.Message), cancellationToken);
-				
+				}				
 
 				return await stepContext.NextAsync(null, cancellationToken);
 
