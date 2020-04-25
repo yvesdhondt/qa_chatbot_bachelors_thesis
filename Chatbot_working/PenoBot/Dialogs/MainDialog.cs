@@ -123,7 +123,7 @@ base(id)
 					var answer = answerTask.Result;
 					if (answer == null)
 					{
-						var askAgain = "Please ask your question again later, it was not possible to process it right now.";
+						var askAgain = "I'm sorry but I'm having some trouble with finding an answer right now, it seems like I'm not perfect after all. ";
 						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
 					}
 					else if (answer.status_code == (int) ServerStatusCode.Nonsense)
