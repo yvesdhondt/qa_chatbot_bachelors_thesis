@@ -23,7 +23,8 @@ namespace PenoBot.Dialogs
 		private const string yes = "Yes, I'm happy to help!";
 		private const string no  = "No, I have my own questions";
 		private const string cancel = "I don't know the answer to these questions";
-		
+		private const string noQuestionsAvailable = "I'm glad you'd like to help me, but I'm currently out of questions.";
+
 
 		// Variables to keep track of the current questions and ids retrieved from the server
 		//private const int nbQuestions = 3;
@@ -83,7 +84,7 @@ namespace PenoBot.Dialogs
 			switch (stepContext.Context.Activity.Text)
 			{
 				case yes:
-					await stepContext.Context.SendActivityAsync("Great! Let's help some coworkers out.");
+					
 					List<string> choices = new List<string>();
 					
 					try
@@ -116,15 +117,25 @@ namespace PenoBot.Dialogs
 					}
 
 					// Let the user choose a question to answer
-					
-					choices.Add(cancel);
-					return await stepContext.PromptAsync(nameof(ChoicePrompt), new PromptOptions
+					if (choices.Count > 0)
 					{
-						Prompt = MessageFactory.Text("Which question would you like to answer?"),
-						RetryPrompt = MessageFactory.Text("Please press one of the following buttons."),
-						Choices = ChoiceFactory.ToChoices(choices),
-						Style = ListStyle.HeroCard,
-					}, cancellationToken);
+						await stepContext.Context.SendActivityAsync("Great! Let's help some coworkers out.");
+						choices.Add(cancel);
+						return await stepContext.PromptAsync(nameof(ChoicePrompt), new PromptOptions
+						{
+							Prompt = MessageFactory.Text("Which question would you like to answer?"),
+							RetryPrompt = MessageFactory.Text("Please press one of the following buttons."),
+							Choices = ChoiceFactory.ToChoices(choices),
+							Style = ListStyle.HeroCard,
+						}, cancellationToken);
+					}
+					else
+					{
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(noQuestionsAvailable), cancellationToken);
+						// End QuestionDialog
+						return await stepContext.EndDialogAsync(this, cancellationToken);
+					}
+					
 				case no:
 					// End QuestionDialog
 					return await stepContext.EndDialogAsync(this, cancellationToken);
@@ -189,7 +200,8 @@ namespace PenoBot.Dialogs
 					}
 					catch (Exception e)
 					{
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+					//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+					Debug.WriteLine("Exception found when answering question:\n" + e.Message);
 						return await stepContext.NextAsync(null, cancellationToken);
 					}
 					
