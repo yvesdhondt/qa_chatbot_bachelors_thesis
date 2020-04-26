@@ -108,12 +108,14 @@ namespace PenoBot.Dialogs
 								Debug.WriteLine("Exception while requesting questions for 2nd time:\n" + e2);
 								// If you want to send the exception to the user.
 								//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+								await stepContext.Context.SendActivityAsync(MessageFactory.Text(noQuestionsAvailable), cancellationToken);
 								return await stepContext.NextAsync(null, cancellationToken);
 							}
 						} else {
 							Debug.WriteLine("Exception while requesting questions:\n" + e);
 							// If you want to send the exception to the user.
 							//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+							await stepContext.Context.SendActivityAsync(MessageFactory.Text(noQuestionsAvailable), cancellationToken);
 							return await stepContext.NextAsync(null, cancellationToken);
 						}
 					}
