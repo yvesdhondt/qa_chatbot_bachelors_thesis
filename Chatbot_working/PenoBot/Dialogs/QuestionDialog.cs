@@ -32,12 +32,14 @@ namespace PenoBot.Dialogs
 		private List<int> QuestionIds = new List<int>();
 		private int currentQuestionIndex = 0;
 		public static Connector conchatbot = Globals.connector;
+		public IStatePropertyAccessor<UserProfile> UserProfileAccessor { get; }
 
-		
-		
-		public QuestionDialog(String id) :
+
+
+		public QuestionDialog(string id /*IStatePropertyAccessor<UserProfile> userProfileStateAccessor*/) :
 			base(id)
 		{
+			//UserProfileAccessor = userProfileStateAccessor;
 			AddDialog(new TextPrompt(nameof(TextPrompt)));
 			AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
 			AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
