@@ -171,13 +171,14 @@ namespace PenoBot.Bots
                                     await turnContext.SendActivityAsync(MessageFactory.Text(message, message), cancellationToken);
                                 }
                             }
-                        } catch(Exception e) { }
-                            
-                      
+                        } catch(Exception e) 
+                        {
+
+                        }
                             // Run the last dialog in the stack.
                             await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                                 cancellationToken);
-                        }
+                    }
                 }
             }
         }
