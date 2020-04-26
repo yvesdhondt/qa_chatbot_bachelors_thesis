@@ -114,7 +114,7 @@ base(id)
 					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
 				} catch(Exception e) {
 					// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
-					if (e is AggregateException && e.InnerException is WebSocketException)
+					if (e is WebSocketException || (e is AggregateException && e.InnerException is WebSocketException))
 					{
 						Debug.WriteLine("WebSocketException while sending question:\n" + e);
 						try

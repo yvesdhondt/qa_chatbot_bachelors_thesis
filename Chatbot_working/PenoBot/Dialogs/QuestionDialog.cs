@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -94,7 +94,7 @@ namespace PenoBot.Dialogs
 					catch (Exception e)
 					{
 						// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
-						if (e is AggregateException && e.InnerException is WebSocketException)
+						if (e is WebSocketException || (e is AggregateException && e.InnerException is WebSocketException))
 						{
 							Debug.WriteLine("WebSocketException while requesting questions:\n" + e);
 							try
