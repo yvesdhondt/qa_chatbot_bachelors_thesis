@@ -36,7 +36,7 @@
   </PropertyGroup>
 
    <ItemGroup>
-    <PackageReference Include="ClusterClient" Version="0.5.2" />
+    <PackageReference Include="ClusterClient" Version="0.5.3" />
   </ItemGroup>
 
 </Project>
