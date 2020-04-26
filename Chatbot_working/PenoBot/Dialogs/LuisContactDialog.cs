@@ -80,6 +80,11 @@ namespace PenoBot.Dialogs
 			else
 			{	
 				string answer = stepContext.Context.Activity.Text;
+				/*if (answer.Contains("\'"))
+				{
+					answer = answer.Substring(0, answer.IndexOf("\'")) + @"\" + answer.IndexOf("\'");
+				}*/
+
 				if (answer.Contains(" "))
 				{
 					dbFirstName = answer.Substring(0, answer.IndexOf(" "));
