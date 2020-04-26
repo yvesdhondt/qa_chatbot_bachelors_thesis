@@ -161,7 +161,7 @@ namespace PenoBot.Bots
                         //Checking if there are answers to previous questions and if so sending them to the user
                         try
                         {
-                            ISet<ServerAnswer> answers = Globals.connector.GetNewAnswersForUser(Globals.userID);
+                            ISet<ServerAnswer> answers = Globals.connector.GetNewAnswersForUser(userProfile.userID);
 
                             if (answers.Count > 0)
                             {
