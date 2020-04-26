@@ -153,30 +153,31 @@ namespace PenoBot.Bots
                         $"It's good to have you back, {userProfile.Name}.", $"Hello {userProfile.Name}, glad I can be of service again!",
                         $"Welcome back {userProfile.Name}.", $"Hello {userProfile.Name}. How can I help you this time?",
                         $"Hello there {userProfile.Name}. I hope you're having a nice day."});
-                    
-                        
-                    //Checking if there are answers to previous questions and if so sending them to the user
-                    try
-                    {
-                        ISet<ServerAnswer> answers = Globals.connector.GetNewAnswersForUser(Globals.userID);
-                        if (answers.Count > 0)
-                        {
-                            foreach (ServerAnswer answer in answers)
-                            {
-                                    var message = "You recently aksed: " + answer.question + " I have found an answer to this question, " + answer.answer;
-                                await turnContext.SendActivityAsync(MessageFactory.Text(message, message), cancellationToken);
-                            }
-                        }
-                    } catch(Exception e) { }
-                            
-                      
+
                         Random r = new Random();
                         var question = randomList[r.Next(randomList.Count)];
                         await turnContext.SendActivityAsync(question);
-                        // Run the last dialog in the stack.
-                        await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
-                            cancellationToken);
-                    }
+
+                        //Checking if there are answers to previous questions and if so sending them to the user
+                        try
+                        {
+                            ISet<ServerAnswer> answers = Globals.connector.GetNewAnswersForUser(Globals.userID);
+
+                            if (answers.Count > 0)
+                            {
+                                foreach (ServerAnswer answer in answers)
+                                {
+                                        var message = "You recently asked: '" + answer.question + "'. I think I have found an answer to this question: " + answer.answer;
+                                    await turnContext.SendActivityAsync(MessageFactory.Text(message, message), cancellationToken);
+                                }
+                            }
+                        } catch(Exception e) { }
+                            
+                      
+                            // Run the last dialog in the stack.
+                            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
+                                cancellationToken);
+                        }
                 }
             }
         }
