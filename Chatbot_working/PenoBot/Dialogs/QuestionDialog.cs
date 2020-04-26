@@ -85,7 +85,9 @@ namespace PenoBot.Dialogs
 			{
 				case yes:
 					
-					List<string> choices = new List<string>();
+					List<string> choices = new List<string>(); 
+					QuestionList = new List<string>();
+					QuestionIds = new List<int>();
 					
 					try
 					{
