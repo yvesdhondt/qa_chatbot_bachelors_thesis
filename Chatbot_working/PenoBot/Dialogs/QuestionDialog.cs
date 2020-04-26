@@ -1,4 +1,4 @@
-using Microsoft.Bot.Builder.Dialogs;
+﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace PenoBot.Dialogs
 					
 					try
 					{
-						await RequestQuestionsAndAddToChoices(choices);
+						await RequestQuestionsAndAddToChoices(choices).ConfigureAwait(false);
 					}
 					catch (Exception e)
 					{
@@ -151,7 +151,7 @@ namespace PenoBot.Dialogs
 			}
 		}
 
-		private async Task RequestQuestionsAndAddToChoices(List <string> choices)
+		private async Task<List<string>> RequestQuestionsAndAddToChoices(List <string> choices)
 		{
 			var questions = await Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID));
 
@@ -164,6 +164,8 @@ namespace PenoBot.Dialogs
 					this.QuestionIds.Add(question.question_id);
 				}
 			}
+			Console.WriteLine("No of questions: " + questions.Count);
+			return choices;
 		}
 
 		private async Task<DialogTurnResult> AnswerQuestion(WaterfallStepContext stepContext,
