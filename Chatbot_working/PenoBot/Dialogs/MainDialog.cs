@@ -101,7 +101,7 @@ base(id)
 				var responseToNonsense = responsesToNonsense[r.Next(responsesToNonsense.Count)];
 
 				// Responses to offensive input
-				List<string> responsesToOffensive = new List<string>(new String[] { "I wouldn\t say it like that.",
+				List<string> responsesToOffensive = new List<string>(new String[] { "I wouldn\'t say it like that.",
 					"I personally don\'t speak that kind of language.", "Maybe you could rephrase that?", 
 					"I would not say it is proper to say that.", "As a gentle bot I would not dare to talk like that. O my dear.",
 					"O my goodness. Gentle bots would not dare to talk like that."});
