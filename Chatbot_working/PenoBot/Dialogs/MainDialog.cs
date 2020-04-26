@@ -153,7 +153,7 @@ base(id)
 					// offensive
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(responseToOffensive), cancellationToken);
 				}
-				else if (answer.answer_id < 0 || answer.answer == "")
+				else if (answer.answer_id < 0 || answer.answer == "" || answer == null)
 				{
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
 				}
