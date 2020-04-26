@@ -107,6 +107,9 @@ base(id)
 					"O my goodness. Gentle bots would not dare to talk like that."});
 				var responseToOffensive = responsesToOffensive[r.Next(responsesToOffensive.Count)];
 
+				var askAgain = "I'm sorry but I'm having some trouble with finding an answer right now. It seems like I'm not perfect after all.";
+
+
 				//sending to server
 				ServerAnswer answer = null;
 				try
@@ -126,6 +129,7 @@ base(id)
 							Debug.WriteLine("Exception while sending question for 2nd time:\n" + e2);
 							// If you want to send the exception to the user.
 							//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+							await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
 							return await stepContext.NextAsync(null, cancellationToken);
 						}
 					}
@@ -134,13 +138,13 @@ base(id)
 						Debug.WriteLine("Exception while requesting questions:\n" + e);
 						// If you want to send the exception to the user.
 						//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
 						return await stepContext.NextAsync(null, cancellationToken);
 					}
 				}
 
 				if (answer == null)
 				{
-					var askAgain = "I'm sorry but I'm having some trouble with finding an answer right now, it seems like I'm not perfect after all.";
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
 				}
 				else if (answer.status_code == (int)ServerStatusCode.Nonsense)
