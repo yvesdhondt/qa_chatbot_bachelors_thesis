@@ -20,10 +20,13 @@ namespace PenoBot.Dialogs
 		//private readonly ContactRecognizer _luisRecognizer; 
 		private readonly IBotServices _botServices;
 
+		public IStatePropertyAccessor<UserProfile> UserProfileAccessor { get; }
 
-		public RootDialog(IBotServices botServices /**ContactRecognizer contactRecognizer**/, ILogger<RootDialog> logger) :
+		public RootDialog(IBotServices botServices /**ContactRecognizer contactRecognizer**/, ILogger<RootDialog> logger /*IStatePropertyAccessor<UserProfile> userProfileStateAccessor*/) :
 			base(nameof(RootDialog))
 		{
+			//UserProfileAccessor = userProfileStateAccessor;
+
 			_botServices = botServices;
 			Logger = logger;
 			//_luisRecognizer = contactRecognizer; 
@@ -31,7 +34,7 @@ namespace PenoBot.Dialogs
 			// Register all the dialogs that will be called (Prompts, LuisWeather, Waterfall Steps).
 
 			AddDialog(new TextPrompt(nameof(TextPrompt)));
-			AddDialog(new QuestionDialog(nameof(QuestionDialog)));
+			AddDialog(new QuestionDialog(nameof(QuestionDialog)/*,userProfileStateAccessor*/));
 			AddDialog(new MainDialog(nameof(MainDialog), _botServices)); 
 
 			// Define the steps for the waterfall dialog.
