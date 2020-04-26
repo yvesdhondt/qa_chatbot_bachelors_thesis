@@ -78,10 +78,26 @@ namespace PenoBot.Dialogs
 				dbLastName = luisresult.personLastName; 
 			}
 			else
-			{
+			{	
 				string answer = stepContext.Context.Activity.Text;
-				dbFirstName = answer.Substring(0, answer.IndexOf(" "));
-				dbLastName = answer.Substring(answer.IndexOf(" ") + 1);
+				if (answer.Contains(" "))
+				{
+					dbFirstName = answer.Substring(0, answer.IndexOf(" "));
+					dbLastName = answer.Substring(answer.IndexOf(" ") + 1);
+				}
+				else
+				{
+					/*await stepContext.Context.SendActivityAsync("I'm not sure I've got the full name correctly. Can you give me the full name once more ?");
+					string notSure = "Please specify this name as 'first name last name'.";
+					var notSureMessage = MessageFactory.Text(notSure, notSure, InputHints.ExpectingInput);
+					return await stepContext.PromptAsync(nameof(TextPrompt),
+						new PromptOptions() { Prompt = notSureMessage }, cancellationToken);
+					answer = stepContext.Context.Activity.Text;
+					*/
+
+					dbFirstName = answer;
+					dbLastName = "";
+				}
 			}
 
 
@@ -89,6 +105,12 @@ namespace PenoBot.Dialogs
 			switch (luisresult.TopIntent().intent)
 			{
 				case LuisContactModel.Intent.getEmail:
+
+					/*if (dbLastName == "")
+					{
+						dbLastName = connec.getLastName(dbFirstName, dbLastName);
+					}*/
+
 					QueryResult = connec.getEmail(dbFirstName, dbLastName);
 					if (QueryResult == null)
 					{

@@ -20,13 +20,29 @@ namespace PenoBot
             return performQuery("Number", firstName, lastName);
         }
 
+        /*public String getLastName(String firstName, String lastName)
+        {
+            return performQuery("LastName", firstName,lastName);
+        }*/
+
         private String performQuery(String column, String firstName, String lastName)
         {
+
             var result = "";
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                String query = "Select " + column + " from dbo.Persons where FirstName = '" + firstName + "' and LastName = '" + lastName + "'";
+
+                String query = "";
+                if (lastName == "")
+                {
+                    query = "Select " + column + " from dbo.Persons where FirstName = '" + firstName + "'" ;
+
+                }
+                else {
+                    query = "Select " + column + " from dbo.Persons where FirstName = '" + firstName + "' and LastName = '" + lastName + "'";
+
+                }
                 using (var command = new SqlCommand(query, connection))
                 {
                     var reader = command.ExecuteReader();
