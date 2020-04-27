@@ -91,13 +91,26 @@ base(id)
 			if ((luisResult.TopIntent().score < thresholdScore || (luisResult.TopIntent().score > thresholdScore && luisResult.TopIntent().intent == LuisContactModel.Intent.None)) &&
 				(qnaResult.FirstOrDefault()?.Score*2 ?? 0) < thresholdScore)
 			{
-				var notUnderstood = "Going to send this to the forum, you will receive an answer later!";
-				//var notUnderstoodMessage = MessageFactory.Text(notUnderstood, notUnderstood, InputHints.ExpectingInput);
+				Random r = new Random();
+
+				var askAgain = "I can't seem to find my brain ... Could you please ask it again later?";
+
+				// Responses when no answer available
+				List<string> notUnderstoodResponses = new List<string>(new String[] { "I'll have to look that up. I'll let you know when I found something!",
+					"I will ask someone. I'll let you know when I got an answer.", 
+					"Hmmm. Good question. Give me some time and I will try to figure it out. I will keep you updated!"});
+				var notUnderstood = notUnderstoodResponses[r.Next(notUnderstoodResponses.Count)];
+
+				// Responses on timeout
+				List<string> answerLateResponse = new List<string>(new String[] { "It's taking longer than I'd expect to find an answer. " +
+					"I'm not that old though. I will notify you when I'm ready.", "I thought I was smart and quick, but right now I only seem to be smart. " +
+					"Anyway, you'll hear from me when I got something!", "I'm sorry but I'm having some trouble with finding an answer right now. It seems like " +
+					"I'm not perfect after all. However, I'll notify you when I found an answer."});
+				var answerLate = answerLateResponse[r.Next(answerLateResponse.Count)];
 
 				// Responses to nonsense input
 				List<string> responsesToNonsense = new List<string>(new String[] { "Yeah, right.", "Are you sure?", 
 					"I sometimes really don\'t get what you mean.", "You lost me there.", "I guess I\'m not supposed to understand that? Am I?" });
-				Random r = new Random();
 				var responseToNonsense = responsesToNonsense[r.Next(responsesToNonsense.Count)];
 
 				// Responses to offensive input
@@ -106,8 +119,6 @@ base(id)
 					"I would not say it is proper to say that.", "As a gentle bot I would not dare to talk like that. O my dear.",
 					"O my goodness. Gentle bots would not dare to talk like that."});
 				var responseToOffensive = responsesToOffensive[r.Next(responsesToOffensive.Count)];
-
-				var askAgain = "I'm sorry but I'm having some trouble with finding an answer right now. It seems like I'm not perfect after all.";
 
 
 				//sending to server
@@ -145,7 +156,7 @@ base(id)
 
 				if (answer == null)
 				{
-					await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answerLate), cancellationToken);
 				}
 				else if (answer.status_code == (int)ServerStatusCode.Nonsense)
 				{
