@@ -91,7 +91,7 @@ base(id)
 
 			var luisResult = await _botServices.LuisService.RecognizeAsync<LuisContactModel>(message, cancellationToken);
 
-			var thresholdScore = 0.70;
+			var thresholdScore = 0.80;
 
 			// Check if score is too low, then it is not understood.
 			if ((luisResult.TopIntent().score < thresholdScore || (luisResult.TopIntent().score > thresholdScore && luisResult.TopIntent().intent == LuisContactModel.Intent.None)) &&
