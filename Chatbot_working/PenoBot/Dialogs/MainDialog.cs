@@ -25,22 +25,27 @@ namespace PenoBot.Dialogs
 		protected readonly BotState UserState;
 		public static string userid = Globals.userID;
 		public List<string> choices = new List<string>();
+		private int _answer_id = -1;
+		private int _question_id = -1;
 
 
 
 		public MainDialog(String id/**ContactRecognizer contactRecognizer**/ /**ILogger<LuisContactDialog> logger*/, IBotServices botServices) :
 base(id)
 		{
-
 			_botServices = botServices; 
+			choices.Add("Yes");
+			choices.Add("No");
 
-
+			
 			AddDialog(new TextPrompt(nameof(TextPrompt)));
+			AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
 			AddDialog(new LuisContactDialog(nameof(LuisContactDialog)));
 			AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
 			{
 				IntroStepAsync,
-				DispatchStepAsync, 
+				DispatchStepAsync,
+				FeedbackStepAsync,
 				FinalStepAsync
 			}));
 
@@ -136,9 +141,6 @@ base(id)
 					return await stepContext.NextAsync(null, cancellationToken);
 				}
 
-				choices.Add("yes");
-				choices.Add("no");
-
 
 				if (answer == null)
 				{
@@ -161,28 +163,25 @@ base(id)
 				else
 				{
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
-
+					this._answer_id = answer.answer_id;
+					this._question_id = answer.question_id;
 					//to ask the user if the answer was or was not a good answer to his/her question
 
-					/*
-					await stepContext.PromptAsync(nameof(ChoicePrompt), new PromptOptions
+					try
 					{
+						return await stepContext.PromptAsync(nameof(ChoicePrompt), new PromptOptions
+						{
 
-						Prompt = MessageFactory.Text("Was this a good answer? If so we would be very grateful if you could press the YES button!"),
-						RetryPrompt = MessageFactory.Text("Please press one of the following buttons."),
-						Choices = ChoiceFactory.ToChoices(choices),
-						Style = ListStyle.HeroCard,
-					}, cancellationToken) ;
-					string yesorno = stepContext.Context.Activity.Text;
-
-					if (yesorno == "yes")
+							Prompt = MessageFactory.Text("Was this a good answer? I would be grateful if you could press the YES button!"),
+							RetryPrompt = MessageFactory.Text("Please press one of the following buttons."),
+							Choices = ChoiceFactory.ToChoices(choices),
+							Style = ListStyle.HeroCard,
+						}, cancellationToken) ;
+					}
+					catch(Exception e)
 					{
-						Globals.connector.SendFeedbackOnAnswer(Globals.userID, answer.answer_id, answer.question_id, 1);
-					} 
-					else if (yesorno == "no") {
-						Globals.connector.SendFeedbackOnAnswer(Globals.userID, answer.answer_id, answer.question_id, 0);
-
-					}*/
+						Console.WriteLine(e);
+					}
 				}
 
 				return await stepContext.NextAsync(null, cancellationToken);
@@ -208,6 +207,22 @@ base(id)
 
 				
 			}		
+		}
+
+		private async Task<DialogTurnResult> FeedbackStepAsync(WaterfallStepContext stepContext,
+			CancellationToken cancellationToken)
+		{
+			string yesorno = stepContext.Context.Activity.Text;
+			int feedbackCode;
+			if (yesorno == "Yes")
+				feedbackCode = (int)FeedbackStatusCode.Positive;
+			else if (yesorno == "No")
+				feedbackCode = (int)FeedbackStatusCode.Positive;
+			else
+				return await stepContext.NextAsync(null, cancellationToken);
+
+			Globals.connector.SendFeedbackOnAnswer(Globals.userID, this._answer_id, this._question_id, feedbackCode);
+			return await stepContext.NextAsync(null, cancellationToken);
 		}
 
 		private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext,
