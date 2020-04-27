@@ -164,6 +164,8 @@ base(id)
 				else
 				{
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
+
+					//Globals.connector.SendFeedbackOnAnswer(Globals.userID, answer.answer_id, answer.question_id, FeedbackCode.Positive);
 				}				
 
 				return await stepContext.NextAsync(null, cancellationToken);
