@@ -17,6 +17,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Text;
 using ClusterClient.Models;
+using Microsoft.AspNetCore.Mvc;
 //using PenoBot.Controllers.NotifyController;
 
 namespace PenoBot.Bots
@@ -90,13 +91,15 @@ namespace PenoBot.Bots
 
             var userStateAccessors = UserState.CreateProperty<UserProfile>(nameof(UserProfile));
             var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
-
+            
             if (string.IsNullOrEmpty(userProfile.Name))
             {
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.Text?.Trim();
                 userProfile.userID = RandomString(20, true);
                 Globals.userID = userProfile.userID;
+                // Save pair of activity user id and custom user id (work-around)
+                Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
 
                 // Acknowledge that we got their name.
                 await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
@@ -105,6 +108,8 @@ namespace PenoBot.Bots
 
             } else {
                 Globals.userID = userProfile.userID;
+                // Save pair of activity user id and custom user id (work-around)
+                Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
                 // Run the last dialog in the stack.
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                     cancellationToken);

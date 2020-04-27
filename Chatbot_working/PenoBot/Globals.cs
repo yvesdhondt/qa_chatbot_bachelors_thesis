@@ -10,5 +10,6 @@ namespace PenoBot
     {
         public static Connector connector;
         public static string userID;
+        public static Dictionary<string, string> UserIdToActivityUserId = new Dictionary<string, string>();
     }
 }
