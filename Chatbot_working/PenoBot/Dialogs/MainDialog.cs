@@ -127,31 +127,11 @@ base(id)
 				{
 					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text, 10));
 				} catch(Exception e) {
-					// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
-					if (e is WebSocketException || (e is AggregateException && e.InnerException is WebSocketException))
-					{
-						Debug.WriteLine("WebSocketException while sending question:\n" + e);
-						try
-						{
-							answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text, 10));
-						}
-						catch (Exception e2)
-						{
-							Debug.WriteLine("Exception while sending question for 2nd time:\n" + e2);
-							// If you want to send the exception to the user.
-							//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
-							await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
-							return await stepContext.NextAsync(null, cancellationToken);
-						}
-					}
-					else
-					{
-						Debug.WriteLine("Exception while requesting questions:\n" + e);
-						// If you want to send the exception to the user.
-						//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
-						await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
-						return await stepContext.NextAsync(null, cancellationToken);
-					}
+					Debug.WriteLine("Exception while requesting questions:\n" + e);
+					// If you want to send the exception to the user.
+					//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+					await stepContext.Context.SendActivityAsync(MessageFactory.Text(askAgain), cancellationToken);
+					return await stepContext.NextAsync(null, cancellationToken);
 				}
 
 				if (answer == null)

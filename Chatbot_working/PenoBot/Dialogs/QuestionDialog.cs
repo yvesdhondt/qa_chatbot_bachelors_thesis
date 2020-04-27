@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -97,29 +97,11 @@ namespace PenoBot.Dialogs
 					}
 					catch (Exception e)
 					{
-						// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
-						if (e is WebSocketException || (e is AggregateException && e.InnerException is WebSocketException))
-						{
-							Debug.WriteLine("WebSocketException while requesting questions:\n" + e);
-							try
-							{
-								await RequestQuestionsAndAddToChoices(choices);
-							}
-							catch (Exception e2)
-							{
-								Debug.WriteLine("Exception while requesting questions for 2nd time:\n" + e2);
-								// If you want to send the exception to the user.
-								//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
-								await stepContext.Context.SendActivityAsync(MessageFactory.Text(noQuestionsAvailable), cancellationToken);
-								return await stepContext.NextAsync(null, cancellationToken);
-							}
-						} else {
-							Debug.WriteLine("Exception while requesting questions:\n" + e);
-							// If you want to send the exception to the user.
-							//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
-							await stepContext.Context.SendActivityAsync(MessageFactory.Text(noQuestionsAvailable), cancellationToken);
-							return await stepContext.NextAsync(null, cancellationToken);
-						}
+						Debug.WriteLine("Exception while requesting questions:\n" + e);
+						// If you want to send the exception to the user.
+						//await stepContext.Context.SendActivityAsync(MessageFactory.Text(e.ToString()), cancellationToken);
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(noQuestionsAvailable), cancellationToken);
+						return await stepContext.NextAsync(null, cancellationToken);
 					}
 
 					// Let the user choose a question to answer
