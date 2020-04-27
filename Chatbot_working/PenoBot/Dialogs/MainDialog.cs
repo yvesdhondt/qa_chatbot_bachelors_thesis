@@ -24,18 +24,18 @@ namespace PenoBot.Dialogs
 		public static Connector conchatbot = Globals.connector;
 		protected readonly BotState UserState;
 		public static string userid = Globals.userID;
-		public List<string> choices = new List<string>();
+		public List<string> feedbackChoices = new List<string>();
 		private int _answer_id = -1;
 		private int _question_id = -1;
-
+		private readonly Random random = new Random();
 
 
 		public MainDialog(String id/**ContactRecognizer contactRecognizer**/ /**ILogger<LuisContactDialog> logger*/, IBotServices botServices) :
 base(id)
 		{
 			_botServices = botServices; 
-			choices.Add("Yes");
-			choices.Add("No");
+			feedbackChoices.Add("Yes");
+			feedbackChoices.Add("No");
 
 			
 			AddDialog(new TextPrompt(nameof(TextPrompt)));
@@ -61,8 +61,8 @@ base(id)
 				List<string> randomList = new List<string>(new String[] { "What can I do for you?",
 					"What question do you have for me?", "What can I help you with?",
 					"How may I help you?", "How can I be of service to you?"});
-				Random r = new Random();
-				var question = randomList[r.Next(randomList.Count)];
+				
+				var question = randomList[random.Next(randomList.Count)];
 				var questionMsg = MessageFactory.Text(question, question, InputHints.ExpectingInput);
 				return await stepContext.PromptAsync(nameof(TextPrompt),
 					new PromptOptions() { Prompt = questionMsg }, cancellationToken);
@@ -72,8 +72,7 @@ base(id)
 				List<string> randomList = new List<string>(new String[] { "What else can I do for you?",
 					"Is there anything else I can help with?", "Do you have another question?", "What else can I help you with?", 
 					"Can I help you with something else?"});
-				Random r = new Random();
-				var question = randomList[r.Next(randomList.Count)];
+				var question = randomList[random.Next(randomList.Count)];
 				var questionMsg = MessageFactory.Text(question, question, InputHints.ExpectingInput);
 				return await stepContext.PromptAsync(nameof(TextPrompt),
 					new PromptOptions() { Prompt = questionMsg }, cancellationToken);
@@ -98,7 +97,6 @@ base(id)
 			if ((luisResult.TopIntent().score < thresholdScore || (luisResult.TopIntent().score > thresholdScore && luisResult.TopIntent().intent == LuisContactModel.Intent.None)) &&
 				(qnaResult.FirstOrDefault()?.Score*2 ?? 0) < thresholdScore)
 			{
-				Random r = new Random();
 
 				var askAgain = "I can't seem to find my brain ... Could you please ask it again later?";
 
@@ -106,26 +104,26 @@ base(id)
 				List<string> notUnderstoodResponses = new List<string>(new String[] { "I'll have to look that up. I'll let you know when I found something!",
 					"I will ask someone. I'll let you know when I got an answer.", 
 					"Hmmm. Good question. Give me some time and I will try to figure it out. I will keep you updated!"});
-				var notUnderstood = notUnderstoodResponses[r.Next(notUnderstoodResponses.Count)];
+				var notUnderstood = notUnderstoodResponses[random.Next(notUnderstoodResponses.Count)];
 
 				// Responses on timeout
 				List<string> answerLateResponse = new List<string>(new String[] { "It's taking longer than I'd expect to find an answer. " +
 					"I'm not that old though. I will notify you when I'm ready.", "I thought I was smart and quick, but right now I only seem to be smart. " +
 					"Anyway, you'll hear from me when I got something!", "I'm sorry. I'm having trouble finding an answer right now. It seems like " +
 					"I'm not perfect after all. However, I'll notify you when I found an answer."});
-				var answerLate = answerLateResponse[r.Next(answerLateResponse.Count)];
+				var answerLate = answerLateResponse[random.Next(answerLateResponse.Count)];
 
 				// Responses to nonsense input
 				List<string> responsesToNonsense = new List<string>(new String[] { "Yeah, right.", "Are you sure?", 
 					"I sometimes really don\'t get what you mean.", "You lost me there.", "I guess I\'m not supposed to understand that? Am I?" });
-				var responseToNonsense = responsesToNonsense[r.Next(responsesToNonsense.Count)];
+				var responseToNonsense = responsesToNonsense[random.Next(responsesToNonsense.Count)];
 
 				// Responses to offensive input
 				List<string> responsesToOffensive = new List<string>(new String[] { "I wouldn\'t say it like that.",
 					"I personally don\'t speak that kind of language.", "Maybe you could rephrase that?", 
 					"I would not say it is proper to say that.", "As a gentle bot I would not dare to talk like that. O my dear.",
 					"O my goodness. Gentle bots would not dare to talk like that."});
-				var responseToOffensive = responsesToOffensive[r.Next(responsesToOffensive.Count)];
+				var responseToOffensive = responsesToOffensive[random.Next(responsesToOffensive.Count)];
 
 
 				//sending to server
@@ -174,7 +172,7 @@ base(id)
 
 							Prompt = MessageFactory.Text("Was this a good answer? I would be grateful if you could press the YES button!"),
 							RetryPrompt = MessageFactory.Text("Please press one of the following buttons."),
-							Choices = ChoiceFactory.ToChoices(choices),
+							Choices = ChoiceFactory.ToChoices(feedbackChoices),
 							Style = ListStyle.HeroCard,
 						}, cancellationToken) ;
 					}
@@ -250,8 +248,14 @@ base(id)
 				}
 				
 			}
+			var i = random.Next(100);
+			if (i < 16)
+			{
+				if(Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID, 2).Count > 0)
+					return await stepContext.BeginDialogAsync(nameof(QuestionDialog), null, cancellationToken);
+			}
 			var msg = "What else can I do for you?";
-			return await stepContext.ReplaceDialogAsync(InitialDialogId, msg, cancellationToken); 
+			return await stepContext.ReplaceDialogAsync(InitialDialogId, msg, cancellationToken);
 		}
 
 	}
