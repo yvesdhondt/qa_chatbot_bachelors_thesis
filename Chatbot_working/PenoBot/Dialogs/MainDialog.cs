@@ -200,6 +200,28 @@ base(id)
 		private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext,
 			CancellationToken cancellationToken)
 		{
+			string answerMsgSingle = "By the way, I think I have found an answer to one of your previous questions.";
+			string answerMsgMultiple = "By the way, I think I found an answer to some of your earlier questions!";
+
+		// Reenable proactive messages for user if they were blocked during dialog.
+		Globals.connector.UnblockProactiveMessagingForUser(Globals.userID);
+			if (Globals.connector.MissedProactiveMessagesForUser(Globals.userID))
+			{
+				var answers = Globals.connector.GetNewAnswersForUser(Globals.userID);
+				if (answers.Count > 0)
+				{
+					if (answers.Count == 1)
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(answerMsgSingle), cancellationToken);
+					else
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(answerMsgMultiple), cancellationToken);
+					foreach (ServerAnswer answer in answers)
+					{
+						var message = "You recently asked: '" + answer.question + "'. The answer should be: " + answer.answer;
+						await stepContext.Context.SendActivityAsync(MessageFactory.Text(message), cancellationToken);
+					}
+				}
+				
+			}
 			var msg = "What else can I do for you?";
 			return await stepContext.ReplaceDialogAsync(InitialDialogId, msg, cancellationToken); 
 		}

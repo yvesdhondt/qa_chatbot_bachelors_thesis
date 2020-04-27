@@ -157,8 +157,6 @@ namespace PenoBot.Dialogs
 					break;
 			}
 
-			// Reenable proactive messages for user after LUIS Dialog.
-			Globals.connector.UnblockProactiveMessagingForUser(Globals.userID);
 			return await stepContext.EndDialogAsync(this, cancellationToken);
 
 

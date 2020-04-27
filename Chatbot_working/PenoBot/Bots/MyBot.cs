@@ -172,7 +172,7 @@ namespace PenoBot.Bots
                             {
                                 foreach (ServerAnswer answer in answers)
                                 {
-                                        var message = "You recently asked: '" + answer.question + "'. I think I have found an answer to this question: " + answer.answer;
+                                    var message = "You recently asked: '" + answer.question + "'. I think I have found an answer to this question: " + answer.answer;
                                     await turnContext.SendActivityAsync(MessageFactory.Text(message, message), cancellationToken);
                                 }
                             }
