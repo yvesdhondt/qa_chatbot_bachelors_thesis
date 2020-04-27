@@ -13,6 +13,7 @@ using PenoBot.CognitiveModels;
 using ClusterClient;
 using ClusterClient.Models;
 using System.Net.WebSockets;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace PenoBot.Dialogs
 {
@@ -23,6 +24,7 @@ namespace PenoBot.Dialogs
 		public static Connector conchatbot = Globals.connector;
 		protected readonly BotState UserState;
 		public static string userid = Globals.userID;
+		public List<string> choices = new List<string>();
 
 
 
@@ -134,6 +136,10 @@ base(id)
 					return await stepContext.NextAsync(null, cancellationToken);
 				}
 
+				choices.Add("yes");
+				choices.Add("no");
+
+
 				if (answer == null)
 				{
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answerLate), cancellationToken);
@@ -156,8 +162,28 @@ base(id)
 				{
 					await stepContext.Context.SendActivityAsync(MessageFactory.Text(answer.answer), cancellationToken);
 
-					//Globals.connector.SendFeedbackOnAnswer(Globals.userID, answer.answer_id, answer.question_id, FeedbackCode.Positive);
-				}				
+					//to ask the user if the answer was or was not a good answer to his/her question
+
+					/*
+					await stepContext.PromptAsync(nameof(ChoicePrompt), new PromptOptions
+					{
+
+						Prompt = MessageFactory.Text("Was this a good answer? If so we would be very grateful if you could press the YES button!"),
+						RetryPrompt = MessageFactory.Text("Please press one of the following buttons."),
+						Choices = ChoiceFactory.ToChoices(choices),
+						Style = ListStyle.HeroCard,
+					}, cancellationToken) ;
+					string yesorno = stepContext.Context.Activity.Text;
+
+					if (yesorno == "yes")
+					{
+						Globals.connector.SendFeedbackOnAnswer(Globals.userID, answer.answer_id, answer.question_id, 1);
+					} 
+					else if (yesorno == "no") {
+						Globals.connector.SendFeedbackOnAnswer(Globals.userID, answer.answer_id, answer.question_id, 0);
+
+					}*/
+				}
 
 				return await stepContext.NextAsync(null, cancellationToken);
 			}
