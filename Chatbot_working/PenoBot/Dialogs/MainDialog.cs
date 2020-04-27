@@ -178,7 +178,8 @@ base(id)
 			// Check on scores between Luis and Qna.
 			if (luisResult.TopIntent().score >= (qnaResult.FirstOrDefault()?.Score ?? 0))
 			{
-
+				// Block proactive messaging while in LUIS dialog.
+				Globals.connector.BlockProactiveMessagingForUser(Globals.userID);
 				// Start the Luis Weather dialog.
 				return await stepContext.BeginDialogAsync(nameof(LuisContactDialog), luisResult, cancellationToken);
 			}
