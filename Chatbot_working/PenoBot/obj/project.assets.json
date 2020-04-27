@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "ClusterClient/0.5.3": {
+      "ClusterClient/1.0.0": {
         "type": "package",
         "dependencies": {
           "System.Text.Json": "4.7.1"
@@ -4691,13 +4691,13 @@
     }
   },
   "libraries": {
-    "ClusterClient/0.5.3": {
-      "sha512": "u2/NwZosQxKAmtbDI4vBRKlzMmV+2zfosm31bCx4mwqI3yBeDCFYrvP1w+LyJRjjky+qcq2KTncOkTelARuyPQ==",
+    "ClusterClient/1.0.0": {
+      "sha512": "x3MyeR/syzX8XgYCo1RNZYe0TAcJLs+Xtmn/H+hzxBQ1mS9esqBQRei9n37BXvUQXiLjV/TctZkc8EWcCGcCMA==",
       "type": "package",
-      "path": "clusterclient/0.5.3",
+      "path": "clusterclient/1.0.0",
       "files": [
         ".nupkg.metadata",
-        "clusterclient.0.5.3.nupkg.sha512",
+        "clusterclient.1.0.0.nupkg.sha512",
         "clusterclient.nuspec",
         "lib/netstandard2.0/ClusterClient.dll"
       ]
@@ -12733,7 +12733,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "ClusterClient >= 0.5.3",
+      "ClusterClient >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.Bot.Builder.AI.Luis >= 4.8.0",
       "Microsoft.Bot.Builder.AI.QnA >= 4.8.0",
@@ -12765,7 +12765,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://botbuilder.myget.org/F/experimental/api/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
@@ -12783,7 +12784,7 @@
         "dependencies": {
           "ClusterClient": {
             "target": "Package",
-            "version": "[0.5.3, )"
+            "version": "[1.0.0, )"
           },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
