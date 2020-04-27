@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PenoBot", "PenoBot\PenoBot.csproj", "{242A10C2-A11B-4811-BC85-8DE2B415D46F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{242A10C2-A11B-4811-BC85-8DE2B415D46F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{242A10C2-A11B-4811-BC85-8DE2B415D46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{242A10C2-A11B-4811-BC85-8DE2B415D46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{242A10C2-A11B-4811-BC85-8DE2B415D46F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DEDE2E61-DAF4-4E93-939F-13869348AA4D}
+	EndGlobalSection
+EndGlobal

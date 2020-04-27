@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="PenoBot" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\louis\\source\\repos\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\obj\\Release\\netcoreapp2\.1\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>
