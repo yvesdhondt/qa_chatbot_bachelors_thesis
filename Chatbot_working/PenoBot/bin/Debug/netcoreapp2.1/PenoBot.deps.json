@@ -24,7 +24,7 @@
     ".NETCoreApp,Version=v2.1": {
       "PenoBot/1.0.0": {
         "dependencies": {
-          "ClusterClient": "0.5.3",
+          "ClusterClient": "1.0.0",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.Bot.Builder.AI.Luis": "4.8.0",
           "Microsoft.Bot.Builder.AI.QnA": "4.8.0",
@@ -41,14 +41,14 @@
           "PenoBot.dll": {}
         }
       },
-      "ClusterClient/0.5.3": {
+      "ClusterClient/1.0.0": {
         "dependencies": {
           "System.Text.Json": "4.7.1"
         },
         "runtime": {
           "lib/netstandard2.0/ClusterClient.dll": {
-            "assemblyVersion": "0.5.3.0",
-            "fileVersion": "0.5.3.0"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         },
         "compile": {
@@ -3664,12 +3664,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "ClusterClient/0.5.3": {
+    "ClusterClient/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-u2/NwZosQxKAmtbDI4vBRKlzMmV+2zfosm31bCx4mwqI3yBeDCFYrvP1w+LyJRjjky+qcq2KTncOkTelARuyPQ==",
-      "path": "clusterclient/0.5.3",
-      "hashPath": "clusterclient.0.5.3.nupkg.sha512"
+      "sha512": "sha512-x3MyeR/syzX8XgYCo1RNZYe0TAcJLs+Xtmn/H+hzxBQ1mS9esqBQRei9n37BXvUQXiLjV/TctZkc8EWcCGcCMA==",
+      "path": "clusterclient/1.0.0",
+      "hashPath": "clusterclient.1.0.0.nupkg.sha512"
     },
     "Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime/2.1.0": {
       "type": "package",

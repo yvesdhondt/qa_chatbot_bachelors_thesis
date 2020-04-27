@@ -114,7 +114,7 @@ base(id)
 				ServerAnswer answer = null;
 				try
 				{
-					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
+					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text, 10));
 				} catch(Exception e) {
 					// Ignore WebSocketExceptions once, because the server could have been down for a moment but might be online now.
 					if (e is WebSocketException || (e is AggregateException && e.InnerException is WebSocketException))
@@ -122,7 +122,7 @@ base(id)
 						Debug.WriteLine("WebSocketException while sending question:\n" + e);
 						try
 						{
-							answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text));
+							answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text, 10));
 						}
 						catch (Exception e2)
 						{
