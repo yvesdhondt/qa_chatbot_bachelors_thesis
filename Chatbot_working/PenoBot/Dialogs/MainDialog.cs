@@ -169,12 +169,6 @@ base(id)
 				}				
 
 				return await stepContext.NextAsync(null, cancellationToken);
-
-				//dit mag ook weg denk ik?
-				await stepContext.Context.SendActivityAsync(MessageFactory.Text(notUnderstood), cancellationToken);
-				return await stepContext.NextAsync(null, cancellationToken);
-				//return await stepContext.PromptAsync(nameof(TextPrompt),
-				//new PromptOptions() { Prompt = notUnderstoodMessage }, cancellationToken);
 			}
 
 			// Check on scores between Luis and Qna.
