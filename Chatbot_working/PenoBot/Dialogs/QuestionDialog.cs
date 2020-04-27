@@ -1,4 +1,4 @@
-using Microsoft.Bot.Builder.Dialogs;
+﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

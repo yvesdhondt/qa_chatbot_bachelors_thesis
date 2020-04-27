@@ -104,7 +104,7 @@ base(id)
 				// Responses on timeout
 				List<string> answerLateResponse = new List<string>(new String[] { "It's taking longer than I'd expect to find an answer. " +
 					"I'm not that old though. I will notify you when I'm ready.", "I thought I was smart and quick, but right now I only seem to be smart. " +
-					"Anyway, you'll hear from me when I got something!", "I'm sorry but I'm having some trouble with finding an answer right now. It seems like " +
+					"Anyway, you'll hear from me when I got something!", "I'm sorry. I'm having trouble finding an answer right now. It seems like " +
 					"I'm not perfect after all. However, I'll notify you when I found an answer."});
 				var answerLate = answerLateResponse[r.Next(answerLateResponse.Count)];
 
