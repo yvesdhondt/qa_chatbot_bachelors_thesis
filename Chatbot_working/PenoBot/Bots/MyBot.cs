@@ -101,6 +101,7 @@ namespace PenoBot.Bots
                 Globals.userID = userProfile.userID;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.ActivityUserIdToUserId[turnContext.Activity.GetConversationReference().User.Id] = userProfile.userID;
 
                 // Acknowledge that we got their name.
                 await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
@@ -114,9 +115,10 @@ namespace PenoBot.Bots
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.From.Name;
                 userProfile.userID = RandomString(20, true);
-                Globals.userID = userProfile.userID;
+                Globals.userID = turnContext.Activity.GetConversationReference().User.Id;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.ActivityUserIdToUserId[turnContext.Activity.GetConversationReference().User.Id] = userProfile.userID;
 
                 // Acknowledge that we got their name.
                 await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
@@ -127,6 +129,7 @@ namespace PenoBot.Bots
                 Globals.userID = userProfile.userID;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.ActivityUserIdToUserId[turnContext.Activity.GetConversationReference().User.Id] = userProfile.userID;
                 // Run the last dialog in the stack.
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                     cancellationToken);
