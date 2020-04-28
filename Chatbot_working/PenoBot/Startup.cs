@@ -11,7 +11,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 using PenoBot.Bots;
 using PenoBot.Dialogs;
@@ -20,6 +19,8 @@ using System.Collections.Concurrent;
 
 using ClusterClient;
 using ClusterClient.Models;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PenoBot
 {
@@ -81,9 +82,10 @@ namespace PenoBot
             services.AddSingleton<Typing>();
             services.AddTransient<IBot, MyBot<RootDialog>>();
 
-         
+            // To get user IP
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-    }
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
