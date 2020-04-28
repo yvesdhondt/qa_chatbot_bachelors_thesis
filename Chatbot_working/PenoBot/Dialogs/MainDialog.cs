@@ -186,7 +186,7 @@ base(id)
 			}
 
 			// Check on scores between Luis and Qna.
-			if (luisResult.TopIntent().score >= (qnaResult.FirstOrDefault()?.Score ?? 0))
+			if (luisResult.TopIntent().intent != LuisContactModel.Intent.None && luisResult.TopIntent().score >= (qnaResult.FirstOrDefault()?.Score ?? 0))
 			{
 				// Block proactive messaging while in LUIS dialog.
 				Globals.connector.BlockProactiveMessagingForUser(Globals.userID);
