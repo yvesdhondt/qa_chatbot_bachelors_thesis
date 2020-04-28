@@ -130,7 +130,7 @@ base(id)
 				ServerAnswer answer = null;
 				try
 				{
-					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text, 10));
+					answer = await Task.Run(() => conchatbot.SendQuestionAndWaitForAnswer(Globals.userID, message.Activity.Text, Globals.timeout));
 				} catch(Exception e) {
 					Debug.WriteLine("Exception while requesting questions:\n" + e);
 					// If you want to send the exception to the user.

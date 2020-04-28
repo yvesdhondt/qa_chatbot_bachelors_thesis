@@ -135,7 +135,7 @@ namespace PenoBot.Dialogs
 
 		private async Task<List<string>> RequestQuestionsAndAddToChoices(List <string> choices)
 		{
-			var questions = await Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID,10));
+			var questions = await Task.Run(() => Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID,Globals.timeout));
 
 			if (questions.Count > 0)
 			{

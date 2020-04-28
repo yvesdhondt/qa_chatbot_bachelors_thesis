@@ -27,8 +27,7 @@ namespace PenoBot.Controllers
         private string ip;
         private readonly ConcurrentDictionary<string, ConversationReference> _conversationReferences;
         private readonly string connectionString = "Data Source=clusterbot.database.windows.net;Initial Catalog=Cluster;" +
-            "Persist Security Info=True;Integrated Security=true;User ID=Martijn;Password=sY6WRDL2pY7qmsY3" +
-            "Asynchronous Processing=true";
+            "Persist Security Info=True;User ID=Martijn;Password=sY6WRDL2pY7qmsY3";
 
         public NotifyController(IBotFrameworkHttpAdapter adapter, IConfiguration configuration, ConcurrentDictionary<string, ConversationReference> conversationReferences, IActionContextAccessor accessor)
         {
@@ -73,6 +72,8 @@ namespace PenoBot.Controllers
                     await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
                 }
             }
+            content += $"</tbody></table>Your IP: {ip}";
+            content += "</body></html>";
 
 
             // Let the caller know proactive messages have been sent
@@ -87,7 +88,7 @@ namespace PenoBot.Controllers
         private async Task<ISet<string>> GetAllowedIPs(string connectionString)
         {
             ISet<string> allowedIPs = new HashSet<string>();
-            string commandText = "SELECT timeout FROM dbo.ChatbotSettings LIMIT 1;";
+            string commandText = "SELECT ip FROM dbo.ChatbotAllowedIPs;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
@@ -99,11 +100,16 @@ namespace PenoBot.Controllers
                     while (!result.IsCompleted)
                         await Task.Delay(5);
                     SqlDataReader reader = command.EndExecuteReader(result);
+                    Console.WriteLine("Reading allowed ips.");
                     while (reader.Read())
                     {
                         for (int i = 0; i < reader.FieldCount; i++)
+                        {
                             allowedIPs.Add((string)reader.GetValue(i));
+                            Console.WriteLine("Ip found: " + reader.GetValue(i));
+                        }
                     }
+                    Console.WriteLine("Done");
                 }
                 catch (Exception ex)
                 {

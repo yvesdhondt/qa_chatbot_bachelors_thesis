@@ -21,11 +21,17 @@ using ClusterClient;
 using ClusterClient.Models;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System;
 
 namespace PenoBot
 {
     public class Startup
     {
+
+        private readonly string connectionString = "Data Source=clusterbot.database.windows.net;Initial Catalog=Cluster;" +
+            "Persist Security Info=True;User ID=Martijn;Password=sY6WRDL2pY7qmsY3";
         public Startup(/**Microsoft.AspNetCore.Hosting.IHostingEnvironment env,*/ IConfiguration configuration)
         {
             //ContentRootPath = env.ContentRootPath;
@@ -36,6 +42,7 @@ namespace PenoBot
             Globals.connector = new Connector("843iu233d3m4pxb1", "ws://localhost:39160/api/Chatbot/WS", 10);
             Globals.connector.EndPointAddress = "http://localhost:3978/api/ClusterClient";
             Globals.connector.SurpressConnectionErrors();
+            Globals.timeout = GetTimeout(connectionString).Result;
 #else
             Globals.connector = new Connector("843iu233d3m4pxb1", "wss://clusterapi20200320113808.azurewebsites.net/api/Chatbot/WS", 10);
             Globals.connector.EndPointAddress = System.Net.Dns.GetHostName() + "/api/ClusterClient";
@@ -104,6 +111,32 @@ namespace PenoBot
             app.UseWebSockets();
             //app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        private async Task<float> GetTimeout(string connectionString)
+        {
+            string commandText = "SELECT timeout FROM dbo.ChatbotSettings LIMIT 1;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(commandText, connection);
+
+                try
+                {
+                    await connection.OpenAsync();
+                    var result = command.BeginExecuteReader();
+                    while (!result.IsCompleted)
+                        await Task.Delay(5);
+                    SqlDataReader reader = command.EndExecuteReader(result);
+                    reader.Read();
+                    return (float)reader.GetValue(0);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                return 10;
+            }
         }
     }
 }

@@ -30,13 +30,8 @@ namespace PenoBot.Controllers
         private readonly string _appId;
         private readonly IActionContextAccessor _accessor;
         private readonly ConcurrentDictionary<string, ConversationReference> _conversationReferences;
-        private string _sorryMsg = "I hope I don't interrupt you.";
-        private string _answerMsg = "I think I have found an answer to a previous question of yours.";
-        private string _questionMsg = "I have a question for you:";
-        private string _messageForUser = null;
         private readonly string connectionString = "Data Source=clusterbot.database.windows.net;Initial Catalog=Cluster;" +
-            "Persist Security Info=True;Integrated Security=true;User ID=Martijn;Password=sY6WRDL2pY7qmsY3" +
-            "Asynchronous Processing=true";
+            "Persist Security Info=True;User ID=Martijn;Password=sY6WRDL2pY7qmsY3";
         private string ip;
 
         public SettingsController(IBotFrameworkHttpAdapter adapter, IConfiguration configuration, ConcurrentDictionary<string, 
@@ -67,15 +62,17 @@ namespace PenoBot.Controllers
                 return ReturnNotImplemented();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post(Settings settings)
+        [HttpGet]
+        [Route("save")]
+        public async Task<IActionResult> Post(int timeout)
         {
             ISet<string> allowedIPs = await GetAllowedIPs(this.connectionString);
             if (allowedIPs.Contains(this.ip))
             {
-                var timeout = settings.timeout;
+                //string timeoutString = collection["timeout"];
+                //float timeout = float.Parse(timeoutString);
                 UpdateTimeout(timeout, this.connectionString);
-                ReturnSettingsForm();
+                return ReturnSettingsForm();
             }
             return ReturnNotImplemented();
         }
@@ -92,8 +89,8 @@ namespace PenoBot.Controllers
 
         private ContentResult ReturnSettingsForm()
         {
-            var timeout = GetTimeout(this.connectionString);
-            var content = $"<html><body><form method=\"post\" action=\".\"><label for=\"timeout\">Timeout: </label><input id=\"timeout\"" +
+            var timeout = GetTimeout(this.connectionString).Result;
+            var content = $"<html><body><form method=\"get\" action=\"/api/chocolade/save\"><label for=\"timeout\">Timeout: </label><input id=\"timeout\"" +
                 $" name=\"timeout\" type=\"number\" value=\"{timeout}\" />" +
                 "<input type=\"submit\" value=\"Save\" /></form></body></html>";
             return new ContentResult()
@@ -169,7 +166,7 @@ namespace PenoBot.Controllers
         private async Task<ISet<string>> GetAllowedIPs(string connectionString)
         {
             ISet<string> allowedIPs = new HashSet<string>();
-            string commandText = "SELECT timeout FROM dbo.ChatbotSettings LIMIT 1;";
+            string commandText = "SELECT ip FROM dbo.ChatbotAllowedIPs;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(commandText, connection);
@@ -199,7 +196,7 @@ namespace PenoBot.Controllers
 
     public class Settings
     {
-        private float _timeout = 0;
-        internal float timeout { get => _timeout; set => _timeout = value; }
+        private int _timeout = 0;
+        public int timeout { get => _timeout; set => _timeout = value; }
     }
 }
