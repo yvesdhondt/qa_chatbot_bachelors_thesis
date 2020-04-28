@@ -45,7 +45,7 @@ namespace PenoBot
             Globals.timeout = GetTimeout(connectionString).Result;
 #else
             Globals.connector = new Connector("843iu233d3m4pxb1", "wss://clusterapi20200320113808.azurewebsites.net/api/Chatbot/WS", 10);
-            Globals.connector.EndPointAddress = System.Net.Dns.GetHostName() + "/api/ClusterClient";
+            Globals.connector.EndPointAddress = "https://penobot.azurewebsites.net/api/ClusterClient";
 #endif
             // Only use the following line if you want constant websocket state checking (causes CPU usage increase)
             //Globals.connector.EnableWebSocketStateCheck(true);
