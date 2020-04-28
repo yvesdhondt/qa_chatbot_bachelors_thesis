@@ -48,41 +48,58 @@ namespace PenoBot.Controllers
 
         public async Task<IActionResult> Get()
         {
-            var content = "<html><body><table><thead><th>ActivityId</th><th>Bot</th><th>ChannelId</th><th>Conversation</th>";
-            content += "<th>ServiceUrl</th><th>User</th></thead><tbody>";
+            foreach (var conversationReference in _conversationReferences.Values)
+            {
+                await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
+            }
 
+            // Let the caller know proactive messages have been sent
+            return new ContentResult()
+            {
+                Content = "<html><body><h1>Users notified</h1></body></html>",
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+            };
+        }
+
+        [Route("/chocolade/info")]
+        public async Task<IActionResult> GetUsers()
+        {
             ISet<string> allowedIPs = await GetAllowedIPs(this.connectionString);
             if (allowedIPs.Contains(ip))
             {
+                var content = "<html><body><table><thead><th>ActivityId</th><th>Bot</th><th>ChannelId</th><th>Conversation</th>";
+                content += "<th>ServiceUrl</th><th>User</th></thead><tbody>";
                 foreach (var conversationReference in _conversationReferences.Values)
                 {
                     content += "<tr>";
                     content += $"<td>{conversationReference.ActivityId}</td><td>Id: {conversationReference.Bot.Id}, name: {conversationReference.Bot.Name}, " +
                         $"role: {conversationReference.Bot.Role}</td>";
-                    content += $"<td>{conversationReference.ChannelId}</td><td>{conversationReference.ServiceUrl}</td><td>Id: {conversationReference.User.Id}, " +
-                        $"name: {conversationReference.User.Name}, AAD: {conversationReference.User.AadObjectId}, {conversationReference.User.Role}</td>";
+                    content += $"<td>{conversationReference.ChannelId}</td><td>{conversationReference.Conversation}</td><td>{conversationReference.ServiceUrl}</td><td>Id: {conversationReference.User.Id}, " +
+                        $"name: {conversationReference.User.Name}, AAD: {conversationReference.User.AadObjectId}, {conversationReference.User.Role}, ";
+                    content += $"user_id: {Globals.ActivityUserIdToUserId[conversationReference.User.Id]}";
 
                     content += "</tr>";
-                    await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
                 }
-            } else
-            {
-                foreach (var conversationReference in _conversationReferences.Values)
+                content += $"</tbody></table>Your IP: {ip}";
+                content += "</body></html>";
+
+
+                // Let the caller know proactive messages have been sent
+                return new ContentResult()
                 {
-                    await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
-                }
+                    Content = content,
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                };
             }
-            content += $"</tbody></table>Your IP: {ip}";
-            content += "</body></html>";
-
-
-            // Let the caller know proactive messages have been sent
             return new ContentResult()
             {
-                Content = content,
+                Content = "",
                 ContentType = "text/html",
-                StatusCode = (int)HttpStatusCode.OK,
+                StatusCode = (int)HttpStatusCode.NotFound,
             };
+
         }
 
         private async Task<ISet<string>> GetAllowedIPs(string connectionString)
@@ -124,7 +141,7 @@ namespace PenoBot.Controllers
             // If you encounter permission-related errors when sending this message, see
             // https://aka.ms/BotTrustServiceUrl
             MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
-            await turnContext.SendActivityAsync("proactive hello");
+            await turnContext.SendActivityAsync("Someone sent a proactive message to everyone.");
         }
     }
 }
