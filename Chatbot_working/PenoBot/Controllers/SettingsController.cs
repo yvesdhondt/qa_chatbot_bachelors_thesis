@@ -66,14 +66,21 @@ namespace PenoBot.Controllers
         [Route("save")]
         public async Task<IActionResult> Post(int timeout)
         {
-            ISet<string> allowedIPs = await GetAllowedIPs(this.connectionString);
-            if (allowedIPs.Contains(this.ip))
+            try
             {
-                //string timeoutString = collection["timeout"];
-                //float timeout = float.Parse(timeoutString);
-                UpdateTimeout(timeout, this.connectionString);
-                return ReturnSettingsForm();
+                ISet<string> allowedIPs = await GetAllowedIPs(this.connectionString);
+                if (allowedIPs.Contains(this.ip))
+                {
+                    //string timeoutString = collection["timeout"];
+                    //float timeout = float.Parse(timeoutString);
+                    UpdateTimeout(timeout, this.connectionString);
+                    return ReturnSettingsForm();
+                }
+            } catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
+            
             return ReturnNotImplemented();
         }
 
