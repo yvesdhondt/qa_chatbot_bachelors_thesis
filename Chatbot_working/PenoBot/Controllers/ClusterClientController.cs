@@ -111,7 +111,8 @@ namespace PenoBot.Controllers
         {
             foreach (var conversationReference in _conversationReferences.Values)
             {
-                if (conversationReference.User.Id == Globals.UserIdToActivityUserId[userID])
+                if(userID == conversationReference.User.Id ||
+                    Globals.UserIdToActivityUserId.ContainsKey(userID) && conversationReference.User.Id == Globals.UserIdToActivityUserId[userID])
                 {
                     await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
                 }

@@ -97,7 +97,7 @@ namespace PenoBot.Bots
                 AddConversationReference(turnContext.Activity as Activity);
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.Text?.Trim();
-                userProfile.userID = RandomString(20, true);
+                userProfile.userID = turnContext.Activity.GetConversationReference().User.Id;
                 Globals.userID = userProfile.userID;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
@@ -114,7 +114,7 @@ namespace PenoBot.Bots
                 AddConversationReference(turnContext.Activity as Activity);
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.From.Name;
-                userProfile.userID = RandomString(20, true);
+                userProfile.userID = turnContext.Activity.GetConversationReference().User.Id;
                 Globals.userID = turnContext.Activity.GetConversationReference().User.Id;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
