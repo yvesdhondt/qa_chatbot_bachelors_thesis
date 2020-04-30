@@ -252,7 +252,7 @@ base(id)
 			if (i < 16)
 			{
 				if(Globals.connector.RequestAndRetrieveUnansweredQuestions(Globals.userID, 2).Count > 0)
-					return await stepContext.BeginDialogAsync(nameof(QuestionDialog), null, cancellationToken);
+					return await stepContext.ReplaceDialogAsync(nameof(RootDialog), null, cancellationToken);
 			}
 			var msg = "What else can I do for you?";
 			return await stepContext.ReplaceDialogAsync(InitialDialogId, msg, cancellationToken);
