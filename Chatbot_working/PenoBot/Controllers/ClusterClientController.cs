@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,10 +81,12 @@ namespace PenoBot.Controllers
         [Route(Actions.Questions)]
         public async Task<IActionResult> Post(ServerQuestionsMessage questionsMessage)
         {
+            // Block all questions messages
             this._messageForUser = this._questionMsg;
             this._messageForUser += " " + questionsMessage.answer_questions[0].question;
-            await NotifyUser(questionsMessage.user_id);
-            return ReturnAccepted();
+            return ReturnNotImplemented();
+            //await NotifyUser(questionsMessage.user_id);
+            //return ReturnAccepted();
         }
 
         private ContentResult ReturnNotImplemented()
