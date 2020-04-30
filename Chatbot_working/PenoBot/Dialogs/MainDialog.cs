@@ -114,14 +114,18 @@ base(id)
 				var answerLate = answerLateResponse[random.Next(answerLateResponse.Count)];
 
 				// Responses to nonsense input
-				List<string> responsesToNonsense = new List<string>(new String[] { "Yeah, right.", "Are you sure?", 
+				List<string> responsesToNonsense = new List<string>(new String[] { "That doesn't seem to make sense to me.", 
+					"I'm sorry, I didn't understand you.", "You might have made a typo there. Could you try again?",
 					"I sometimes really don\'t get what you mean.", "You lost me there.", "I guess I\'m not supposed to understand that? Am I?" });
 				var responseToNonsense = responsesToNonsense[random.Next(responsesToNonsense.Count)];
 
 				// Responses to offensive input
-				List<string> responsesToOffensive = new List<string>(new String[] { "I wouldn\'t say it like that.",
+				List<string> responsesToOffensive = new List<string>(new String[] { 
+					"I find your language quite upsetting.",
+					"Please do watch your language, we want to be nice to other people don't we?",
+					"I'll pretend I didn't read that. Please watch your language.",
 					"I personally don\'t speak that kind of language.", "Maybe you could rephrase that?", 
-					"I would not say it is proper to say that.", "As a gentle bot I would not dare to talk like that. O my dear.",
+					"I would not say it is proper to say that.", "As a gentle bot I would not dare to talk like that.",
 					"O my goodness. Gentle bots would not dare to talk like that."});
 				var responseToOffensive = responsesToOffensive[random.Next(responsesToOffensive.Count)];
 
