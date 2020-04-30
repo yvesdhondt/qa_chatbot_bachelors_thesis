@@ -92,24 +92,44 @@ namespace PenoBot.Bots
             var userStateAccessors = UserState.CreateProperty<UserProfile>(nameof(UserProfile));
             var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
             
-            if (string.IsNullOrEmpty(userProfile.Name))
+            if (string.IsNullOrEmpty(userProfile.Name) && turnContext.Activity.From.Name == "User")
             {
+                AddConversationReference(turnContext.Activity as Activity);
                 // Set the name to what the user provided.
                 userProfile.Name = turnContext.Activity.Text?.Trim();
-                userProfile.userID = RandomString(20, true);
+                userProfile.userID = turnContext.Activity.GetConversationReference().User.Id;
                 Globals.userID = userProfile.userID;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.ActivityUserIdToUserId[turnContext.Activity.GetConversationReference().User.Id] = userProfile.userID;
 
                 // Acknowledge that we got their name.
                 await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
             cancellationToken);
 
-            } else {
+            }
+            else if(string.IsNullOrEmpty(userProfile.Name))
+            {
+                AddConversationReference(turnContext.Activity as Activity);
+                // Set the name to what the user provided.
+                userProfile.Name = turnContext.Activity.From.Name;
+                userProfile.userID = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.userID = turnContext.Activity.GetConversationReference().User.Id;
+                // Save pair of activity user id and custom user id (work-around)
+                Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.ActivityUserIdToUserId[turnContext.Activity.GetConversationReference().User.Id] = userProfile.userID;
+
+                // Acknowledge that we got their name.
+                await turnContext.SendActivityAsync($"Nice to meet you {userProfile.Name}.");
+                await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
+            cancellationToken);
+            }
+            else {
                 Globals.userID = userProfile.userID;
                 // Save pair of activity user id and custom user id (work-around)
                 Globals.UserIdToActivityUserId[userProfile.userID] = turnContext.Activity.GetConversationReference().User.Id;
+                Globals.ActivityUserIdToUserId[turnContext.Activity.GetConversationReference().User.Id] = userProfile.userID;
                 // Run the last dialog in the stack.
                 await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)),
                     cancellationToken);
@@ -135,6 +155,7 @@ namespace PenoBot.Bots
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             //var welcomeText = "Hello and welcome!";
+            AddConversationReference(turnContext.Activity as Activity);
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)

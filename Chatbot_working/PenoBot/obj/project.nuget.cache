@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tHeSDTra1FtPymYJZ41DVSBOpTKWRMRiWihLsERyShbfnW4ONzN5TqQS9g2HoMvjOu56hG8yxjtBSWsjFlAlHw==",
+  "dgSpecHash": "5JqvqSiojX1WyXnhysZGpyFIwAw+z0f8oC2BL82kVJ/5knnSDacq0LiAsw2Z775Ez/G4eGE5PR2JrkjGMx5mjg==",
   "success": true,
   "projectFilePath": "C:\\Users\\thoma\\Documents\\kulgoed\\P-O-Entrepreneurship-Team-A-code\\Chatbot_working\\PenoBot\\PenoBot.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\thoma\\.nuget\\packages\\clusterclient\\1.0.0\\clusterclient.1.0.0.nupkg.sha512",
+    "C:\\Users\\thoma\\.nuget\\packages\\clusterclient\\1.2.0\\clusterclient.1.2.0.nupkg.sha512",
     "C:\\Users\\thoma\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Users\\thoma\\.nuget\\packages\\microsoft.aspnetcore\\2.1.1\\microsoft.aspnetcore.2.1.1.nupkg.sha512",
     "C:\\Users\\thoma\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.1.1\\microsoft.aspnetcore.antiforgery.2.1.1.nupkg.sha512",
