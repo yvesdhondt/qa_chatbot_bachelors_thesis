@@ -25,19 +25,25 @@ def __get_match(question, question_set):
     # Only loop over the questions in question_set if it is not None
     if question_set is not None:
         # Find the best match to the given question
-        best = max(question_set, key=lambda x: match(question, x["question"]))
-        prob = match(question, best["question"])
+        best = max(question_set, key=lambda x: match(question, x["question"]), default=None)
+        if best is None:
+            prob = 0
+        else:
+            prob = match(question, best["question"])
 
     # Right now we only store the best match, but we could respond with the X best
     # matches as well
-    return \
-        [
-            {
-                "question_id": best["question_id"],
-                # Cast the numpy float32 to float
-                "prob": float(prob)
-            }
-        ]
+    if best is None:
+        return []
+    else:
+        return \
+            [
+                {
+                    "question_id": best["question_id"],
+                    # Cast the numpy float32 to float
+                    "prob": float(prob)
+                }
+            ]
 
 
 def __get_offensiveness(sentence):
@@ -55,7 +61,7 @@ def __get_offensiveness(sentence):
     return offensiveness(sentence)
 
 
-def __unwrap_match_request(request):
+def __unwrap_match_request(request: dict):
     """
     Unwrap the given "match questions" request into a tuple of Python objects.
 
@@ -307,8 +313,8 @@ def _test():
     req_2 = \
         {
             "action": cluster.Actions.ESTIMATE_OFFENSIVENESS.value,
-            "question_id": 100,
-            "question": "Charlie is a little bitch, haha, what a little shit :p",
+            "sentence_id": 100,
+            "sentence": "Charlie is a little bitch, haha, what a little shit :p",
             "msg_id": 345
         }
     ans_2 = process(req_2)
@@ -317,14 +323,26 @@ def _test():
     req_3 = \
         {
             "action": cluster.Actions.IS_NONSENSE.value,
-            "question_id": 200,
-            "question": "xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.",
+            "sentence_id": 200,
+            "sentence": "xmkjnezoinmkqzm. apeozfimkln. azefpqj wdsoimkalez.",
             "msg_id": 654
         }
     ans_3 = process(req_3)
     print(ans_3)
 
+    req_4 = \
+        {
+            "action": cluster.Actions.MATCH_QUESTIONS.value,
+            "question": "Where is the coffee machine?",
+            "question_id": 123,
+            "compare_questions": [],
+            "msg_id": 214
+        }
+    ans_4 = process(req_4)
+    print(ans_4)
+
 
 if __name__ == "__main__":
-    # Remove the test() method in deployed scripts, it is purely used for debugging
+    # Remove the _test() method in deployed scripts, it is purely used for debugging
+    # _test()
     main()
