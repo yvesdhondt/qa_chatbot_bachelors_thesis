@@ -36,7 +36,7 @@ namespace PenoBot
         {
             //ContentRootPath = env.ContentRootPath;
             Configuration = configuration;
- 
+
             // Initialize connection with server.
 #if DEBUG
             Globals.connector = new Connector("843iu233d3m4pxb1", "ws://localhost:39160/api/Chatbot/WS", 10);
